@@ -302,12 +302,13 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Firebase SDK Scripts -->
+    <!-- Firebase Realtime Database & Auth SDK Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, set, get, push, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+        // Your specific Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyALUdmF414CFZGwwkoYjPu-BNxOmt9u5gM",
             authDomain: "zonal-ict-hub.firebaseapp.com",
