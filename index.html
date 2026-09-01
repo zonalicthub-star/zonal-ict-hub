@@ -302,21 +302,21 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Firebase Realtime Database SDK Scripts -->
+    <!-- Firebase SDK Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, set, get, push, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // TODO: Replace with your project's actual Firebase configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://zonal-ict-hub-default-rtdb.firebaseio.com", // Realtime DB URL එක මෙහි දමන්න
+            apiKey: "AIzaSyALUdmF414CFZGwwkoYjPu-BNxOmt9u5gM",
+            authDomain: "zonal-ict-hub.firebaseapp.com",
+            databaseURL: "https://zonal-ict-hub-default-rtdb.firebaseio.com",
             projectId: "zonal-ict-hub",
-            storageBucket: "zonal-ict-hub.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            storageBucket: "zonal-ict-hub.firebasestorage.app",
+            messagingSenderId: "927561094978",
+            appId: "1:927561094978:web:611a9e15fb0639f1aadadb",
+            measurementId: "G-6CY86ZVK12"
         };
 
         const app = initializeApp(firebaseConfig);
