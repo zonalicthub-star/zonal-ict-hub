@@ -8,7 +8,6 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; color: #333; }
         
-        /* Modern Header & Responsive Navigation */
         header { 
             background: linear-gradient(rgba(0, 43, 94, 0.9), rgba(0, 86, 179, 0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80') no-repeat center center; 
             background-size: cover; 
@@ -27,19 +26,11 @@
         nav ul li a { color: white; text-decoration: none; font-weight: bold; cursor: pointer; padding: 6px 12px; border-radius: 5px; transition: all 0.3s ease; font-size: 0.9rem; display: inline-block; }
         nav ul li a:hover { background-color: rgba(255, 255, 255, 0.2); }
 
-        /* Container Layout */
-        .container { 
-            padding: 1.5rem; 
-            max-width: 1200px; 
-            margin: 20px auto; 
-            min-height: 60vh; 
-        }
-
+        .container { padding: 1.5rem; max-width: 1200px; margin: 20px auto; min-height: 60vh; }
         .section { display: none; }
         .section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Home Hero Banner */
         .hero-banner { background: linear-gradient(135deg, #0056b3, #002b5e); color: white; padding: 2.5rem 1.5rem; border-radius: 12px; text-align: center; margin-bottom: 2rem; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
         .hero-banner h1 { margin-top: 0; font-size: 1.8rem; }
         .hero-banner p { font-size: 1rem; opacity: 0.9; max-width: 750px; margin: auto; line-height: 1.5; }
@@ -48,7 +39,6 @@
         .feature-card { background: white; border-top: 5px solid #0056b3; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .feature-card h3 { margin-top: 0; color: #0056b3; font-size: 1.2rem; }
 
-        /* Cards & Forms */
         .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .card h3 { margin-top: 0; color: #0056b3; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 1.2rem; }
         
@@ -62,7 +52,6 @@
         .btn-danger { background-color: #dc3545; }
         .btn-danger:hover { background-color: #c82333; }
 
-        /* Responsive Tables */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 6px; margin-top: 15px; border: 1px solid #eaeaea; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; white-space: nowrap; }
         th, td { border-bottom: 1px solid #eee; padding: 10px 12px; text-align: left; }
@@ -73,7 +62,6 @@
         a { color: #0056b3; text-decoration: none; font-weight: bold; }
         a:hover { text-decoration: underline; }
 
-        /* Mobile Adjustments (Media Queries) */
         @media (max-width: 768px) {
             header { flex-direction: column; align-items: flex-start; padding: 1rem; }
             nav ul { width: 100%; justify-content: space-around; gap: 5px; margin-top: 10px; }
@@ -219,7 +207,6 @@
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school"></div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
-                <div class="form-group"><label>Profile Photo</label><input type="file" id="z-photo" accept="image/*"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
                 <button onclick="registerZdett()">Register</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
@@ -315,39 +302,56 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <script>
-        let users = [
-            { email: 'zdett@admin.com', password: '123', role: 'zdett', name: 'Admin ZDETT', idNo: 'Z001', school: 'Zonal Office', phone: '0712345678' }
-        ];
-        let inventoryData = [];
-        let faultReports = [];
-        let currentUser = null;
-        let newJobAlertCount = 0;
+    <!-- Firebase Realtime Database SDK Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, push, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        function showSection(sectionId) {
+        // TODO: Replace with your project's actual Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://zonal-ict-hub-default-rtdb.firebaseio.com", // Realtime DB URL එක මෙහි දමන්න
+            projectId: "zonal-ict-hub",
+            storageBucket: "zonal-ict-hub.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        let currentUserData = null;
+
+        window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
-            if(sectionId === 'teachers') updateTeachersList();
-            if(sectionId === 'zdett') updateZdettPublicList();
+            if(sectionId === 'teachers') loadTeachers();
+            if(sectionId === 'zdett') loadZdettTeam();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        };
 
-        function registerTeacher() {
+        window.registerTeacher = async function() {
             let name = document.getElementById('t-name').value;
             let school = document.getElementById('t-school').value;
             let email = document.getElementById('t-email').value;
             let pass = document.getElementById('t-pass').value;
 
-            if(name && school && email && pass) {
-                users.push({ email: email, password: pass, role: 'teacher', name: name, school: school });
+            try {
+                let userCred = await createUserWithEmailAndPassword(auth, email, pass);
+                await set(ref(db, 'users/' + userCred.user.uid), {
+                    name, school, email, role: 'teacher'
+                });
                 alert("Teacher Registered Successfully!");
-                showSection('login');
-            } else {
-                alert("Please fill all fields.");
+                window.showSection('login');
+            } catch (error) {
+                alert("Error: " + error.message);
             }
-        }
+        };
 
-        function registerZdett() {
+        window.registerZdett = async function() {
             let name = document.getElementById('z-name').value;
             let idNo = document.getElementById('z-idno').value;
             let school = document.getElementById('z-school').value;
@@ -355,160 +359,198 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            if(name && idNo && school && phone && email && pass) {
-                users.push({ email: email, password: pass, role: 'zdett', name: name, idNo: idNo, school: school, phone: phone });
+            try {
+                let userCred = await createUserWithEmailAndPassword(auth, email, pass);
+                await set(ref(db, 'users/' + userCred.user.uid), {
+                    name, idNo, school, phone, email, role: 'zdett'
+                });
                 alert("ZDETT Account Created Successfully!");
-                showSection('login');
-            } else {
-                alert("Please fill all required ZDETT details.");
+                window.showSection('login');
+            } catch (error) {
+                alert("Error: " + error.message);
             }
-        }
+        };
 
-        function loginUser() {
+        window.loginUser = async function() {
             let email = document.getElementById('email').value;
             let pass = document.getElementById('password').value;
-            let foundUser = users.find(u => u.email === email && u.password === pass);
 
-            if(foundUser) {
-                currentUser = foundUser;
-                document.getElementById('nav-login').style.display = 'none';
-                document.getElementById('nav-dashboard').style.display = 'block';
-                document.getElementById('nav-logout').style.display = 'block';
-                
-                setupDashboard();
-                showSection('dashboard');
-
-                if(currentUser.role === 'zdett' && newJobAlertCount > 0) {
-                    alert(`🔔 ZDETT Alert: You have ${newJobAlertCount} new incoming job(s) from schools!`);
-                    newJobAlertCount = 0;
+            try {
+                let userCred = await signInWithEmailAndPassword(auth, email, pass);
+                let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
+                if(snapshot.exists()) {
+                    currentUserData = snapshot.val();
+                    document.getElementById('nav-login').style.display = 'none';
+                    document.getElementById('nav-dashboard').style.display = 'block';
+                    document.getElementById('nav-logout').style.display = 'block';
+                    
+                    setupDashboard();
+                    window.showSection('dashboard');
                 }
-            } else {
-                alert("Invalid Email or Password.");
+            } catch (error) {
+                alert("Login Failed: " + error.message);
             }
-        }
+        };
 
-        function setupDashboard() {
-            document.getElementById('welcome-msg').innerText = `Welcome ${currentUser.name} (${currentUser.school})`;
-
-            if (currentUser.role === 'teacher') {
-                document.getElementById('teacher-tools').style.display = 'block';
-                document.getElementById('zdett-tools').style.display = 'none';
-                updateTeacherInventoryView();
-            } else if (currentUser.role === 'zdett') {
-                document.getElementById('teacher-tools').style.display = 'none';
-                document.getElementById('zdett-tools').style.display = 'block';
-                updateAdminViews();
-            }
-        }
-
-        function logoutUser() {
-            currentUser = null;
+        window.logoutUser = async function() {
+            await signOut(auth);
+            currentUserData = null;
             document.getElementById('nav-login').style.display = 'block';
             document.getElementById('nav-dashboard').style.display = 'none';
             document.getElementById('nav-logout').style.display = 'none';
-            showSection('home');
+            window.showSection('home');
+        };
+
+        function setupDashboard() {
+            document.getElementById('welcome-msg').innerText = `Welcome ${currentUserData.name} (${currentUserData.school})`;
+
+            if (currentUserData.role === 'teacher') {
+                document.getElementById('teacher-tools').style.display = 'block';
+                document.getElementById('zdett-tools').style.display = 'none';
+                loadMyInventory();
+            } else if (currentUserData.role === 'zdett') {
+                document.getElementById('teacher-tools').style.display = 'none';
+                document.getElementById('zdett-tools').style.display = 'block';
+                loadAdminData();
+            }
         }
 
-        function updateTeachersList() {
-            let tbody = document.getElementById('teacher-list');
-            tbody.innerHTML = '';
-            users.forEach(u => {
-                if(u.role === 'teacher') tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td></tr>`;
-            });
-        }
-
-        function updateZdettPublicList() {
-            let tbody = document.getElementById('zdett-public-list');
-            tbody.innerHTML = '';
-            users.forEach(u => {
-                if(u.role === 'zdett') {
-                    tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.idNo || 'N/A'}</td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
-                }
-            });
-        }
-
-        function addInventory() {
+        window.addInventory = async function() {
+            let newInvRef = push(ref(db, 'inventory'));
             let item = {
-                id: Date.now(),
-                school: currentUser.school,
+                id: newInvRef.key,
+                school: currentUserData.school,
                 book: document.getElementById('inv-book').value,
                 page: document.getElementById('inv-page').value,
                 col: document.getElementById('inv-col').value,
                 name: document.getElementById('inv-name').value,
                 avail: document.getElementById('inv-avail').value,
                 short: document.getElementById('inv-short').value,
-                surp: document.getElementById('inv-surp').value
+                surp: document.getElementById('inv-surp').value,
+                timestamp: Date.now()
             };
 
             if(item.name && item.book) {
-                inventoryData.push(item);
-                alert("Inventory updated securely.");
+                await set(newInvRef, item);
+                alert("Inventory updated to Realtime Database!");
                 document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = '');
-                updateTeacherInventoryView();
+                loadMyInventory();
             } else {
                 alert("Book No and Equipment Name are required.");
             }
-        }
+        };
 
-        function updateTeacherInventoryView() {
+        async function loadMyInventory() {
             let tbody = document.getElementById('my-inventory-list');
             let select = document.getElementById('fault-device');
             tbody.innerHTML = '';
             select.innerHTML = '<option value="">-- Select from Inventory --</option>';
 
-            let myItems = inventoryData.filter(i => i.school === currentUser.school);
-            myItems.forEach(i => {
-                tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
-                select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
-            });
-            if(myItems.length === 0) tbody.innerHTML = '<tr><td colspan="6">No inventory added yet.</td></tr>';
+            let snapshot = await get(ref(db, 'inventory'));
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => {
+                    let i = childSnap.val();
+                    if(i.school === currentUserData.school) {
+                        tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
+                        select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
+                    }
+                });
+            }
         }
 
-        function reportFault() {
+        window.reportFault = async function() {
             let deviceId = document.getElementById('fault-device').value;
             let desc = document.getElementById('fault-desc').value;
             
             if(deviceId && desc) {
-                let item = inventoryData.find(i => i.id == deviceId);
-                faultReports.push({
-                    school: currentUser.school,
-                    itemInfo: `Book: ${item.book} | Pg: ${item.page}`,
-                    device: item.name,
-                    description: desc,
-                    status: 'Pending'
+                let invSnap = await get(ref(db, 'inventory'));
+                let selectedItem = null;
+                invSnap.forEach((childSnap) => {
+                    if(childSnap.val().id === deviceId) {
+                        selectedItem = childSnap.val();
+                    }
                 });
-                
-                newJobAlertCount++;
-                alert("Fault report successfully submitted to ZDETT.");
-                document.getElementById('fault-desc').value = '';
+
+                if(selectedItem) {
+                    let newFaultRef = push(ref(db, 'faults'));
+                    await set(newFaultRef, {
+                        school: currentUserData.school,
+                        itemInfo: `Book: ${selectedItem.book} | Pg: ${selectedItem.page}`,
+                        device: selectedItem.name,
+                        description: desc,
+                        status: 'Pending',
+                        timestamp: Date.now()
+                    });
+                    
+                    alert("Fault report successfully submitted to ZDETT.");
+                    document.getElementById('fault-desc').value = '';
+                }
             } else {
                 alert("Please select a device and describe the fault.");
             }
-        }
+        };
 
-        function updateAdminViews() {
+        async function loadAdminData() {
             let fBody = document.getElementById('all-faults-list');
             fBody.innerHTML = '';
-            faultReports.forEach(f => {
-                fBody.innerHTML += `<tr>
-                    <td><strong>${f.school}</strong></td>
-                    <td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
-                    <td>${f.device}</td>
-                    <td>${f.description}</td>
-                    <td style="color: red; font-weight: bold;">${f.status}</td>
-                </tr>`;
-            });
-            if(faultReports.length === 0) fBody.innerHTML = '<tr><td colspan="5">No pending jobs.</td></tr>';
+            let fSnap = await get(ref(db, 'faults'));
+            if(fSnap.exists()) {
+                fSnap.forEach((childSnap) => {
+                    let f = childSnap.val();
+                    fBody.innerHTML += `<tr>
+                        <td><strong>${f.school}</strong></td>
+                        <td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
+                        <td>${f.device}</td>
+                        <td>${f.description}</td>
+                        <td style="color: red; font-weight: bold;">${f.status}</td>
+                    </tr>`;
+                });
+            } else {
+                fBody.innerHTML = '<tr><td colspan="5">No pending jobs.</td></tr>';
+            }
 
             let iBody = document.getElementById('all-inventory-list');
             iBody.innerHTML = '';
-            inventoryData.forEach(i => {
-                iBody.innerHTML += `<tr>
-                    <td><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
-                    <td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
-                </tr>`;
-            });
-            if(inventoryData.length === 0) iBody.innerHTML = '<tr><td colspan="8">No inventory data submitted yet.</td></tr>';
+            let iSnap = await get(ref(db, 'inventory'));
+            if(iSnap.exists()) {
+                iSnap.forEach((childSnap) => {
+                    let i = childSnap.val();
+                    iBody.innerHTML += `<tr>
+                        <td><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
+                        <td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
+                    </tr>`;
+                });
+            } else {
+                iBody.innerHTML = '<tr><td colspan="8">No inventory data submitted yet.</td></tr>';
+            }
+        }
+
+        async function loadTeachers() {
+            let tbody = document.getElementById('teacher-list');
+            tbody.innerHTML = '';
+            let snapshot = await get(ref(db, 'users'));
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => {
+                    let u = childSnap.val();
+                    if(u.role === 'teacher') {
+                        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td></tr>`;
+                    }
+                });
+            }
+        }
+
+        async function loadZdettTeam() {
+            let tbody = document.getElementById('zdett-public-list');
+            tbody.innerHTML = '';
+            let snapshot = await get(ref(db, 'users'));
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => {
+                    let u = childSnap.val();
+                    if(u.role === 'zdett') {
+                        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.idNo || 'N/A'}</td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
+                    }
+                });
+            }
         }
     </script>
 </body>
