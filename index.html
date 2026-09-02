@@ -9,33 +9,69 @@
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0056b3">
+    <meta name="theme-color" content="#003366">
     <link rel="apple-touch-icon" href="icon-192.png">
     
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
-        /* Modern Header */
+        /* MOE Style Header & Banner */
         header { 
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.95), rgba(0, 102, 204, 0.85)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80') no-repeat center center; 
-            background-size: cover; 
-            color: white; 
-            padding: 1.5rem 2.5rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            background: #ffffff;
+            display: block; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            flex-wrap: wrap;
-            gap: 15px;
             position: relative;
             z-index: 100;
         }
-        header h2 { margin: 0; font-size: 1.6rem; font-weight: 700; letter-spacing: 1px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+
+        .header-banner {
+            width: 100%;
+            background-color: #001f3f; /* Dark background to blend edges if needed */
+            text-align: center;
+        }
+
+        .header-banner img {
+            width: 100%;
+            height: auto;
+            max-height: 220px; /* පින්තූරයේ උස පාලනය කිරීම */
+            object-fit: cover;
+            display: block;
+        }
         
-        nav ul { list-style: none; padding: 0; display: flex; gap: 8px; margin: 0; align-items: center; flex-wrap: wrap; }
-        nav ul li a { color: white; text-decoration: none; font-weight: 600; cursor: pointer; padding: 8px 15px; border-radius: 8px; transition: all 0.3s ease; font-size: 0.95rem; }
-        nav ul li a:hover { background-color: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+        /* MOE Style Navigation Bar */
+        nav {
+            background: linear-gradient(to right, #002b5e, #004080);
+            padding: 12px 2rem;
+        }
+
+        nav ul { 
+            list-style: none; 
+            padding: 0; 
+            display: flex; 
+            gap: 10px; 
+            margin: 0; 
+            align-items: center; 
+            flex-wrap: wrap; 
+            justify-content: center; /* මැදට ගැනීම */
+        }
+
+        nav ul li a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            cursor: pointer; 
+            padding: 8px 18px; 
+            border-radius: 5px; 
+            transition: all 0.3s ease; 
+            font-size: 0.95rem; 
+            letter-spacing: 0.5px;
+        }
+
+        nav ul li a:hover { 
+            background-color: rgba(255, 255, 255, 0.15); 
+            transform: translateY(-2px); 
+        }
 
         /* News Alert Ticker */
         .news-ticker {
@@ -60,10 +96,10 @@
         .section.active { display: block; animation: fadeInUp 0.5s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Modern Hero Banner */
-        .hero-banner { background: linear-gradient(135deg, #004d40, #00897b); color: white; padding: 3rem 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0, 137, 123, 0.2); }
-        .hero-banner h1 { margin-top: 0; font-size: 2.2rem; font-weight: 800;}
-        .hero-banner p { font-size: 1.1rem; opacity: 0.95; max-width: 800px; margin: auto; line-height: 1.6; }
+        /* Simplified Welcome Banner for Home (Since we have a large header image now) */
+        .hero-banner { background: #ffffff; color: #003366; padding: 2.5rem 2rem; border-radius: 12px; text-align: center; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid #0056b3; }
+        .hero-banner h1 { margin-top: 0; font-size: 2rem; font-weight: 800; color: #004080; }
+        .hero-banner p { font-size: 1.1rem; color: #555; max-width: 800px; margin: auto; line-height: 1.6; }
         
         /* Essential Links Grid */
         .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 2rem; }
@@ -101,18 +137,22 @@
         footer a { color: #38bdf8; text-decoration: none; }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; align-items: center; padding: 1.5rem; text-align: center;}
-            nav ul { justify-content: center; margin-top: 15px; }
+            nav { padding: 10px; }
+            nav ul { flex-direction: row; gap: 5px; }
+            nav ul li a { padding: 8px 10px; font-size: 0.85rem; }
             .container { padding: 1rem; }
-            .hero-banner h1 { font-size: 1.6rem; }
+            .hero-banner h1 { font-size: 1.5rem; }
             .news-ticker { flex-direction: column; align-items: flex-start; gap: 5px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- MOE Style Header -->
     <header>
-        <h2>Wellawaya Zonal ICT Branch</h2>
+        <div class="header-banner">
+            <img src="header.jpg" alt="Zonal ICT Hub Banner">
+        </div>
         <nav>
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
@@ -122,7 +162,6 @@
                 <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
                 <li><a onclick="showSection('about')">About</a></li>
                 
-                <!-- PWA Install Button (Hidden by default) -->
                 <li id="nav-install" style="display: none;"><a id="installAppBtn" style="background-color: #10b981; cursor: pointer;">⬇️ Install App</a></li>
                 
                 <li id="nav-login"><a onclick="showSection('login')" style="background-color: #f59e0b;">Login</a></li>
@@ -142,6 +181,7 @@
     <div class="container">
         
         <div id="home" class="section active">
+            <!-- Simplified Hero Banner to balance the large header image -->
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
                 <p>Empowering education through digital innovation, efficient computer lab inventory management, and rapid technical support across the educational zone.</p>
@@ -178,7 +218,6 @@
             </div>
         </div>
 
-        <!-- Marks Analysis Section -->
         <div id="marks" class="section">
             <div class="card">
                 <h2>Zonal Marks Analysis</h2>
