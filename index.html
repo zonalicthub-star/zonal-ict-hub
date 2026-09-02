@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellawaya Zonal ICT Branch</title>
-    <!-- Chart.js එකතු කිරීම -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0056b3">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
@@ -102,9 +108,6 @@
             .news-ticker { flex-direction: column; align-items: flex-start; gap: 5px; }
         }
     </style>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0056b3">
-    <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
@@ -118,6 +121,10 @@
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
                 <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
                 <li><a onclick="showSection('about')">About</a></li>
+                
+                <!-- PWA Install Button (Hidden by default) -->
+                <li id="nav-install" style="display: none;"><a id="installAppBtn" style="background-color: #10b981; cursor: pointer;">⬇️ Install App</a></li>
+                
                 <li id="nav-login"><a onclick="showSection('login')" style="background-color: #f59e0b;">Login</a></li>
                 <li id="nav-dashboard" style="display: none;"><a onclick="showSection('dashboard')" style="background-color: #0ea5e9;">Dashboard</a></li>
                 <li id="nav-logout" style="display: none;"><a onclick="logoutUser()" style="background-color: #ef4444;">Logout</a></li>
@@ -438,7 +445,7 @@
         const db = getDatabase(app);
 
         let currentUserData = null;
-        let marksChartInstance = null; // ප්‍රස්ථාරය සඳහා විචල්‍යය
+        let marksChartInstance = null; 
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -446,16 +453,14 @@
             
             if(sectionId === 'teachers') loadTeachers();
             if(sectionId === 'zdett') loadZdettTeam();
-            if(sectionId === 'marks') renderMarksChart(); // Marks ටැබ් එකට ගියාම chart එක load කිරීම
+            if(sectionId === 'marks') renderMarksChart(); 
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // වෙනම ෆයිල් එකක් නැතිව JavaScript හරහා කෙලින්ම Chart එකට Data දීම
         function renderMarksChart() {
             const ctx = document.getElementById('marksChart').getContext('2d');
             
-            // අපි කලින් Python වලින් හදන්න හිටපු දත්ත ටික මෙතනට කෙලින්ම දුන්නා
             const chartData = {
                 labels: ["Wellawaya National", "Bibilegama MV", "Dutugemunu Primary", "Handapanagala MV", "Pelwatta MV"],
                 datasets: [
@@ -475,7 +480,6 @@
                 ]
             };
             
-            // කලින් chart එකක් තියෙනවා නම් ඒක අයින් කරලා අලුත් එක දාන්න
             if(marksChartInstance) {
                 marksChartInstance.destroy();
             }
@@ -715,19 +719,47 @@
             }
         }
     </script>
-    <!-- Service Worker Registration -->
+    
+    <!-- Service Worker & PWA Install Logic -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
                     .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        console.log('ServiceWorker registration successful');
                     })
                     .catch(error => {
                         console.log('ServiceWorker registration failed: ', error);
                     });
             });
         }
+
+        let deferredPrompt;
+        const installBtnContainer = document.getElementById('nav-install');
+        const installBtn = document.getElementById('installAppBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtnContainer.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                deferredPrompt = null;
+                installBtnContainer.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installBtnContainer.style.display = 'none';
+            console.log('PWA was installed');
+        });
     </script>
 </body>
 </html>
