@@ -27,14 +27,14 @@
 
         .header-banner {
             width: 100%;
-            background-color: #001f3f; /* Dark background to blend edges if needed */
+            background-color: #001f3f;
             text-align: center;
         }
 
         .header-banner img {
             width: 100%;
             height: auto;
-            max-height: 220px; /* පින්තූරයේ උස පාලනය කිරීම */
+            max-height: 220px;
             object-fit: cover;
             display: block;
         }
@@ -53,7 +53,7 @@
             margin: 0; 
             align-items: center; 
             flex-wrap: wrap; 
-            justify-content: center; /* මැදට ගැනීම */
+            justify-content: center;
         }
 
         nav ul li a { 
@@ -87,7 +87,30 @@
         }
         .ticker-title { background: #d84315; padding: 3px 10px; border-radius: 5px; margin-right: 15px; white-space: nowrap; font-size: 0.85rem; text-transform: uppercase;}
         .ticker-content { width: 100%; overflow: hidden; white-space: nowrap; }
-        .ticker-text { display: inline-block; animation: scroll-left 25s linear infinite; }
+        
+        .ticker-text { 
+            display: inline-block; 
+            animation: scroll-left 30s linear infinite; 
+        }
+        
+        /* Mouse එක ගෙනිච්චාම Scroll වෙන එක නතර වීම */
+        .ticker-content:hover .ticker-text {
+            animation-play-state: paused;
+        }
+
+        /* News Links හැඩගැන්වීම */
+        .ticker-text a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .ticker-text a:hover {
+            color: #1e293b;
+            text-decoration: underline;
+        }
+
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         /* Container & Sections */
@@ -96,13 +119,12 @@
         .section.active { display: block; animation: fadeInUp 0.5s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Simplified Welcome Banner for Home (Since we have a large header image now) */
         .hero-banner { background: #ffffff; color: #003366; padding: 2.5rem 2rem; border-radius: 12px; text-align: center; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid #0056b3; }
         .hero-banner h1 { margin-top: 0; font-size: 2rem; font-weight: 800; color: #004080; }
         .hero-banner p { font-size: 1.1rem; color: #555; max-width: 800px; margin: auto; line-height: 1.6; }
         
         /* Essential Links Grid */
-        .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 2rem; }
+        .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 3rem; }
         .link-card { background: white; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; color: #2c3e50; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 1px solid #e0e0e0; }
         .link-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15); border-color: #0066cc; color: #0066cc; }
         
@@ -156,11 +178,11 @@
         <nav>
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
+                <li><a onclick="showSection('about')">About Us</a></li> <!-- Moved Next to Home -->
                 <li><a onclick="showSection('schools')">Schools</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
                 <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
-                <li><a onclick="showSection('about')">About</a></li>
                 
                 <li id="nav-install" style="display: none;"><a id="installAppBtn" style="background-color: #10b981; cursor: pointer;">⬇️ Install App</a></li>
                 
@@ -171,35 +193,24 @@
         </nav>
     </header>
 
+    <!-- News Alert Ticker (Hover to Pause & Clickable) -->
     <div class="news-ticker">
         <span class="ticker-title">Flash News</span>
         <div class="ticker-content">
-            <span class="ticker-text">📢 Welcome to the new Zonal ICT Hub. | 🛠️ ZDETT team is currently conducting school lab technical audits. | 📊 Term evaluation marks updates are required by the end of this month.</span>
+            <span class="ticker-text">
+                <a onclick="showNews('Welcome to the new Zonal ICT Hub. This platform brings all resources together.')">📢 Welcome to the new Zonal ICT Hub.</a> | 
+                <a onclick="showNews('ZDETT team is currently conducting school lab technical audits. Please update your inventories.')">🛠️ ZDETT team is currently conducting school lab technical audits.</a> | 
+                <a onclick="showNews('Term evaluation marks updates are required by the end of this month. Please check Marks Analysis tab.')">📊 Term evaluation marks updates are required by the end of this month.</a>
+            </span>
         </div>
     </div>
 
     <div class="container">
         
         <div id="home" class="section active">
-            <!-- Simplified Hero Banner to balance the large header image -->
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
                 <p>Empowering education through digital innovation, efficient computer lab inventory management, and rapid technical support across the educational zone.</p>
-                
-                <div class="essential-links">
-                    <a href="https://www.e-thaksalawa.moe.gov.lk/" target="_blank" class="link-card">
-                        <span>📚 e-Thaksalawa</span>
-                        <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">National e-Learning Portal</span>
-                    </a>
-                    <a href="https://moe.gov.lk/" target="_blank" class="link-card">
-                        <span>🏛️ Ministry of Education</span>
-                        <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">Official MOE Website</span>
-                    </a>
-                    <a href="http://nie.lk/" target="_blank" class="link-card">
-                        <span>🎓 NIE Sri Lanka</span>
-                        <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">National Institute of Education</span>
-                    </a>
-                </div>
             </div>
 
             <div class="features-grid">
@@ -215,6 +226,39 @@
                     <h3>📊 Data & Analytics</h3>
                     <p>Advanced regional educational insights, teacher collaboration directories, and performance analysis.</p>
                 </div>
+            </div>
+
+            <!-- Essential Links Section Moved to the Bottom of Home Content -->
+            <div class="essential-links">
+                <a href="https://www.e-thaksalawa.moe.gov.lk/" target="_blank" class="link-card">
+                    <span>📚 e-Thaksalawa</span>
+                    <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">National e-Learning Portal</span>
+                </a>
+                <a href="https://moe.gov.lk/" target="_blank" class="link-card">
+                    <span>🏛️ Ministry of Education</span>
+                    <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">Official MOE Website</span>
+                </a>
+                <a href="http://nie.lk/" target="_blank" class="link-card">
+                    <span>🎓 NIE Sri Lanka</span>
+                    <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">National Institute of Education</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="about" class="section">
+            <div class="card">
+                <h2>About Us</h2>
+                <p>The ICT Branch of the Wellawaya Zonal Education Office is dedicated to uplifting information technology standards in all regional schools.</p>
+            </div>
+            
+            <div class="card" style="border-left: 5px solid #0056b3;">
+                <h3>Our Vision</h3>
+                <p><em>"To create a digitally empowered student community in the Wellawaya educational zone through advanced ICT infrastructure and skilled educators."</em></p>
+            </div>
+
+            <div class="card" style="border-left: 5px solid #28a745;">
+                <h3>Our Mission</h3>
+                <p><em>"To facilitate continuous technical support, maintain accurate digital resource inventories, and elevate computer literacy standards across all zonal schools efficiently."</em></p>
             </div>
         </div>
 
@@ -269,23 +313,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <div id="about" class="section">
-            <div class="card">
-                <h2>About Us</h2>
-                <p>The ICT Branch of the Wellawaya Zonal Education Office is dedicated to uplifting information technology standards in all regional schools.</p>
-            </div>
-            
-            <div class="card" style="border-left: 5px solid #0056b3;">
-                <h3>Our Vision</h3>
-                <p><em>"To create a digitally empowered student community in the Wellawaya educational zone through advanced ICT infrastructure and skilled educators."</em></p>
-            </div>
-
-            <div class="card" style="border-left: 5px solid #28a745;">
-                <h3>Our Mission</h3>
-                <p><em>"To facilitate continuous technical support, maintain accurate digital resource inventories, and elevate computer literacy standards across all zonal schools efficiently."</em></p>
             </div>
         </div>
 
@@ -461,6 +488,13 @@
     <footer>
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch | Developed for Zone Empowerment</p>
     </footer>
+
+    <!-- News Click Logic -->
+    <script>
+        function showNews(message) {
+            alert("📰 පුවත් විස්තරය:\n\n" + message);
+        }
+    </script>
 
     <!-- Firebase Realtime Database & Auth SDK Scripts -->
     <script type="module">
