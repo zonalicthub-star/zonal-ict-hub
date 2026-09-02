@@ -13,6 +13,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
     <link rel="apple-touch-icon" href="icon-192.png?v=2">
     
+    <!-- Add Bootstrap CSS for Filter Section Styling (only targeting classes used in filter) -->
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
@@ -88,11 +89,61 @@
         .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
 
-        .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; }
+        .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 500px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
-        th, td { border-bottom: 1px solid #e1e8ed; padding: 12px 15px; text-align: left; }
-        th { background-color: #f1f5f9; color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
+        thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        th, td { border-bottom: 1px solid #e1e8ed; padding: 12px 15px; text-align: center; vertical-align: middle; }
+        th { color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
         tr:hover { background-color: #f8fafc; }
+
+        /* Custom Badges & Colors for School Tab */
+        .text-start { text-align: left !important; }
+        .bg-light-blue { background-color: #f1f8ff !important; }
+        .badge-yes { background-color: #d4edda; color: #155724; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #c3e6cb; font-size: 0.85em; display: inline-block;}
+        .badge-no { color: #aaa; font-weight: bold; font-size: 0.85em;}
+        .internet-type { background-color: #e0f8fb; color: #055160; padding: 3px 10px; border-radius: 12px; font-size: 0.75em; border: 1px solid #b6effb; margin-top: 5px; display: inline-block; font-weight: 600;}
+        .text-success { color: #28a745 !important; }
+        .text-danger { color: #dc3545 !important; }
+        .text-primary { color: #007bff !important; }
+
+        /* Filter Section Styling */
+        .filter-section {
+            background-color: #f8f9fa;
+            border-left: 4px solid #e67e22;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+            flex: 1;
+        }
+        .filter-item label {
+            font-size: 0.85rem;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .filter-item select, .filter-item input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        .filter-item-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
+        .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
 
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
@@ -100,6 +151,7 @@
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .hero-banner h1 { font-size: 1.5rem; }
+            .filter-item { min-width: 100%; }
         }
     </style>
 </head>
@@ -144,6 +196,7 @@
 
     <div class="container">
         
+        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -181,6 +234,7 @@
             </div>
         </div>
 
+        <!-- ABOUT SECTION -->
         <div id="about" class="section">
             <div class="card">
                 <h2>About Us</h2>
@@ -188,6 +242,7 @@
             </div>
         </div>
 
+        <!-- MARKS SECTION -->
         <div id="marks" class="section">
             <div class="card">
                 <h2>Zonal Marks Analysis</h2>
@@ -197,414 +252,76 @@
             </div>
         </div>
 
+        <!-- SCHOOLS SECTION (WITH NEW FILTER & ICT DATA) -->
         <div id="schools" class="section">
-            <div class="card">
-                <h2>School Details in the Zone</h2>
+            <div class="card" style="border-top: 4px solid #2ecc71;">
+                <h2>ICT Lab Resources Analyzer</h2>
+                <p style="font-size: 0.95rem; color: #555;">වැල්ලවාය සහ බුත්තල කොට්ඨාසවල පාසල් තුළ ඇති තොරතුරු තාක්ෂණ සම්පත් පිළිබඳ තත්‍ය කාලීන දත්ත.</p>
+                
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-item">
+                        <label>කොට්ඨාසය (Division):</label>
+                        <select id="divisionFilter" onchange="filterSchoolData()">
+                            <option value="All">සියලුම (All)</option>
+                            <option value="Wellawaya">වැල්ලවාය</option>
+                            <option value="Buththala">බුත්තල</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-item">
+                        <label>අන්තර්ජාලය:</label>
+                        <select id="internetFilter" onchange="filterSchoolData()">
+                            <option value="All">සියලුම (All)</option>
+                            <option value="Yes">ඇති පාසල්</option>
+                            <option value="No">නැති පාසල්</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label>සම්බන්ධතා වර්ගය:</label>
+                        <select id="connTypeFilter" onchange="filterSchoolData()">
+                            <option value="All">සියලුම (All)</option>
+                            <option value="Fiber">Fiber</option>
+                            <option value="Router">Router</option>
+                            <option value="Personal">Personal</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label>පාසලේ නම සොයන්න:</label>
+                        <input type="text" id="schoolSearch" placeholder="පාසලේ නම..." onkeyup="filterSchoolData()">
+                    </div>
+                    
+                    <div class="filter-item filter-item-checkbox">
+                        <input type="checkbox" id="inactiveFilter" onchange="filterSchoolData()">
+                        <label for="inactiveFilter">අක්‍රිය පරිගණක/මොනිටර් ඇති</label>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>School Name</th><th>Category</th><th>Principal Name</th><th>Contact No</th><th>Status</th></tr>
+                            <tr>
+                                <th rowspan="2">කොට්ඨාසය</th>
+                                <th rowspan="2" class="text-start">පාසලේ නම</th>
+                                <th colspan="2" class="bg-light-blue">System Units</th>
+                                <th colspan="2" class="bg-light-blue">Monitors</th>
+                                <th rowspan="2" style="color:#007bff;">Active Laptops</th>
+                                <th rowspan="2" style="color:#e67e22;">Smart Board</th>
+                                <th rowspan="2" style="color:#9b59b6;">Arduino</th>
+                                <th rowspan="2" class="bg-light-blue">අන්තර්ජාල පහසුකම්</th>
+                            </tr>
+                            <tr>
+                                <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                                <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                                <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                                <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                            </tr>
                         </thead>
-                        <tbody id="schools-list">
-                            <tr>
-                                <td><strong>මො/වෙහෙරයාය මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කුරුගම කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ජේ.ඇම් කුමාරදාස මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/වෙහෙරයාය කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/සියඹලාගුණය කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/හඳපානාගල මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/රන්දෙණිවෙල කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ගම්පංගුව කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/සද්ධාතිස්ස ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/බලහරුව කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/තෙළුල්ල කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/තෙළුල්ල ජනපද කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කිතුල්කොටේ මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/යෞවනකුමාරපුර කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මහාරගම කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/දෙබරආර කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/යාලබෝව ප්‍රා.වි</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ආනපල්ලම කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මහවෙලමුල්ල මුස්ලිම් කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/වඳිනහෙළයාය ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඇතාදුටුවැව කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඩී.එස් සේනානායක කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මොරහෙළගම ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මල්වත්තවෙල ප්‍රා.වි</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/චන්දවිමල ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/බුදුරුවාගල ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කුඩාඔය ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඇතිලිවැව මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/බුදුරුවාගල මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මල්වත්තාවෙල මධ්‍ය මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කුඩාඔය මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/උනාවටුන කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මුණසිංහ ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/සිද්ධාර්ථ මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/දුටුගැමුණු ආදර්ශ ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඔක්කම්පිටිය ජනපද කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කුකුරම්පොළ කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/රන්ජන් විජේරත්න මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/පියනන්ද කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/යුධගනාව කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/වගුරුවෙල මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/හෙළගම කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ගෝනගංආර කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ජනාසංඛ ආදර්ශ කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/නියදැල්ල කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/කුමාරගම ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/මහසෙන්ගම ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/විහාරමහාදේවි කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/දඹේයාය ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ග/ශ්‍රි සුමනජෝති කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ශ්‍රි සුබෝධ කණිෂ්ඨ වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/පැල්වත්ත ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/දුටුගැමුණු ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඔක්කම්පිටිය විජයබාහු ප්‍රාථමික. වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/දුටුගැමුණු මධ්‍ය මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/ඔක්කම්පිටිය විජයබාහු මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>මො/පැල්වත්ත නවෝද්‍යා මහා වි.</strong></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
+                        <tbody id="schools-table-body">
+                            <!-- Data populated via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -615,18 +332,10 @@
         <div id="teachers" class="section">
             <div class="card">
                 <h2>Registered ICT Teachers</h2>
-                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
+                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID.</p>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Teacher ID</th>
-                                <th>Name</th>
-                                <th>School</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Teacher ID</th><th>Name</th><th>School</th><th>Email</th><th>Phone</th></tr></thead>
                         <tbody id="teacher-list"></tbody>
                     </table>
                 </div>
@@ -640,9 +349,7 @@
                 <p style="font-size: 0.9rem; color: #555;">(Sorted by ZDETT ID No)</p>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr>
-                        </thead>
+                        <thead><tr><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr></thead>
                         <tbody id="zdett-public-list"></tbody>
                     </table>
                 </div>
@@ -714,7 +421,7 @@
             <!-- TEACHER TOOLS SECTION -->
             <div id="teacher-tools" style="display: none;">
                 <div class="card" style="border-left: 5px solid #f59e0b;">
-                    <h3>My Fault Reports & Notifications (Teacher Tool)</h3>
+                    <h3>My Fault Reports & Notifications</h3>
                     <div class="table-container">
                         <table>
                             <thead><tr><th>Equipment</th><th>Fault</th><th>Status</th><th>ZDETT Message/Report</th><th>Handled By</th></tr></thead>
@@ -724,14 +431,14 @@
                 </div>
 
                 <div class="card">
-                    <h3>Report a Fault (Teacher Tool)</h3>
+                    <h3>Report a Fault (New Job)</h3>
                     <div class="form-group"><label>Select Equipment:</label><select id="fault-device"><option value="">-- Select from Inventory --</option></select></div>
                     <div class="form-group"><textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea></div>
                     <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
                 </div>
 
                 <div class="card">
-                    <h3>Update Lab Inventory (Teacher Tool)</h3>
+                    <h3>Update Lab Inventory</h3>
                     <div class="grid-form">
                         <input type="text" id="inv-book" placeholder="Book No."><input type="number" id="inv-page" placeholder="Page No."><input type="text" id="inv-col" placeholder="Column/Row">
                     </div>
@@ -780,6 +487,136 @@
         function showNews(message) { alert("📰 පුවත් විස්තරය:\n\n" + message); }
     </script>
 
+    <!-- NEW: Logic for Schools Tab with Filter and Data[cite: 1] -->
+    <script>
+        const rawSchoolData = [
+            {"division": "Wellawaya", "school": "මො/වෙහෙරයාය මහා වි.", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/කුරුගම කණිෂ්ඨ වි.", "pc_active": 3, "pc_inactive": 2, "monitor_active": 5, "monitor_inactive": 9, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Wellawaya", "school": "මො/ජේ.ඇම් කුමාරදාස මහා වි.", "pc_active": 52, "pc_inactive": 38, "monitor_active": 85, "monitor_inactive": 5, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 5, "laptop_inactive": 4, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
+            {"division": "Wellawaya", "school": "මො/වෙහෙරයාය කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 5, "monitor_inactive": 10, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/සියඹලාගුණය කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 3, "monitor_active": 0, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/හඳපානාගල මහා වි.", "pc_active": 10, "pc_inactive": 12, "monitor_active": 17, "monitor_inactive": 10, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Wellawaya", "school": "මො/රන්දෙණිවෙල කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 5, "monitor_active": 6, "monitor_inactive": 1, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/ගම්පංගුව කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 5, "monitor_active": 7, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/සද්ධාතිස්ස ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/බලහරුව කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/තෙළුල්ල කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 8, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Wellawaya", "school": "මො/තෙළුල්ල ජනපද කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/කිතුල්කොටේ මහා වි.", "pc_active": 18, "pc_inactive": 3, "monitor_active": 22, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Wellawaya", "school": "මො/යෞවනකුමාරපුර කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/මහාරගම කණිෂ්ඨ වි.", "pc_active": 5, "pc_inactive": 1, "monitor_active": 6, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/දෙබරආර කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 4, "monitor_active": 1, "monitor_inactive": 6, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/යාලබෝව ප්‍රා.වි", "pc_active": 1, "pc_inactive": 3, "monitor_active": 1, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Wellawaya", "school": "මො/ආනපල්ලම කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/මහවෙලමුල්ල මුස්ලිම් කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 4, "monitor_active": 5, "monitor_inactive": 1, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/වඳිනහෙළයාය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/ඇතාදුටුවැව කණිෂ්ඨ වි.", "pc_active": 7, "pc_inactive": 0, "monitor_active": 7, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Wellawaya", "school": "මො/ඩී.එස් සේනානායක කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Wellawaya", "school": "මො/මොරහෙළගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/මල්වත්තවෙල ප්‍රා.වි", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/චන්දවිමල ප්‍රාථමික. වි.", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/බුදුරුවාගල ප්‍රාථමික. වි.", "pc_active": 1, "pc_inactive": 1, "monitor_active": 1, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Wellawaya", "school": "මො/කුඩාඔය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/ඇතිලිවැව මහා වි.", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Wellawaya", "school": "මො/බුදුරුවාගල මහා වි.", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 5, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
+            {"division": "Wellawaya", "school": "මො/මල්වත්තාවෙල මධ්‍ය මහා වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Wellawaya", "school": "මො/කුඩාඔය මහා වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/උනාවටුන කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/මුණසිංහ ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Buththala", "school": "මො/සිද්ධාර්ථ මහා වි.", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Buththala", "school": "මො/දුටුගැමුණු ආදර්ශ ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය ජනපද කණිෂ්ඨ වි.", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/කුකුරම්පොළ කණිෂ්ඨ වි.", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/රන්ජන් විජේරත්න මහා වි.", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
+            {"division": "Buththala", "school": "මො/පියනන්ද කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Buththala", "school": "මො/යුධගනාව කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/වගුරුවෙල මහා වි.", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
+            {"division": "Buththala", "school": "මො/හෙළගම කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Buththala", "school": "මො/ගෝනගංආර කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/ජනාසංඛ ආදර්ශ කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/නියදැල්ල කණිෂ්ඨ වි.", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/කුමාරගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/මහසෙන්ගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/විහාරමහාදේවි කණිෂ්ඨ වි.", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/දඹේයාය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/ශ්‍රි සුමනජෝති කණිෂ්ඨ වි.", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Buththala", "school": "මො/ශ්‍රි සුබෝධ කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
+            {"division": "Buththala", "school": "මො/පැල්වත්ත ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
+            {"division": "Buththala", "school": "මො/දුටුගැමුණු ප්‍රාථමික. වි.", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
+            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය විජයබාහු ප්‍රාථමික. වි.", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Buththala", "school": "මො/දුටුගැමුණු ජාතික පාසල", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
+            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය විජයබාහු මහා වි.", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
+            {"division": "Buththala", "school": "මො/පැල්වත්ත නවෝද්‍යා මහා වි.", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 2, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"}
+        ];
+
+        function renderSchoolTable(data) {
+            const tbody = document.getElementById('schools-table-body');
+            tbody.innerHTML = '';
+            
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                if(row.pc_inactive > 0 || row.monitor_inactive > 0) {
+                    tr.style.backgroundColor = "#fff5f5";
+                }
+                
+                const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 
+                                      ? '<span class="badge-yes">✅ ඇත</span>' : '<span class="badge-no">❌ නැත</span>';
+                const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 
+                                      ? '<span class="badge-yes">✅ ඇත</span>' : '<span class="badge-no">❌ නැත</span>';
+                const internetStatus = row.internet === "✅ ඇත" 
+                                      ? `<span class="badge-yes">✅ ඇත</span><br><span class="internet-type">${row.internet_type}</span>` 
+                                      : '<span class="badge-no">❌ නැත</span>';
+                
+                tr.innerHTML = `
+                    <td>${row.division === 'Wellawaya' ? 'වැල්ලවාය' : 'බුත්තල'}</td>
+                    <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                    <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
+                    <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
+                    <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
+                    <td class="text-danger fw-bold bg-light-blue">${row.monitor_inactive}</td>
+                    <td class="text-primary fw-bold">${row.laptop_active}</td>
+                    <td>${hasSmartBoard}</td>
+                    <td>${hasArduino}</td>
+                    <td class="bg-light-blue">${internetStatus}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // The Filter Logic
+        function filterSchoolData() {
+            const divFilter = document.getElementById('divisionFilter').value;
+            const internetFilter = document.getElementById('internetFilter').value;
+            const connTypeFilter = document.getElementById('connTypeFilter').value;
+            const searchStr = document.getElementById('schoolSearch').value.toLowerCase();
+            const showInactiveOnly = document.getElementById('inactiveFilter').checked;
+            
+            const filtered = rawSchoolData.filter(row => {
+                const matchDiv = (divFilter === "All" || row.division === divFilter);
+                
+                let matchInternet = true;
+                if (internetFilter === "Yes") matchInternet = (row.internet === "✅ ඇත");
+                else if (internetFilter === "No") matchInternet = (row.internet === "❌ නැත");
+
+                let matchConnType = true;
+                if (connTypeFilter !== "All") matchConnType = (row.internet_type && row.internet_type.includes(connTypeFilter));
+
+                const matchSearch = row.school.toLowerCase().includes(searchStr);
+                const matchInactive = showInactiveOnly ? (row.pc_inactive > 0 || row.monitor_inactive > 0) : true;
+                
+                return matchDiv && matchInternet && matchConnType && matchSearch && matchInactive;
+            });
+            
+            renderSchoolTable(filtered);
+        }
+
+        // Initial Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSchoolTable(rawSchoolData);
+        });
+    </script>
+
+    <!-- Firebase Realtime Database & Auth SDK Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
