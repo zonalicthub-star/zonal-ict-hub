@@ -7,7 +7,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- PWA Meta Tags (Cache බිඳීමට ?v=2 එකතු කර ඇත) -->
+    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json?v=2">
     <meta name="theme-color" content="#002b5e">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
@@ -33,7 +33,6 @@
             display: block;
         }
 
-        /* Header Mask (Gradient Overlay) */
         .header-banner::after {
             content: '';
             position: absolute;
@@ -45,7 +44,7 @@
             pointer-events: none;
         }
         
-        /* Navigation Container (Sticky for easy access) */
+        /* Navigation Container */
         .nav-container {
             background: linear-gradient(to right, #002b5e, #004080);
             position: sticky;
@@ -55,7 +54,6 @@
             width: 100%;
         }
 
-        /* Mobile Menu Toggle Button */
         .mobile-menu-toggle {
             display: none;
             color: white;
@@ -97,39 +95,14 @@
             transform: translateY(-2px); 
         }
 
-        /* Mobile View Styles */
         @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block; 
-            }
-            nav {
-                display: none; 
-                width: 100%;
-                background: #002b5e;
-            }
-            nav.show {
-                display: block; 
-            }
-            nav ul { 
-                flex-direction: column; 
-                padding: 0; 
-                gap: 0;
-            }
-            nav ul li {
-                width: 100%;
-                text-align: center;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            nav ul li a { 
-                padding: 15px; 
-                font-size: 1rem; 
-                border-radius: 0;
-                display: block;
-            }
-            nav ul li a:hover {
-                transform: none;
-                background-color: rgba(255, 255, 255, 0.1);
-            }
+            .mobile-menu-toggle { display: block; }
+            nav { display: none; width: 100%; background: #002b5e; }
+            nav.show { display: block; }
+            nav ul { flex-direction: column; padding: 0; gap: 0; }
+            nav ul li { width: 100%; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            nav ul li a { padding: 15px; font-size: 1rem; border-radius: 0; display: block; }
+            nav ul li a:hover { transform: none; background-color: rgba(255, 255, 255, 0.1); }
         }
 
         /* News Alert Ticker */
@@ -147,10 +120,7 @@
         .ticker-title { background: #d84315; padding: 3px 10px; border-radius: 5px; margin-right: 15px; white-space: nowrap; font-size: 0.85rem; text-transform: uppercase;}
         .ticker-content { width: 100%; overflow: hidden; white-space: nowrap; }
         
-        .ticker-text { 
-            display: inline-block; 
-            animation: scroll-left 30s linear infinite; 
-        }
+        .ticker-text { display: inline-block; animation: scroll-left 30s linear infinite; }
         .ticker-content:hover .ticker-text { animation-play-state: paused; }
         .ticker-text a { color: white; text-decoration: none; cursor: pointer; padding: 0 10px; transition: color 0.3s ease; }
         .ticker-text a:hover { color: #1e293b; text-decoration: underline; }
@@ -191,6 +161,7 @@
         button:hover { background: linear-gradient(135deg, #218838, #1e7e34); transform: scale(1.02); }
         .btn-danger { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); }
         .btn-danger:hover { background: linear-gradient(135deg, #c82333, #bd2130); }
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); font-size: 0.85rem; padding: 8px 12px;} /* NEW */
 
         /* Modern Tables */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; }
@@ -371,7 +342,7 @@
                                 <th>Name</th>
                                 <th>School</th>
                                 <th>Email</th>
-                                <th>Phone</th> <!-- NEW: Phone column for teachers -->
+                                <th>Phone</th>
                             </tr>
                         </thead>
                         <tbody id="teacher-list"></tbody>
@@ -426,7 +397,6 @@
                 <div class="form-group"><label>Full Name</label><input type="text" id="t-name"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
-                <!-- NEW: Phone number field for Teacher -->
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
@@ -454,6 +424,37 @@
             </div>
 
             <div id="teacher-tools" style="display: none;">
+                
+                <!-- NEW: Teachers Notifications & My Fault Reports -->
+                <div class="card" style="border-left: 5px solid #f59e0b;">
+                    <h3>My Fault Reports & ZDETT Notifications</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Check the status and messages from ZDETT regarding your reported faults.</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Equipment</th><th>Fault</th><th>Status</th><th>ZDETT Message/Report</th><th>Handled By</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-faults-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Report a Fault (New Job)</h3>
+                    <div class="form-group">
+                        <label>Select Equipment:</label>
+                        <select id="fault-device">
+                            <option value="">-- Select from Inventory --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea>
+                    </div>
+                    <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
+                </div>
+
                 <div class="card">
                     <h3>Update Lab Inventory</h3>
                     <div class="grid-form">
@@ -483,20 +484,6 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="card">
-                    <h3>Report a Fault (New Job)</h3>
-                    <div class="form-group">
-                        <label>Select Equipment:</label>
-                        <select id="fault-device">
-                            <option value="">-- Select from Inventory --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea>
-                    </div>
-                    <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
-                </div>
             </div>
 
             <div id="zdett-tools" style="display: none;">
@@ -506,7 +493,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th>
+                                    <th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="all-faults-list"></tbody>
@@ -552,7 +539,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, push, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        // NEW: import `update` for editing existing records
+        import { getDatabase, ref, set, get, push, child, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyALUdmF414CFZGwwkoYjPu-BNxOmt9u5gM",
@@ -607,21 +595,14 @@
                 ]
             };
             
-            if(marksChartInstance) {
-                marksChartInstance.destroy();
-            }
+            if(marksChartInstance) { marksChartInstance.destroy(); }
             
             marksChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: chartData,
                 options: {
                     responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
+                    scales: { y: { beginAtZero: true, max: 100 } }
                 }
             });
         }
@@ -630,13 +611,13 @@
             let name = document.getElementById('t-name').value;
             let school = document.getElementById('t-school').value;
             let email = document.getElementById('t-email').value;
-            let phone = document.getElementById('t-phone').value; // NEW: get phone number
+            let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
 
             try {
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, school, email, phone, role: 'teacher' // NEW: save phone number
+                    name, school, email, phone, role: 'teacher' 
                 });
                 alert("Teacher Registered Successfully!");
                 window.showSection('login');
@@ -702,13 +683,14 @@
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
                 loadMyInventory();
+                loadTeacherFaults(); // ගුරුවරයාගේ දෝෂ වාර්තා පෙන්වීම
             } else if (currentUserData.role === 'zdett') {
-                // UPDATE: ZDETT කණ්ඩායමට Teacher පහසුකම් සහ ZDETT පහසුකම් දෙකම ලබාදීම
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
                 
-                loadMyInventory(); // තමන්ගේ පාසලේ (Teacher) දත්ත load කිරීම
-                loadAdminData();   // ZDETT එකේ කලාපීය දත්ත load කිරීම
+                loadMyInventory(); 
+                loadTeacherFaults(); 
+                loadAdminData();   
             }
         }
 
@@ -755,6 +737,32 @@
             }
         }
 
+        // NEW: Load faults specific to the logged-in user's school
+        async function loadTeacherFaults() {
+            let tbody = document.getElementById('my-faults-list');
+            tbody.innerHTML = '';
+            let snapshot = await get(ref(db, 'faults'));
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => {
+                    let f = childSnap.val();
+                    if(f.school === currentUserData.school) {
+                        let statusColor = f.status === 'Completed' ? '#10b981' : '#ef4444';
+                        let note = f.actionTaken || 'Pending ZDETT Review...';
+                        let handledBy = f.completedBy || '-';
+                        tbody.innerHTML += `<tr>
+                            <td>${f.device}</td>
+                            <td>${f.description}</td>
+                            <td style="color: ${statusColor}; font-weight: bold;">${f.status}</td>
+                            <td style="font-size: 0.9em; color: #555;"><i>${note}</i></td>
+                            <td><strong>${handledBy}</strong></td>
+                        </tr>`;
+                    }
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="5">No faults reported yet.</td></tr>';
+            }
+        }
+
         window.reportFault = async function() {
             let deviceId = document.getElementById('fault-device').value;
             let desc = document.getElementById('fault-desc').value;
@@ -781,9 +789,28 @@
                     
                     alert("Fault report successfully submitted to ZDETT.");
                     document.getElementById('fault-desc').value = '';
+                    loadTeacherFaults(); // Update list
+                    if (currentUserData.role === 'zdett') loadAdminData(); // Update ZDETT list if viewing
                 }
             } else {
                 alert("Please select a device and describe the fault.");
+            }
+        };
+
+        // NEW: Function for ZDETT to mark a job as complete
+        window.markJobComplete = async function(faultId) {
+            let actionNote = prompt("Enter the repair report / message for the school:");
+            if(actionNote !== null) { 
+                let faultRef = ref(db, 'faults/' + faultId);
+                await update(faultRef, {
+                    status: 'Completed',
+                    completedBy: currentUserData.name,
+                    actionTaken: actionNote || "Issue resolved.",
+                    completedAt: Date.now()
+                });
+                alert("Job marked as complete and notification sent to the school!");
+                loadAdminData();
+                loadTeacherFaults(); // Refresh local list
             }
         };
 
@@ -793,17 +820,28 @@
             let fSnap = await get(ref(db, 'faults'));
             if(fSnap.exists()) {
                 fSnap.forEach((childSnap) => {
+                    let fId = childSnap.key; // Get DB key for updating
                     let f = childSnap.val();
+                    
+                    // NEW: Generate action button based on status
+                    let actionHtml = '';
+                    if(f.status === 'Pending') {
+                        actionHtml = `<button class="btn-success" onclick="markJobComplete('${fId}')">Mark Complete</button>`;
+                    } else {
+                        actionHtml = `<span style="color: #10b981; font-size: 0.85em;">Done by ${f.completedBy}</span>`;
+                    }
+
                     fBody.innerHTML += `<tr>
                         <td><strong>${f.school}</strong></td>
                         <td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
                         <td>${f.device}</td>
                         <td>${f.description}</td>
-                        <td style="color: red; font-weight: bold;">${f.status}</td>
+                        <td style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
+                        <td>${actionHtml}</td>
                     </tr>`;
                 });
             } else {
-                fBody.innerHTML = '<tr><td colspan="5">No pending jobs.</td></tr>';
+                fBody.innerHTML = '<tr><td colspan="6">No pending jobs.</td></tr>';
             }
 
             let iBody = document.getElementById('all-inventory-list');
@@ -830,7 +868,6 @@
                 snapshot.forEach((childSnap) => {
                     let u = childSnap.val();
                     if(u.role === 'teacher') {
-                        // NEW: Show phone number in Teachers table
                         tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
