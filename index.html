@@ -215,12 +215,12 @@
         <div id="teachers" class="section">
             <div class="card">
                 <h2>Registered ICT Teachers</h2>
-                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID.</p>
+                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Teacher ID</th> <!-- NEW -->
+                                <th>Teacher ID</th>
                                 <th>Name</th>
                                 <th>School</th>
                                 <th>Email</th>
@@ -310,9 +310,10 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
+            <!-- TEACHER TOOLS SECTION (Visible to both Teachers and ZDETT) -->
             <div id="teacher-tools" style="display: none;">
                 <div class="card" style="border-left: 5px solid #f59e0b;">
-                    <h3>My Fault Reports & Notifications</h3>
+                    <h3>My Fault Reports & Notifications (Teacher Tool)</h3>
                     <div class="table-container">
                         <table>
                             <thead><tr><th>Equipment</th><th>Fault</th><th>Status</th><th>ZDETT Message/Report</th><th>Handled By</th></tr></thead>
@@ -322,14 +323,14 @@
                 </div>
 
                 <div class="card">
-                    <h3>Report a Fault (New Job)</h3>
+                    <h3>Report a Fault (Teacher Tool)</h3>
                     <div class="form-group"><label>Select Equipment:</label><select id="fault-device"><option value="">-- Select from Inventory --</option></select></div>
                     <div class="form-group"><textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea></div>
                     <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
                 </div>
 
                 <div class="card">
-                    <h3>Update Lab Inventory</h3>
+                    <h3>Update Lab Inventory (Teacher Tool)</h3>
                     <div class="grid-form">
                         <input type="text" id="inv-book" placeholder="Book No."><input type="number" id="inv-page" placeholder="Page No."><input type="text" id="inv-col" placeholder="Column/Row">
                     </div>
@@ -340,13 +341,26 @@
                 </div>
             </div>
 
+            <!-- ZDETT TOOLS SECTION (Visible ONLY to ZDETT) -->
             <div id="zdett-tools" style="display: none;">
                 <div class="card" style="border-left: 5px solid #ef4444;">
-                    <h3>ZDETT Jobs & Fault Reports</h3>
+                    <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
                     <div class="table-container">
                         <table>
                             <thead><tr><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th></tr></thead>
                             <tbody id="all-faults-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 5px solid #10b981;">
+                    <h3>Zonal Master Inventory (Admin Tool)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>School</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
+                            </thead>
+                            <tbody id="all-inventory-list"></tbody>
                         </table>
                     </div>
                 </div>
@@ -409,7 +423,6 @@
             });
         }
 
-        // NEW: Auto-generate Teacher ID function (T-0001 format)
         async function generateTeacherId() {
             let countRef = ref(db, 'metadata/teacherCount');
             let snapshot = await get(countRef);
@@ -426,14 +439,13 @@
             let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
 
-            // PHONE & Field Validation
             if(!name || !school || !email || !phone || !pass) {
                 alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
                 return;
             }
 
             try {
-                let tId = await generateTeacherId(); // Auto-generate ID
+                let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
                     name, school, email, phone, role: 'teacher', teacherId: tId
@@ -451,14 +463,13 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            // PHONE & Field Validation
             if(!name || !idNo || !school || !phone || !email || !pass) {
                 alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
                 return;
             }
 
             try {
-                let tId = await generateTeacherId(); // Generate Teacher ID for ZDETT as well
+                let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
                     name, idNo, school, phone, email, role: 'zdett', teacherId: tId
@@ -495,7 +506,6 @@
         };
 
         function setupDashboard() {
-            // Show Teacher ID if exists
             let idText = currentUserData.teacherId ? ` | ID: ${currentUserData.teacherId}` : '';
             document.getElementById('welcome-msg').innerText = `Welcome ${currentUserData.name} (${currentUserData.school}${idText})`;
             
@@ -503,6 +513,7 @@
             document.getElementById('edit-school').value = currentUserData.school || '';
             document.getElementById('edit-phone').value = currentUserData.phone || '';
 
+            // ROLE LOGIC: Teachers see only teacher tools. ZDETT see BOTH.
             if (currentUserData.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
@@ -633,21 +644,44 @@
                     </tr>`;
                 });
             }
+            
+            let iBody = document.getElementById('all-inventory-list');
+            iBody.innerHTML = '';
+            let iSnap = await get(ref(db, 'inventory'));
+            if(iSnap.exists()) {
+                iSnap.forEach((childSnap) => {
+                    let i = childSnap.val();
+                    iBody.innerHTML += `<tr>
+                        <td><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
+                        <td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
+                    </tr>`;
+                });
+            }
         }
 
-        // UPDATE: Teacher List will now show both Teachers AND ZDETT members (since ZDETT are teachers too)
+        // NEW: Teacher List with Proper Sorting (T-0001, T-0002... Top to Bottom)
         async function loadTeachers() {
             let tbody = document.getElementById('teacher-list');
             tbody.innerHTML = '';
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
+                let usersArray = [];
                 snapshot.forEach((childSnap) => {
-                    let u = childSnap.val();
-                    // Show if role is teacher OR zdett
+                    usersArray.push(childSnap.val());
+                });
+
+                // T-ID අංක පිළිවෙළට සකස් කිරීම (Ascending Order)
+                usersArray.sort((a, b) => {
+                    let idA = a.teacherId || "";
+                    let idB = b.teacherId || "";
+                    return idA.localeCompare(idB);
+                });
+
+                usersArray.forEach((u) => {
                     if(u.role === 'teacher' || u.role === 'zdett') {
-                        let tId = u.teacherId ? u.teacherId : "T-0000"; // display ID
+                        let tId = u.teacherId ? u.teacherId : "T-0000";
                         tbody.innerHTML += `<tr>
-                            <td><strong>${tId}</strong></td> <!-- NEW: ID Column -->
+                            <td><strong>${tId}</strong></td>
                             <td>${u.name}</td>
                             <td>${u.school}</td>
                             <td>${u.email}</td>
@@ -663,8 +697,19 @@
             tbody.innerHTML = '';
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
+                let usersArray = [];
                 snapshot.forEach((childSnap) => {
-                    let u = childSnap.val();
+                    usersArray.push(childSnap.val());
+                });
+
+                // ZDETT අංක පිළිවෙළට සකස් කිරීම
+                usersArray.sort((a, b) => {
+                    let idA = a.idNo || "";
+                    let idB = b.idNo || "";
+                    return idA.localeCompare(idB);
+                });
+
+                usersArray.forEach((u) => {
                     if(u.role === 'zdett') {
                         tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.idNo || 'N/A'}</td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
