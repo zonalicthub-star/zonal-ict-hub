@@ -53,8 +53,8 @@
 
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* General Styles */
-        .container { padding: 2rem; max-width: 1200px; margin: auto; min-height: 60vh; }
+        /* General Styles - FULL SCREEN LAYOUT UPDATE */
+        .container { padding: 2rem 1%; width: 98%; max-width: 1800px; margin: auto; min-height: 60vh; }
         .section { display: none; }
         .section.active { display: block; animation: fadeInUp 0.5s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -89,7 +89,7 @@
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
 
         /* Modern Tables with Serial No */
-        .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 500px; }
+        .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         th, td { border-bottom: 1px solid #e1e8ed; padding: 12px 15px; text-align: center; vertical-align: middle; }
@@ -150,9 +150,10 @@
         footer a { color: #38bdf8; text-decoration: none; }
 
         @media (max-width: 768px) {
-            .container { padding: 1rem; }
+            .container { padding: 1rem 5px; width: 100%; }
             .hero-banner h1 { font-size: 1.5rem; }
             .filter-item { min-width: 100%; }
+            .filter-item-checkbox { margin-top: 10px; }
         }
     </style>
 </head>
@@ -303,7 +304,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th> <!-- NEW: Serial Number Column -->
+                                <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
                                 <th rowspan="2">Division</th>
                                 <th rowspan="2" class="text-start">School Name</th>
                                 <th colspan="2" class="bg-light-blue">System Units</th>
@@ -497,7 +498,7 @@
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- NEW: Logic for Schools Tab with Filter and English Data -->
+    <!-- Logic for Schools Tab with Filter and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -577,7 +578,6 @@
                                       ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` 
                                       : '<span class="badge-no">❌ No</span>';
                 
-                // Serial Number added here (index + 1)
                 tr.innerHTML = `
                     <td class="fw-bold text-secondary">${index + 1}</td>
                     <td>${row.division}</td>
@@ -595,7 +595,6 @@
             });
         }
 
-        // The Filter Logic
         function filterSchoolData() {
             const divFilter = document.getElementById('divisionFilter').value;
             const internetFilter = document.getElementById('internetFilter').value;
@@ -622,7 +621,6 @@
             renderSchoolTable(filtered);
         }
 
-        // Initial Load
         window.addEventListener('DOMContentLoaded', () => {
             renderSchoolTable(rawSchoolData);
         });
@@ -763,7 +761,6 @@
             document.getElementById('edit-school').value = currentUserData.school || '';
             document.getElementById('edit-phone').value = currentUserData.phone || '';
 
-            // ROLE LOGIC: Teachers see only teacher tools. ZDETT see BOTH.
             if (currentUserData.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
@@ -950,7 +947,6 @@
                     usersArray.push(childSnap.val());
                 });
 
-                // ZDETT Numerical Sorting
                 usersArray.sort((a, b) => {
                     let idA = a.idNo || "";
                     let idB = b.idNo || "";
