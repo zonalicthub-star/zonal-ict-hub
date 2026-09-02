@@ -9,22 +9,14 @@
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#003366">
+    <meta name="theme-color" content="#002b5e">
     <link rel="apple-touch-icon" href="icon-192.png">
     
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
-        /* MOE Style Header & Banner */
-        header { 
-            background: #ffffff;
-            display: block; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 100;
-        }
-
+        /* MOE Style Header Banner */
         .header-banner {
             width: 100%;
             background-color: #001f3f;
@@ -39,21 +31,38 @@
             display: block;
         }
         
-        /* MOE Style Navigation Bar */
-        nav {
+        /* Navigation Container (Sticky for easy access) */
+        .nav-container {
             background: linear-gradient(to right, #002b5e, #004080);
-            padding: 12px 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+
+        /* Mobile Menu Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #001f3f;
+            border-bottom: 1px solid #004080;
         }
 
         nav ul { 
             list-style: none; 
-            padding: 0; 
+            padding: 10px 0; 
             display: flex; 
             gap: 10px; 
             margin: 0; 
             align-items: center; 
-            flex-wrap: wrap; 
             justify-content: center;
+            transition: all 0.3s ease;
         }
 
         nav ul li a { 
@@ -66,11 +75,47 @@
             transition: all 0.3s ease; 
             font-size: 0.95rem; 
             letter-spacing: 0.5px;
+            display: inline-block;
         }
 
         nav ul li a:hover { 
-            background-color: rgba(255, 255, 255, 0.15); 
+            background-color: rgba(255, 255, 255, 0.2); 
             transform: translateY(-2px); 
+        }
+
+        /* Mobile View Styles */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block; /* ජංගම දුරකථන වලදී මෙනු බොත්තම පෙන්වීම */
+            }
+            nav {
+                display: none; /* මුලින් මෙනු එක සඟවා තැබීම */
+                width: 100%;
+                background: #002b5e;
+            }
+            nav.show {
+                display: block; /* මෙනු බොත්තම එබූ විට පෙන්වීම */
+            }
+            nav ul { 
+                flex-direction: column; 
+                padding: 0; 
+                gap: 0;
+            }
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            nav ul li a { 
+                padding: 15px; 
+                font-size: 1rem; 
+                border-radius: 0;
+                display: block;
+            }
+            nav ul li a:hover {
+                transform: none;
+                background-color: rgba(255, 255, 255, 0.1);
+            }
         }
 
         /* News Alert Ticker */
@@ -92,24 +137,9 @@
             display: inline-block; 
             animation: scroll-left 30s linear infinite; 
         }
-        
-        /* Mouse එක ගෙනිච්චාම Scroll වෙන එක නතර වීම */
-        .ticker-content:hover .ticker-text {
-            animation-play-state: paused;
-        }
-
-        /* News Links හැඩගැන්වීම */
-        .ticker-text a {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-            padding: 0 10px;
-            transition: color 0.3s ease;
-        }
-        .ticker-text a:hover {
-            color: #1e293b;
-            text-decoration: underline;
-        }
+        .ticker-content:hover .ticker-text { animation-play-state: paused; }
+        .ticker-text a { color: white; text-decoration: none; cursor: pointer; padding: 0 10px; transition: color 0.3s ease; }
+        .ticker-text a:hover { color: #1e293b; text-decoration: underline; }
 
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
@@ -159,9 +189,6 @@
         footer a { color: #38bdf8; text-decoration: none; }
 
         @media (max-width: 768px) {
-            nav { padding: 10px; }
-            nav ul { flex-direction: row; gap: 5px; }
-            nav ul li a { padding: 8px 10px; font-size: 0.85rem; }
             .container { padding: 1rem; }
             .hero-banner h1 { font-size: 1.5rem; }
             .news-ticker { flex-direction: column; align-items: flex-start; gap: 5px; }
@@ -170,15 +197,20 @@
 </head>
 <body>
 
-    <!-- MOE Style Header -->
-    <header>
-        <div class="header-banner">
-            <img src="header.jpg" alt="Zonal ICT Hub Banner">
+    <!-- Banner Image (Top) -->
+    <div class="header-banner">
+        <img src="header.jpg" alt="Zonal ICT Hub Banner">
+    </div>
+
+    <!-- Navigation Container (Sticky) -->
+    <div class="nav-container">
+        <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            ☰ MENU
         </div>
-        <nav>
+        <nav id="main-nav">
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
-                <li><a onclick="showSection('about')">About Us</a></li> <!-- Moved Next to Home -->
+                <li><a onclick="showSection('about')">About Us</a></li>
                 <li><a onclick="showSection('schools')">Schools</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
@@ -191,9 +223,9 @@
                 <li id="nav-logout" style="display: none;"><a onclick="logoutUser()" style="background-color: #ef4444;">Logout</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
 
-    <!-- News Alert Ticker (Hover to Pause & Clickable) -->
+    <!-- News Alert Ticker -->
     <div class="news-ticker">
         <span class="ticker-title">Flash News</span>
         <div class="ticker-content">
@@ -228,7 +260,6 @@
                 </div>
             </div>
 
-            <!-- Essential Links Section Moved to the Bottom of Home Content -->
             <div class="essential-links">
                 <a href="https://www.e-thaksalawa.moe.gov.lk/" target="_blank" class="link-card">
                     <span>📚 e-Thaksalawa</span>
@@ -489,8 +520,12 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch | Developed for Zone Empowerment</p>
     </footer>
 
-    <!-- News Click Logic -->
+    <!-- Mobile Menu Logic & News Click -->
     <script>
+        function toggleMobileMenu() {
+            document.getElementById('main-nav').classList.toggle('show');
+        }
+
         function showNews(message) {
             alert("📰 පුවත් විස්තරය:\n\n" + message);
         }
@@ -523,6 +558,9 @@
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
+            
+            // ජංගම දුරකථනයකදී Menu එකෙන් Tab එකක් එබූ විට මෙනු එක ස්වයංක්‍රීයව වැසීම
+            document.getElementById('main-nav').classList.remove('show');
             
             if(sectionId === 'teachers') loadTeachers();
             if(sectionId === 'zdett') loadZdettTeam();
