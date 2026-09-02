@@ -7,7 +7,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA Meta Tags (Cache බිඳීමට ?v=2 එකතු කර ඇත) -->
     <link rel="manifest" href="manifest.json?v=2">
     <meta name="theme-color" content="#002b5e">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
@@ -161,7 +161,9 @@
         button:hover { background: linear-gradient(135deg, #218838, #1e7e34); transform: scale(1.02); }
         .btn-danger { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); }
         .btn-danger:hover { background: linear-gradient(135deg, #c82333, #bd2130); }
-        .btn-success { background: linear-gradient(135deg, #10b981, #059669); font-size: 0.85rem; padding: 8px 12px;} /* NEW */
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); font-size: 0.85rem; padding: 8px 12px;} 
+        .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
+        .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
 
         /* Modern Tables */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; }
@@ -187,7 +189,7 @@
         <img src="header.jpg" alt="Zonal ICT Hub Banner">
     </div>
 
-    <!-- Navigation Container (Sticky) -->
+    <!-- Navigation Container -->
     <div class="nav-container">
         <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
             ☰ MENU
@@ -291,7 +293,6 @@
         <div id="schools" class="section">
             <div class="card">
                 <h2>School Details in the Zone</h2>
-                <p>Information regarding the schools and their respective ICT infrastructure contact points within the Wellawaya Educational Zone.</p>
                 
                 <div class="table-container">
                     <table>
@@ -305,27 +306,7 @@
                             </tr>
                         </thead>
                         <tbody id="schools-list">
-                            <tr>
-                                <td><strong>Wellawaya National School</strong></td>
-                                <td>1AB</td>
-                                <td>Mr. A.B. Perera</td>
-                                <td>055-1234567</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Bibilegama Maha Vidyalaya</strong></td>
-                                <td>1C</td>
-                                <td>Mrs. C.D. Silva</td>
-                                <td>055-7654321</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Dutugemunu Primary School</strong></td>
-                                <td>Type 3</td>
-                                <td>Mr. E.F. Fernando</td>
-                                <td>055-1122334</td>
-                                <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
-                            </tr>
+                            <!-- Data will be populated here -->
                         </tbody>
                     </table>
                 </div>
@@ -423,9 +404,20 @@
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
             </div>
 
+            <!-- Profile Edit Section -->
+            <div class="card" id="profile-edit-section" style="border-left: 5px solid #0ea5e9;">
+                <h3>⚙️ Update My Profile</h3>
+                <p style="font-size: 0.9rem; color: #555;">You can update your personal information below.</p>
+                <div class="grid-form">
+                    <div><label style="font-size: 0.85rem; color: #666;">Full Name</label><input type="text" id="edit-name" placeholder="Full Name"></div>
+                    <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" placeholder="School Name"></div>
+                    <div><label style="font-size: 0.85rem; color: #666;">Phone Number</label><input type="tel" id="edit-phone" placeholder="Phone Number"></div>
+                </div>
+                <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
+            </div>
+
             <div id="teacher-tools" style="display: none;">
                 
-                <!-- NEW: Teachers Notifications & My Fault Reports -->
                 <div class="card" style="border-left: 5px solid #f59e0b;">
                     <h3>My Fault Reports & ZDETT Notifications</h3>
                     <p style="font-size: 0.9rem; color: #555;">Check the status and messages from ZDETT regarding your reported faults.</p>
@@ -539,7 +531,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        // NEW: import `update` for editing existing records
         import { getDatabase, ref, set, get, push, child, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -678,21 +669,60 @@
 
         function setupDashboard() {
             document.getElementById('welcome-msg').innerText = `Welcome ${currentUserData.name} (${currentUserData.school})`;
+            
+            document.getElementById('edit-name').value = currentUserData.name || '';
+            document.getElementById('edit-school').value = currentUserData.school || '';
+            document.getElementById('edit-phone').value = currentUserData.phone || '';
 
             if (currentUserData.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
                 loadMyInventory();
-                loadTeacherFaults(); // ගුරුවරයාගේ දෝෂ වාර්තා පෙන්වීම
+                loadTeacherFaults(); 
             } else if (currentUserData.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
-                
                 loadMyInventory(); 
                 loadTeacherFaults(); 
                 loadAdminData();   
             }
         }
+
+        window.updateProfile = async function() {
+            let user = auth.currentUser;
+            if(!user) return;
+            
+            let newName = document.getElementById('edit-name').value;
+            let newSchool = document.getElementById('edit-school').value;
+            let newPhone = document.getElementById('edit-phone').value;
+            
+            if(!newName || !newSchool) {
+                alert("Name and School cannot be empty.");
+                return;
+            }
+
+            try {
+                await update(ref(db, 'users/' + user.uid), {
+                    name: newName,
+                    school: newSchool,
+                    phone: newPhone
+                });
+                
+                currentUserData.name = newName;
+                currentUserData.school = newSchool;
+                currentUserData.phone = newPhone;
+                
+                document.getElementById('welcome-msg').innerText = `Welcome ${currentUserData.name} (${currentUserData.school})`;
+                alert("Profile updated successfully!");
+                
+                if(currentUserData.role === 'teacher') {
+                    loadMyInventory();
+                    loadTeacherFaults();
+                }
+            } catch (error) {
+                alert("Error updating profile: " + error.message);
+            }
+        };
 
         window.addInventory = async function() {
             let newInvRef = push(ref(db, 'inventory'));
@@ -737,7 +767,6 @@
             }
         }
 
-        // NEW: Load faults specific to the logged-in user's school
         async function loadTeacherFaults() {
             let tbody = document.getElementById('my-faults-list');
             tbody.innerHTML = '';
@@ -789,15 +818,14 @@
                     
                     alert("Fault report successfully submitted to ZDETT.");
                     document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); // Update list
-                    if (currentUserData.role === 'zdett') loadAdminData(); // Update ZDETT list if viewing
+                    loadTeacherFaults(); 
+                    if (currentUserData.role === 'zdett') loadAdminData(); 
                 }
             } else {
                 alert("Please select a device and describe the fault.");
             }
         };
 
-        // NEW: Function for ZDETT to mark a job as complete
         window.markJobComplete = async function(faultId) {
             let actionNote = prompt("Enter the repair report / message for the school:");
             if(actionNote !== null) { 
@@ -810,7 +838,7 @@
                 });
                 alert("Job marked as complete and notification sent to the school!");
                 loadAdminData();
-                loadTeacherFaults(); // Refresh local list
+                loadTeacherFaults(); 
             }
         };
 
@@ -820,10 +848,9 @@
             let fSnap = await get(ref(db, 'faults'));
             if(fSnap.exists()) {
                 fSnap.forEach((childSnap) => {
-                    let fId = childSnap.key; // Get DB key for updating
+                    let fId = childSnap.key; 
                     let f = childSnap.val();
                     
-                    // NEW: Generate action button based on status
                     let actionHtml = '';
                     if(f.status === 'Pending') {
                         actionHtml = `<button class="btn-success" onclick="markJobComplete('${fId}')">Mark Complete</button>`;
