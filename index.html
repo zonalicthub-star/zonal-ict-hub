@@ -13,7 +13,6 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
     <link rel="apple-touch-icon" href="icon-192.png?v=2">
     
-    <!-- Add Bootstrap CSS for Filter Section Styling (only targeting classes used in filter) -->
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
@@ -89,6 +88,7 @@
         .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
 
+        /* Modern Tables with Serial No */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 500px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -141,6 +141,7 @@
             align-items: center;
             gap: 8px;
             margin-top: 20px;
+            flex-direction: row !important;
         }
         .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
         .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
@@ -169,7 +170,7 @@
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
                 <li><a onclick="showSection('about')">About Us</a></li>
-                <li><a onclick="showSection('schools')">Schools</a></li>
+                <li><a onclick="showSection('schools')">Schools Data</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
                 <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
@@ -234,7 +235,6 @@
             </div>
         </div>
 
-        <!-- ABOUT SECTION -->
         <div id="about" class="section">
             <div class="card">
                 <h2>About Us</h2>
@@ -242,7 +242,6 @@
             </div>
         </div>
 
-        <!-- MARKS SECTION -->
         <div id="marks" class="section">
             <div class="card">
                 <h2>Zonal Marks Analysis</h2>
@@ -252,36 +251,36 @@
             </div>
         </div>
 
-        <!-- SCHOOLS SECTION (WITH NEW FILTER & ICT DATA) -->
+        <!-- SCHOOLS SECTION (WITH NEW FILTER & ENGLISH ICT DATA) -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
                 <h2>ICT Lab Resources Analyzer</h2>
-                <p style="font-size: 0.95rem; color: #555;">වැල්ලවාය සහ බුත්තල කොට්ඨාසවල පාසල් තුළ ඇති තොරතුරු තාක්ෂණ සම්පත් පිළිබඳ තත්‍ය කාලීන දත්ත.</p>
+                <p style="font-size: 0.95rem; color: #555;">Real-time analysis of Information Technology resources in schools within Wellawaya and Buttala zones.</p>
                 
                 <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
-                        <label>කොට්ඨාසය (Division):</label>
+                        <label>Division:</label>
                         <select id="divisionFilter" onchange="filterSchoolData()">
-                            <option value="All">සියලුම (All)</option>
-                            <option value="Wellawaya">වැල්ලවාය</option>
-                            <option value="Buththala">බුත්තල</option>
+                            <option value="All">All Divisions</option>
+                            <option value="Wellawaya">Wellawaya</option>
+                            <option value="Buththala">Buththala</option>
                         </select>
                     </div>
                     
                     <div class="filter-item">
-                        <label>අන්තර්ජාලය:</label>
+                        <label>Internet Availability:</label>
                         <select id="internetFilter" onchange="filterSchoolData()">
-                            <option value="All">සියලුම (All)</option>
-                            <option value="Yes">ඇති පාසල්</option>
-                            <option value="No">නැති පාසල්</option>
+                            <option value="All">All</option>
+                            <option value="Yes">Available</option>
+                            <option value="No">Not Available</option>
                         </select>
                     </div>
 
                     <div class="filter-item">
-                        <label>සම්බන්ධතා වර්ගය:</label>
+                        <label>Connection Type:</label>
                         <select id="connTypeFilter" onchange="filterSchoolData()">
-                            <option value="All">සියලුම (All)</option>
+                            <option value="All">All Types</option>
                             <option value="Fiber">Fiber</option>
                             <option value="Router">Router</option>
                             <option value="Personal">Personal</option>
@@ -289,13 +288,13 @@
                     </div>
 
                     <div class="filter-item">
-                        <label>පාසලේ නම සොයන්න:</label>
-                        <input type="text" id="schoolSearch" placeholder="පාසලේ නම..." onkeyup="filterSchoolData()">
+                        <label>Search School:</label>
+                        <input type="text" id="schoolSearch" placeholder="Type school name..." onkeyup="filterSchoolData()">
                     </div>
                     
                     <div class="filter-item filter-item-checkbox">
                         <input type="checkbox" id="inactiveFilter" onchange="filterSchoolData()">
-                        <label for="inactiveFilter">අක්‍රිය පරිගණක/මොනිටර් ඇති</label>
+                        <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
                     </div>
                 </div>
 
@@ -304,14 +303,15 @@
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2">කොට්ඨාසය</th>
-                                <th rowspan="2" class="text-start">පාසලේ නම</th>
+                                <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th> <!-- NEW: Serial Number Column -->
+                                <th rowspan="2">Division</th>
+                                <th rowspan="2" class="text-start">School Name</th>
                                 <th colspan="2" class="bg-light-blue">System Units</th>
                                 <th colspan="2" class="bg-light-blue">Monitors</th>
                                 <th rowspan="2" style="color:#007bff;">Active Laptops</th>
                                 <th rowspan="2" style="color:#e67e22;">Smart Board</th>
                                 <th rowspan="2" style="color:#9b59b6;">Arduino</th>
-                                <th rowspan="2" class="bg-light-blue">අන්තර්ජාල පහසුකම්</th>
+                                <th rowspan="2" class="bg-light-blue">Internet Connection</th>
                             </tr>
                             <tr>
                                 <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
@@ -332,10 +332,18 @@
         <div id="teachers" class="section">
             <div class="card">
                 <h2>Registered ICT Teachers</h2>
-                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID.</p>
+                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Teacher ID</th><th>Name</th><th>School</th><th>Email</th><th>Phone</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Teacher ID</th>
+                                <th>Name</th>
+                                <th>School</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
                         <tbody id="teacher-list"></tbody>
                     </table>
                 </div>
@@ -349,7 +357,9 @@
                 <p style="font-size: 0.9rem; color: #555;">(Sorted by ZDETT ID No)</p>
                 <div class="table-container">
                     <table>
-                        <thead><tr><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr></thead>
+                        <thead>
+                            <tr><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr>
+                        </thead>
                         <tbody id="zdett-public-list"></tbody>
                     </table>
                 </div>
@@ -374,7 +384,7 @@
         <div id="register-teacher" class="section">
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register Teacher</h2>
-                <p style="font-size: 0.85rem; color: #d32f2f;">* දුරකථන අංකය අනිවාර්ය වේ. ස්වයංක්‍රීයව ගුරු අංකයක් (Teacher ID) හිමිවේ.</p>
+                <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
                 <div class="form-group"><label>Full Name</label><input type="text" id="t-name"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
@@ -389,7 +399,7 @@
         <div id="register-zdett" class="section">
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register ZDETT</h2>
-                <p style="font-size: 0.85rem; color: #10b981;">* දුරකථන අංකය අනිවාර්ය වේ. ඔබව ස්වයංක්‍රීයව 'ගුරුවරයෙකු' ලෙසද ලියාපදිංචි වේ.</p>
+                <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
                 <div class="form-group"><label>Full Name</label><input type="text" id="z-name"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school"></div>
@@ -481,94 +491,96 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
-        function showNews(message) { alert("📰 පුවත් විස්තරය:\n\n" + message); }
+        function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- NEW: Logic for Schools Tab with Filter and Data[cite: 1] -->
+    <!-- NEW: Logic for Schools Tab with Filter and English Data -->
     <script>
         const rawSchoolData = [
-            {"division": "Wellawaya", "school": "මො/වෙහෙරයාය මහා වි.", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/කුරුගම කණිෂ්ඨ වි.", "pc_active": 3, "pc_inactive": 2, "monitor_active": 5, "monitor_inactive": 9, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Wellawaya", "school": "මො/ජේ.ඇම් කුමාරදාස මහා වි.", "pc_active": 52, "pc_inactive": 38, "monitor_active": 85, "monitor_inactive": 5, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 5, "laptop_inactive": 4, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
-            {"division": "Wellawaya", "school": "මො/වෙහෙරයාය කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 5, "monitor_inactive": 10, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/සියඹලාගුණය කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 3, "monitor_active": 0, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/හඳපානාගල මහා වි.", "pc_active": 10, "pc_inactive": 12, "monitor_active": 17, "monitor_inactive": 10, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Wellawaya", "school": "මො/රන්දෙණිවෙල කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 5, "monitor_active": 6, "monitor_inactive": 1, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/ගම්පංගුව කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 5, "monitor_active": 7, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/සද්ධාතිස්ස ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/බලහරුව කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/තෙළුල්ල කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 8, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Wellawaya", "school": "මො/තෙළුල්ල ජනපද කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/කිතුල්කොටේ මහා වි.", "pc_active": 18, "pc_inactive": 3, "monitor_active": 22, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Wellawaya", "school": "මො/යෞවනකුමාරපුර කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/මහාරගම කණිෂ්ඨ වි.", "pc_active": 5, "pc_inactive": 1, "monitor_active": 6, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/දෙබරආර කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 4, "monitor_active": 1, "monitor_inactive": 6, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/යාලබෝව ප්‍රා.වි", "pc_active": 1, "pc_inactive": 3, "monitor_active": 1, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Wellawaya", "school": "මො/ආනපල්ලම කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/මහවෙලමුල්ල මුස්ලිම් කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 4, "monitor_active": 5, "monitor_inactive": 1, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/වඳිනහෙළයාය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/ඇතාදුටුවැව කණිෂ්ඨ වි.", "pc_active": 7, "pc_inactive": 0, "monitor_active": 7, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Wellawaya", "school": "මො/ඩී.එස් සේනානායක කණිෂ්ඨ වි.", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Wellawaya", "school": "මො/මොරහෙළගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/මල්වත්තවෙල ප්‍රා.වි", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/චන්දවිමල ප්‍රාථමික. වි.", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/බුදුරුවාගල ප්‍රාථමික. වි.", "pc_active": 1, "pc_inactive": 1, "monitor_active": 1, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Wellawaya", "school": "මො/කුඩාඔය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/ඇතිලිවැව මහා වි.", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Wellawaya", "school": "මො/බුදුරුවාගල මහා වි.", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 5, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
-            {"division": "Wellawaya", "school": "මො/මල්වත්තාවෙල මධ්‍ය මහා වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Wellawaya", "school": "මො/කුඩාඔය මහා වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/උනාවටුන කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/මුණසිංහ ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Buththala", "school": "මො/සිද්ධාර්ථ මහා වි.", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Buththala", "school": "මො/දුටුගැමුණු ආදර්ශ ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය ජනපද කණිෂ්ඨ වි.", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/කුකුරම්පොළ කණිෂ්ඨ වි.", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/රන්ජන් විජේරත්න මහා වි.", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
-            {"division": "Buththala", "school": "මො/පියනන්ද කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Buththala", "school": "මො/යුධගනාව කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/වගුරුවෙල මහා වි.", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
-            {"division": "Buththala", "school": "මො/හෙළගම කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Buththala", "school": "මො/ගෝනගංආර කණිෂ්ඨ වි.", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/ජනාසංඛ ආදර්ශ කණිෂ්ඨ වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/නියදැල්ල කණිෂ්ඨ වි.", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/කුමාරගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/මහසෙන්ගම ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/විහාරමහාදේවි කණිෂ්ඨ වි.", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/දඹේයාය ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/ශ්‍රි සුමනජෝති කණිෂ්ඨ වි.", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Buththala", "school": "මො/ශ්‍රි සුබෝධ කණිෂ්ඨ වි.", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Personal"},
-            {"division": "Buththala", "school": "මො/පැල්වත්ත ප්‍රාථමික. වි.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ නැත", "internet_type": "-"},
-            {"division": "Buththala", "school": "මො/දුටුගැමුණු ප්‍රාථමික. වි.", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router"},
-            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය විජයබාහු ප්‍රාථමික. වි.", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Buththala", "school": "මො/දුටුගැමුණු ජාතික පාසල", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"},
-            {"division": "Buththala", "school": "මො/ඔක්කම්පිටිය විජයබාහු මහා වි.", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Router, Fiber"},
-            {"division": "Buththala", "school": "මො/පැල්වත්ත නවෝද්‍යා මහා වි.", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 2, "arduino_inactive": 0, "internet": "✅ ඇත", "internet_type": "Fiber"}
+            {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Kurugama Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 2, "monitor_active": 5, "monitor_inactive": 9, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/J.M. Kumaradasa Maha Vidyalaya", "pc_active": 52, "pc_inactive": 38, "monitor_active": 85, "monitor_inactive": 5, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 5, "laptop_inactive": 4, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/Weherayaya Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 5, "monitor_inactive": 10, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Siyambalagunay Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 3, "monitor_active": 0, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Handapanagala Maha Vidyalaya", "pc_active": 10, "pc_inactive": 12, "monitor_active": 17, "monitor_inactive": 10, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Wellawaya", "school": "Mo/Randenivela Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 5, "monitor_active": 6, "monitor_inactive": 1, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Gampangugama Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 5, "monitor_active": 7, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 1, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Saddhatissa Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Balaharuwa Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Thelulla Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 6, "monitor_active": 8, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Wellawaya", "school": "Mo/Thelulla Janapada Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Kithulkote Maha Vidyalaya", "pc_active": 18, "pc_inactive": 3, "monitor_active": 22, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/Yauvanakumarapura Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Maharagama Kanishta Vidyalaya", "pc_active": 5, "pc_inactive": 1, "monitor_active": 6, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Debaraara Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 4, "monitor_active": 1, "monitor_inactive": 6, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Yalabowa Primary Vidyalaya", "pc_active": 1, "pc_inactive": 3, "monitor_active": 1, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/Anapallama Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Mahawelamulla Muslim Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 4, "monitor_active": 5, "monitor_inactive": 1, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Athadutuwewa Kanishta Vidyalaya", "pc_active": 7, "pc_inactive": 0, "monitor_active": 7, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Wellawaya", "school": "Mo/D.S. Senanayake Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Malwaththawela Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Chandawimala Primary Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Buduruwagala Primary Vidyalaya", "pc_active": 1, "pc_inactive": 1, "monitor_active": 1, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/Kudaoya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Wellawaya", "school": "Mo/Buduruwagala Maha Vidyalaya", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 26, "arduino_inactive": 1, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
+            {"division": "Wellawaya", "school": "Mo/Malwaththawela Central College", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Wellawaya", "school": "Mo/Kudaoya Maha Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Unawatuna Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Munasinghe Primary Vidyalaya", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Buththala", "school": "Mo/Siddhartha Maha Vidyalaya", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Dutugemunu Model Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Okkampitiya Janapada Kanishta Vidyalaya", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Kukurampola Kanishta Vidyalaya", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Ranjan Wijerathne Maha Vidyalaya", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Piyananda Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Yudhaganawa Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Waguruwela Maha Vidyalaya", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Mahasengama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Viharamahadevi Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Buththala", "school": "Mo/Dambeyaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/G/Sri Sumanajothi Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Buththala", "school": "Mo/Sri Subodha Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal"}, 
+            {"division": "Buththala", "school": "Mo/Pelwatta Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"division": "Buththala", "school": "Mo/Dutugemunu Primary Vidyalaya", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
+            {"division": "Buththala", "school": "Mo/Okkampitiya Vijayabahu Primary Vidyalaya", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Dutugemunu National School", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
+            {"division": "Buththala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}
         ];
 
         function renderSchoolTable(data) {
             const tbody = document.getElementById('schools-table-body');
             tbody.innerHTML = '';
             
-            data.forEach(row => {
+            data.forEach((row, index) => {
                 const tr = document.createElement('tr');
                 if(row.pc_inactive > 0 || row.monitor_inactive > 0) {
                     tr.style.backgroundColor = "#fff5f5";
                 }
                 
                 const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 
-                                      ? '<span class="badge-yes">✅ ඇත</span>' : '<span class="badge-no">❌ නැත</span>';
+                                      ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
                 const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 
-                                      ? '<span class="badge-yes">✅ ඇත</span>' : '<span class="badge-no">❌ නැත</span>';
-                const internetStatus = row.internet === "✅ ඇත" 
-                                      ? `<span class="badge-yes">✅ ඇත</span><br><span class="internet-type">${row.internet_type}</span>` 
-                                      : '<span class="badge-no">❌ නැත</span>';
+                                      ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                const internetStatus = row.internet === "✅ Yes" 
+                                      ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` 
+                                      : '<span class="badge-no">❌ No</span>';
                 
+                // Serial Number added here (index + 1)
                 tr.innerHTML = `
-                    <td>${row.division === 'Wellawaya' ? 'වැල්ලවාය' : 'බුත්තල'}</td>
+                    <td class="fw-bold text-secondary">${index + 1}</td>
+                    <td>${row.division}</td>
                     <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                     <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
                     <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
@@ -595,8 +607,8 @@
                 const matchDiv = (divFilter === "All" || row.division === divFilter);
                 
                 let matchInternet = true;
-                if (internetFilter === "Yes") matchInternet = (row.internet === "✅ ඇත");
-                else if (internetFilter === "No") matchInternet = (row.internet === "❌ නැත");
+                if (internetFilter === "Yes") matchInternet = (row.internet === "✅ Yes");
+                else if (internetFilter === "No") matchInternet = (row.internet === "❌ No");
 
                 let matchConnType = true;
                 if (connTypeFilter !== "All") matchConnType = (row.internet_type && row.internet_type.includes(connTypeFilter));
