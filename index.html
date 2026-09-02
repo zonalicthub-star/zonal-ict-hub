@@ -22,13 +22,13 @@
             width: 100%;
             background-color: #001f3f;
             text-align: center;
-            position: relative; /* Mask එක සඳහා අවශ්‍යයි */
+            position: relative; 
         }
 
         .header-banner img {
             width: 100%;
             height: auto;
-            max-height: 250px; /* Mask එක ලස්සනට පේන්න උස පොඩ්ඩක් වැඩි කළා */
+            max-height: 250px; 
             object-fit: cover;
             display: block;
         }
@@ -40,7 +40,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50%; /* පින්තූරයේ පහළ අඩකට Mask එක යෙදේ */
+            height: 50%;
             background: linear-gradient(to bottom, rgba(0, 43, 94, 0) 0%, #002b5e 100%);
             pointer-events: none;
         }
@@ -371,6 +371,7 @@
                                 <th>Name</th>
                                 <th>School</th>
                                 <th>Email</th>
+                                <th>Phone</th> <!-- NEW: Phone column for teachers -->
                             </tr>
                         </thead>
                         <tbody id="teacher-list"></tbody>
@@ -425,6 +426,8 @@
                 <div class="form-group"><label>Full Name</label><input type="text" id="t-name"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
+                <!-- NEW: Phone number field for Teacher -->
+                <div class="form-group"><label>Phone Number</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
@@ -627,12 +630,13 @@
             let name = document.getElementById('t-name').value;
             let school = document.getElementById('t-school').value;
             let email = document.getElementById('t-email').value;
+            let phone = document.getElementById('t-phone').value; // NEW: get phone number
             let pass = document.getElementById('t-pass').value;
 
             try {
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, school, email, role: 'teacher'
+                    name, school, email, phone, role: 'teacher' // NEW: save phone number
                 });
                 alert("Teacher Registered Successfully!");
                 window.showSection('login');
@@ -699,9 +703,12 @@
                 document.getElementById('zdett-tools').style.display = 'none';
                 loadMyInventory();
             } else if (currentUserData.role === 'zdett') {
-                document.getElementById('teacher-tools').style.display = 'none';
+                // UPDATE: ZDETT කණ්ඩායමට Teacher පහසුකම් සහ ZDETT පහසුකම් දෙකම ලබාදීම
+                document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
-                loadAdminData();
+                
+                loadMyInventory(); // තමන්ගේ පාසලේ (Teacher) දත්ත load කිරීම
+                loadAdminData();   // ZDETT එකේ කලාපීය දත්ත load කිරීම
             }
         }
 
@@ -823,7 +830,8 @@
                 snapshot.forEach((childSnap) => {
                     let u = childSnap.val();
                     if(u.role === 'teacher') {
-                        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td></tr>`;
+                        // NEW: Show phone number in Teachers table
+                        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
             }
