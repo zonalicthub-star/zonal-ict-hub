@@ -237,6 +237,7 @@
         <div id="zdett" class="section">
             <div class="card">
                 <h2>ZDETT Team Members</h2>
+                <p style="font-size: 0.9rem; color: #555;">(Sorted by ZDETT ID No)</p>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -659,7 +660,6 @@
             }
         }
 
-        // NEW: Teacher List with Proper Sorting (T-0001, T-0002... Top to Bottom)
         async function loadTeachers() {
             let tbody = document.getElementById('teacher-list');
             tbody.innerHTML = '';
@@ -670,7 +670,6 @@
                     usersArray.push(childSnap.val());
                 });
 
-                // T-ID අංක පිළිවෙළට සකස් කිරීම (Ascending Order)
                 usersArray.sort((a, b) => {
                     let idA = a.teacherId || "";
                     let idB = b.teacherId || "";
@@ -692,6 +691,7 @@
             }
         }
 
+        // NEW: Sorting Logic for ZDETT ID numerical order
         async function loadZdettTeam() {
             let tbody = document.getElementById('zdett-public-list');
             tbody.innerHTML = '';
@@ -702,16 +702,23 @@
                     usersArray.push(childSnap.val());
                 });
 
-                // ZDETT අංක පිළිවෙළට සකස් කිරීම
+                // Extract numerical part of ZDETT ID to sort (ZDETT-01 -> 1, ZDETT-10 -> 10)
                 usersArray.sort((a, b) => {
                     let idA = a.idNo || "";
                     let idB = b.idNo || "";
+                    
+                    let numA = parseInt(idA.match(/\d+$/)) || 0;
+                    let numB = parseInt(idB.match(/\d+$/)) || 0;
+                    
+                    if (numA !== numB) {
+                        return numA - numB; // Ascending Order 1 to 10
+                    }
                     return idA.localeCompare(idB);
                 });
 
                 usersArray.forEach((u) => {
                     if(u.role === 'zdett') {
-                        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.idNo || 'N/A'}</td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
+                        tbody.innerHTML += `<tr><td>${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
             }
