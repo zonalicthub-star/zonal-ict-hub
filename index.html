@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellawaya Zonal ICT Branch</title>
+    <!-- Chart.js එකතු කිරීම -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
@@ -57,12 +59,11 @@
         .hero-banner h1 { margin-top: 0; font-size: 2.2rem; font-weight: 800;}
         .hero-banner p { font-size: 1.1rem; opacity: 0.95; max-width: 800px; margin: auto; line-height: 1.6; }
         
-        /* Essential Links Grid (New) */
+        /* Essential Links Grid */
         .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 2rem; }
         .link-card { background: white; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; color: #2c3e50; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 1px solid #e0e0e0; }
         .link-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15); border-color: #0066cc; color: #0066cc; }
-        .link-card img { width: 40px; height: 40px; object-fit: contain; }
-
+        
         /* General Cards */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 2rem;}
         .feature-card { background: white; border-top: 6px solid #0056b3; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
@@ -112,9 +113,10 @@
         <nav>
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
-                <li><a onclick="showSection('schools')">Schools Info</a></li> <!-- New Tab -->
+                <li><a onclick="showSection('schools')">Schools</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
+                <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
                 <li><a onclick="showSection('about')">About</a></li>
                 <li id="nav-login"><a onclick="showSection('login')" style="background-color: #f59e0b;">Login</a></li>
                 <li id="nav-dashboard" style="display: none;"><a onclick="showSection('dashboard')" style="background-color: #0ea5e9;">Dashboard</a></li>
@@ -123,7 +125,6 @@
         </nav>
     </header>
 
-    <!-- News Alert Ticker -->
     <div class="news-ticker">
         <span class="ticker-title">Flash News</span>
         <div class="ticker-content">
@@ -133,13 +134,11 @@
 
     <div class="container">
         
-        <!-- Home Section -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
                 <p>Empowering education through digital innovation, efficient computer lab inventory management, and rapid technical support across the educational zone.</p>
                 
-                <!-- Essential Links Section -->
                 <div class="essential-links">
                     <a href="https://www.e-thaksalawa.moe.gov.lk/" target="_blank" class="link-card">
                         <span>📚 e-Thaksalawa</span>
@@ -172,7 +171,17 @@
             </div>
         </div>
 
-        <!-- NEW: Schools Info Section -->
+        <!-- Marks Analysis Section -->
+        <div id="marks" class="section">
+            <div class="card">
+                <h2>Zonal Marks Analysis</h2>
+                <p>School-wise performance visualization based on recent evaluations.</p>
+                <div style="width: 100%; max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; border: 1px solid #e1e8ed;">
+                    <canvas id="marksChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div id="schools" class="section">
             <div class="card">
                 <h2>School Details in the Zone</h2>
@@ -190,7 +199,6 @@
                             </tr>
                         </thead>
                         <tbody id="schools-list">
-                            <!-- Dummy Data for Schools Layout -->
                             <tr>
                                 <td><strong>Wellawaya National School</strong></td>
                                 <td>1AB</td>
@@ -430,18 +438,62 @@
         const db = getDatabase(app);
 
         let currentUserData = null;
+        let marksChartInstance = null; // ප්‍රස්ථාරය සඳහා විචල්‍යය
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
             
-            // Reload dynamic data if tabs are clicked
             if(sectionId === 'teachers') loadTeachers();
             if(sectionId === 'zdett') loadZdettTeam();
-            // Note: Schools list can be loaded from DB dynamically later.
+            if(sectionId === 'marks') renderMarksChart(); // Marks ටැබ් එකට ගියාම chart එක load කිරීම
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+
+        // වෙනම ෆයිල් එකක් නැතිව JavaScript හරහා කෙලින්ම Chart එකට Data දීම
+        function renderMarksChart() {
+            const ctx = document.getElementById('marksChart').getContext('2d');
+            
+            // අපි කලින් Python වලින් හදන්න හිටපු දත්ත ටික මෙතනට කෙලින්ම දුන්නා
+            const chartData = {
+                labels: ["Wellawaya National", "Bibilegama MV", "Dutugemunu Primary", "Handapanagala MV", "Pelwatta MV"],
+                datasets: [
+                    {
+                        label: "ICT විෂය සඳහා සාමාන්‍ය ලකුණු (%)",
+                        data: [85, 62, 78, 55, 70],
+                        backgroundColor: [
+                            "rgba(0, 86, 179, 0.7)",
+                            "rgba(40, 167, 69, 0.7)",
+                            "rgba(255, 152, 0, 0.7)",
+                            "rgba(220, 53, 69, 0.7)",
+                            "rgba(23, 162, 184, 0.7)"
+                        ],
+                        borderColor: "#ffffff",
+                        borderWidth: 1
+                    }
+                ]
+            };
+            
+            // කලින් chart එකක් තියෙනවා නම් ඒක අයින් කරලා අලුත් එක දාන්න
+            if(marksChartInstance) {
+                marksChartInstance.destroy();
+            }
+            
+            marksChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
 
         window.registerTeacher = async function() {
             let name = document.getElementById('t-name').value;
