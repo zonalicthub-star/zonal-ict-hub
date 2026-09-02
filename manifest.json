@@ -1,11 +1,11 @@
 {
   "name": "Wellawaya Zonal ICT Hub",
   "short_name": "ICT Hub",
-  "description": "Information and Communication Technology website of the Wellawaya Zonal Education Office",
-  "start_url": "./index.html",
+  "description": "ICT Branch of Wellawaya Zonal Education Office",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#f4f9f9",
-  "theme_color": "#0056b3",
+  "background_color": "#ffffff",
+  "theme_color": "#002b5e",
   "icons": [
     {
       "src": "icon-192.png",
