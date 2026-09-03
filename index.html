@@ -184,7 +184,6 @@
 
     <div class="container">
         
-        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -245,6 +244,7 @@
                 <h2>ICT Lab Resources Analyzer</h2>
                 <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
+                <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
                         <label>Division:</label>
@@ -390,10 +390,25 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
+            <!-- SUPER ADMIN TOOLS SECTION -->
+            <div id="superadmin-tools" style="display: none;">
+                <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
+                    <h3 style="color: #9333ea;">👑 Super Admin Privileges</h3>
+                    <p style="font-size: 0.9rem; color: #6b21a8;">Overview of all registered users in the Wellawaya Zonal ICT Hub system.</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Role</th><th>System ID</th><th>Name</th><th>Email</th><th>School</th><th>Phone</th></tr>
+                            </thead>
+                            <tbody id="all-users-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <!-- TEACHER TOOLS SECTION -->
             <div id="teacher-tools" style="display: none;">
                 
-                <!-- NEW: ICT Marks Entry for Grade 10/11 -->
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
                     <h3>📝 Grade 10 & 11 ICT Marks Entry</h3>
                     <p style="font-size: 0.9rem; color: #555;">Enter term evaluation marks for your school students here.</p>
@@ -457,10 +472,9 @@
                 </div>
             </div>
 
-            <!-- ZDETT TOOLS SECTION -->
+            <!-- ZDETT / ADMIN TOOLS SECTION -->
             <div id="zdett-tools" style="display: none;">
                 
-                <!-- NEW: Zonal Marks Analyzer (Filter Tool) -->
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
                     <h3>📊 Zonal Marks Analyzer (Admin Filter)</h3>
                     <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers.</p>
@@ -599,7 +613,7 @@
         ];
 
         window.renderSchoolTable = function(data) {
-            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin');
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
             const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
@@ -679,7 +693,7 @@
         window.filterSchoolData = function() {
             const divFilter = document.getElementById('divisionFilter').value;
             const searchStr = document.getElementById('schoolSearch').value.toLowerCase();
-            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin');
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
             let internetFilter = "All";
             let connTypeFilter = "All";
@@ -708,7 +722,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
             
-            // Populate Admin School Filter Dropdown for Marks Analyzer
             const adminSchFilter = document.getElementById('admin-mark-school');
             if(adminSchFilter) {
                 rawSchoolData.forEach(s => {
@@ -790,10 +803,8 @@
             let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
 
-            if(!name || !school || !email || !phone || !pass) {
-                alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
-                return;
-            }
+            if(!name || !school || !email || !phone || !pass) { alert("Please fill all fields."); return; }
+
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
@@ -813,17 +824,15 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            if(!name || !idNo || !school || !phone || !email || !pass) {
-                alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
-                return;
-            }
+            if(!name || !idNo || !school || !phone || !email || !pass) { alert("Please fill all fields."); return; }
+
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
                     name, idNo, school, phone, email, role: 'zdett', teacherId: tId
                 });
-                alert(`ZDETT ලියාපදිංචිය සාර්ථකයි! ඔබව ගුරුවරයෙකු ලෙසද ලියාපදිංචි විය (Teacher ID: ${tId}).`);
+                alert(`ZDETT ලියාපදිංචිය සාර්ථකයි! (Teacher ID: ${tId}).`);
                 window.showSection('login');
             } catch (error) { alert("Error: " + error.message); }
         };
@@ -833,6 +842,26 @@
             let pass = document.getElementById('password').value;
             try {
                 let userCred = await signInWithEmailAndPassword(auth, email, pass);
+                
+                // --- SUPER ADMIN LOGIC ---
+                if (userCred.user.email === 'zonalicthub@gmail.com') {
+                    window.currentUserData = {
+                        name: 'System Super Admin',
+                        school: 'Zonal Education Office - Wellawaya',
+                        email: userCred.user.email,
+                        phone: '-',
+                        role: 'superadmin',
+                        teacherId: 'ADMIN-01'
+                    };
+                    document.getElementById('nav-login').style.display = 'none';
+                    document.getElementById('nav-dashboard').style.display = 'block';
+                    document.getElementById('nav-logout').style.display = 'block';
+                    setupDashboard();
+                    window.showSection('dashboard');
+                    return; // exit normal flow
+                }
+
+                // Normal Flow
                 let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
                 if(snapshot.exists()) {
                     window.currentUserData = snapshot.val();
@@ -864,14 +893,23 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
+            // Hide all tool sections initially
+            document.getElementById('teacher-tools').style.display = 'none';
+            document.getElementById('zdett-tools').style.display = 'none';
+            document.getElementById('superadmin-tools').style.display = 'none';
+
             if (user.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
-                document.getElementById('zdett-tools').style.display = 'none';
                 loadMyInventory(); loadTeacherFaults(); loadTeacherMarks();
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
                 loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminData(); loadAdminMarks();
+            } else if (user.role === 'superadmin') {
+                // SUPER ADMIN SEES ZDETT + SUPER ADMIN TOOLS
+                document.getElementById('zdett-tools').style.display = 'block';
+                document.getElementById('superadmin-tools').style.display = 'block';
+                loadAdminData(); loadAdminMarks(); loadAllUsersForAdmin();
             }
             window.filterSchoolData();
         }
@@ -879,20 +917,49 @@
         window.updateProfile = async function() {
             let user = auth.currentUser;
             if(!user) return;
+            
             let newName = document.getElementById('edit-name').value;
             let newSchool = document.getElementById('edit-school').value;
             let newPhone = document.getElementById('edit-phone').value;
             
             if(!newName || !newSchool || !newPhone) { alert("Name, School, and Phone Number cannot be empty."); return; }
+
+            if(window.currentUserData.role === 'superadmin') {
+                // For superadmin, just update local display
+                window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
+                setupDashboard(); alert("Profile updated successfully!"); return;
+            }
+
             try {
                 await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone });
                 window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
                 setupDashboard();
                 alert("Profile updated successfully!");
+                if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
             } catch (error) { alert("Error: " + error.message); }
         };
 
-        // NEW: Teacher Marks Entry Function
+        // NEW: Super Admin loads all users
+        window.loadAllUsersForAdmin = async function() {
+            let tbody = document.getElementById('all-users-list');
+            tbody.innerHTML = '';
+            let snapshot = await get(ref(db, 'users'));
+            if(snapshot.exists()) {
+                snapshot.forEach(child => {
+                    let u = child.val();
+                    let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Teacher</span>';
+                    tbody.innerHTML += `<tr>
+                        <td>${roleBadge}</td>
+                        <td><strong>${u.teacherId || '-'}</strong></td>
+                        <td class="text-start">${u.name}</td>
+                        <td class="text-start">${u.email}</td>
+                        <td class="text-start">${u.school}</td>
+                        <td>${u.phone}</td>
+                    </tr>`;
+                });
+            }
+        };
+
         window.addStudentMark = async function() {
             let grade = document.getElementById('mark-grade').value;
             let term = document.getElementById('mark-term').value;
@@ -900,9 +967,7 @@
             let sName = document.getElementById('mark-student').value;
             let score = document.getElementById('mark-score').value;
 
-            if(!cls || !sName || score === '') {
-                alert("Please fill all details including Class, Student Name, and Marks."); return;
-            }
+            if(!cls || !sName || score === '') { alert("Please fill all details including Class, Student Name, and Marks."); return; }
 
             try {
                 await set(push(ref(db, 'student_marks')), {
@@ -919,7 +984,6 @@
             } catch (error) { alert("Error: " + error.message); }
         };
 
-        // NEW: Load Teacher's Entered Marks
         window.loadTeacherMarks = async function() {
             let tbody = document.getElementById('my-marks-list');
             tbody.innerHTML = '';
@@ -930,9 +994,7 @@
                     let m = child.val();
                     if(m.school === window.currentUserData.school) marksArr.push(m);
                 });
-                
-                marksArr.sort((a,b) => b.timestamp - a.timestamp); // newest first
-                
+                marksArr.sort((a,b) => b.timestamp - a.timestamp); 
                 marksArr.forEach(m => {
                     let gradeObj = getMarkGradeObj(m.marks);
                     tbody.innerHTML += `<tr>
@@ -944,11 +1006,9 @@
             }
         };
 
-        // NEW: Load & Filter Zonal Marks for Admin
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
             tbody.innerHTML = '';
-            
             let schFilter = document.getElementById('admin-mark-school').value;
             let gradeFilter = document.getElementById('admin-mark-grade').value;
             let rangeFilter = document.getElementById('admin-mark-range').value;
@@ -976,7 +1036,6 @@
             }
         };
 
-        // Inventory & Faults Functions
         window.addInventory = async function() {
             let newInvRef = push(ref(db, 'inventory'));
             let item = {
