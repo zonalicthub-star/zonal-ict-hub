@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellawaya Zonal ICT Branch</title>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json?v=2">
@@ -160,7 +158,6 @@
                 <li><a onclick="showSection('schools')">Schools Data</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
-                <li><a onclick="showSection('marks')">Marks Analysis</a></li> 
                 
                 <li id="nav-install" style="display: none;"><a id="installAppBtn" style="background-color: #10b981; cursor: pointer;">⬇️ Install App</a></li>
                 
@@ -184,6 +181,7 @@
 
     <div class="container">
         
+        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -225,16 +223,6 @@
             <div class="card">
                 <h2>About Us</h2>
                 <p>The ICT Branch of the Wellawaya Zonal Education Office is dedicated to uplifting information technology standards in all regional schools.</p>
-            </div>
-        </div>
-
-        <div id="marks" class="section">
-            <div class="card">
-                <h2>Zonal Marks Analysis</h2>
-                <p style="font-size: 0.95rem; color: #555;">School-wise performance visualization based on recent evaluations. Teachers can input marks from the Dashboard.</p>
-                <div style="width: 100%; max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; border: 1px solid #e1e8ed;">
-                    <canvas id="marksChart"></canvas>
-                </div>
             </div>
         </div>
 
@@ -544,13 +532,11 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -755,7 +741,6 @@
         const db = getDatabase(app);
 
         window.currentUserData = null;
-        let marksChartInstance = null; 
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -764,19 +749,8 @@
             
             if(sectionId === 'teachers') loadTeachers();
             if(sectionId === 'zdett') loadZdettTeam();
-            if(sectionId === 'marks') renderMarksChart(); 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
-
-        function renderMarksChart() {
-            const ctx = document.getElementById('marksChart').getContext('2d');
-            if(marksChartInstance) { marksChartInstance.destroy(); }
-            marksChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ label: "ICT විෂය සඳහා සාමාන්‍ය ලකුණු (%)", data: [] }] },
-                options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
-            });
-        }
 
         function getMarkGradeObj(marks) {
             let m = parseInt(marks);
@@ -858,7 +832,7 @@
                     document.getElementById('nav-logout').style.display = 'block';
                     setupDashboard();
                     window.showSection('dashboard');
-                    return; // exit normal flow
+                    return; 
                 }
 
                 // Normal Flow
@@ -893,7 +867,6 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
-            // Hide all tool sections initially
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
             document.getElementById('superadmin-tools').style.display = 'none';
@@ -906,7 +879,6 @@
                 document.getElementById('zdett-tools').style.display = 'block';
                 loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminData(); loadAdminMarks();
             } else if (user.role === 'superadmin') {
-                // SUPER ADMIN SEES ZDETT + SUPER ADMIN TOOLS
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
                 loadAdminData(); loadAdminMarks(); loadAllUsersForAdmin();
@@ -925,7 +897,6 @@
             if(!newName || !newSchool || !newPhone) { alert("Name, School, and Phone Number cannot be empty."); return; }
 
             if(window.currentUserData.role === 'superadmin') {
-                // For superadmin, just update local display
                 window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
                 setupDashboard(); alert("Profile updated successfully!"); return;
             }
@@ -939,7 +910,6 @@
             } catch (error) { alert("Error: " + error.message); }
         };
 
-        // NEW: Super Admin loads all users
         window.loadAllUsersForAdmin = async function() {
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
@@ -980,7 +950,7 @@
                 document.getElementById('mark-student').value = '';
                 document.getElementById('mark-score').value = '';
                 loadTeacherMarks();
-                if(window.currentUserData.role === 'zdett') loadAdminMarks();
+                if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminMarks();
             } catch (error) { alert("Error: " + error.message); }
         };
 
@@ -1100,7 +1070,7 @@
                         device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
                     });
                     alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); if(window.currentUserData.role === 'zdett') loadAdminData(); 
+                    loadTeacherFaults(); if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminData(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
