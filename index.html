@@ -53,7 +53,7 @@
 
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* General Styles - FULL SCREEN LAYOUT UPDATE */
+        /* General Styles */
         .container { padding: 2rem 1%; width: 98%; max-width: 1800px; margin: auto; min-height: 60vh; }
         .section { display: none; }
         .section.active { display: block; animation: fadeInUp 0.5s ease-out; }
@@ -88,7 +88,6 @@
         .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
 
-        /* Modern Tables with Serial No */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -96,7 +95,6 @@
         th { color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
         tr:hover { background-color: #f8fafc; }
 
-        /* Custom Badges & Colors for School Tab */
         .text-start { text-align: left !important; }
         .bg-light-blue { background-color: #f1f8ff !important; }
         .badge-yes { background-color: #d4edda; color: #155724; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #c3e6cb; font-size: 0.85em; display: inline-block;}
@@ -198,7 +196,6 @@
 
     <div class="container">
         
-        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -252,17 +249,17 @@
             </div>
         </div>
 
-        <!-- SCHOOLS SECTION (WITH NEW FILTER & ENGLISH ICT DATA) -->
+        <!-- SCHOOLS SECTION -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
                 <h2>ICT Lab Resources Analyzer</h2>
-                <p style="font-size: 0.95rem; color: #555;">Real-time analysis of Information Technology resources in schools within Wellawaya and Buttala zones.</p>
+                <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
                 <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
                         <label>Division:</label>
-                        <select id="divisionFilter" onchange="filterSchoolData()">
+                        <select id="divisionFilter" onchange="window.filterSchoolData()">
                             <option value="All">All Divisions</option>
                             <option value="Wellawaya">Wellawaya</option>
                             <option value="Buththala">Buththala</option>
@@ -270,66 +267,52 @@
                     </div>
                     
                     <div class="filter-item">
-                        <label>Internet Availability:</label>
-                        <select id="internetFilter" onchange="filterSchoolData()">
-                            <option value="All">All</option>
-                            <option value="Yes">Available</option>
-                            <option value="No">Not Available</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-item">
-                        <label>Connection Type:</label>
-                        <select id="connTypeFilter" onchange="filterSchoolData()">
-                            <option value="All">All Types</option>
-                            <option value="Fiber">Fiber</option>
-                            <option value="Router">Router</option>
-                            <option value="Personal">Personal</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-item">
                         <label>Search School:</label>
-                        <input type="text" id="schoolSearch" placeholder="Type school name..." onkeyup="filterSchoolData()">
+                        <input type="text" id="schoolSearch" placeholder="Type school name..." onkeyup="window.filterSchoolData()">
                     </div>
-                    
-                    <div class="filter-item filter-item-checkbox">
-                        <input type="checkbox" id="inactiveFilter" onchange="filterSchoolData()">
-                        <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
+
+                    <!-- Advanced Filters (Visible only to ZDETT/Admin) -->
+                    <div id="adv-filters" style="display: none; flex-wrap: wrap; gap: 15px; flex: 1;">
+                        <div class="filter-item">
+                            <label>Internet Availability:</label>
+                            <select id="internetFilter" onchange="window.filterSchoolData()">
+                                <option value="All">All</option>
+                                <option value="Yes">Available</option>
+                                <option value="No">Not Available</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item">
+                            <label>Connection Type:</label>
+                            <select id="connTypeFilter" onchange="window.filterSchoolData()">
+                                <option value="All">All Types</option>
+                                <option value="Fiber">Fiber</option>
+                                <option value="Router">Router</option>
+                                <option value="Personal">Personal</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-item filter-item-checkbox">
+                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()">
+                            <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Table Section -->
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
-                                <th rowspan="2">Division</th>
-                                <th rowspan="2" class="text-start">School Name</th>
-                                <th colspan="2" class="bg-light-blue">System Units</th>
-                                <th colspan="2" class="bg-light-blue">Monitors</th>
-                                <th rowspan="2" style="color:#007bff;">Active Laptops</th>
-                                <th rowspan="2" style="color:#e67e22;">Smart Board</th>
-                                <th rowspan="2" style="color:#9b59b6;">Arduino</th>
-                                <th rowspan="2" class="bg-light-blue">Internet Connection</th>
-                            </tr>
-                            <tr>
-                                <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
-                                <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
-                                <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
-                                <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
-                            </tr>
+                        <thead id="schools-table-head">
+                            <!-- Populated via JS based on user role -->
                         </thead>
                         <tbody id="schools-table-body">
-                            <!-- Data populated via JS -->
+                            <!-- Populated via JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- TEACHERS TAB -->
         <div id="teachers" class="section">
             <div class="card">
                 <h2>Registered ICT Teachers</h2>
@@ -351,7 +334,6 @@
             </div>
         </div>
 
-        <!-- ZDETT TAB -->
         <div id="zdett" class="section">
             <div class="card">
                 <h2>ZDETT Team Members</h2>
@@ -367,7 +349,6 @@
             </div>
         </div>
 
-        <!-- LOGIN / REGISTER TABS -->
         <div id="login" class="section">
             <div class="card" style="max-width: 450px; margin: auto;">
                 <h2 style="text-align: center;">System Login</h2>
@@ -381,7 +362,6 @@
             </div>
         </div>
 
-        <!-- TEACHER REGISTRATION -->
         <div id="register-teacher" class="section">
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register Teacher</h2>
@@ -396,7 +376,6 @@
             </div>
         </div>
 
-        <!-- ZDETT REGISTRATION -->
         <div id="register-zdett" class="section">
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register ZDETT</h2>
@@ -412,13 +391,11 @@
             </div>
         </div>
 
-        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
             </div>
 
-            <!-- Profile Edit Section -->
             <div class="card" id="profile-edit-section" style="border-left: 5px solid #0ea5e9;">
                 <h3>⚙️ Update My Profile</h3>
                 <div class="grid-form">
@@ -429,7 +406,6 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
-            <!-- TEACHER TOOLS SECTION -->
             <div id="teacher-tools" style="display: none;">
                 <div class="card" style="border-left: 5px solid #f59e0b;">
                     <h3>My Fault Reports & Notifications</h3>
@@ -460,7 +436,6 @@
                 </div>
             </div>
 
-            <!-- ZDETT TOOLS SECTION -->
             <div id="zdett-tools" style="display: none;">
                 <div class="card" style="border-left: 5px solid #ef4444;">
                     <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
@@ -492,13 +467,12 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- Logic for Schools Tab with Filter and English Data -->
+    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -560,47 +534,110 @@
             {"division": "Buththala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}
         ];
 
-        function renderSchoolTable(data) {
+        window.renderSchoolTable = function(data) {
+            // Check if user is logged in AND is ZDETT/Admin
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin');
+            
+            const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
+            
+            if (isZdett) {
+                // FULL VIEW for ZDETT
+                thead.innerHTML = `
+                    <tr>
+                        <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
+                        <th rowspan="2">Division</th>
+                        <th rowspan="2" class="text-start">School Name</th>
+                        <th colspan="2" class="bg-light-blue">System Units</th>
+                        <th colspan="2" class="bg-light-blue">Monitors</th>
+                        <th rowspan="2" style="color:#007bff;">Active Laptops</th>
+                        <th rowspan="2" style="color:#e67e22;">Smart Board</th>
+                        <th rowspan="2" style="color:#9b59b6;">Arduino</th>
+                        <th rowspan="2" class="bg-light-blue">Internet Connection</th>
+                    </tr>
+                    <tr>
+                        <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                        <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                        <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                        <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                    </tr>
+                `;
+                document.getElementById('adv-filters').style.display = 'flex';
+            } else {
+                // RESTRICTED VIEW for Teachers / Guests
+                thead.innerHTML = `
+                    <tr>
+                        <th style="background:#e9ecef; width: 50px;">#</th>
+                        <th>Division</th>
+                        <th class="text-start">School Name</th>
+                        <th>Principal Name</th>
+                        <th>Contact No</th>
+                        <th>Status</th>
+                    </tr>
+                `;
+                document.getElementById('adv-filters').style.display = 'none';
+            }
+
             tbody.innerHTML = '';
             
             data.forEach((row, index) => {
                 const tr = document.createElement('tr');
-                if(row.pc_inactive > 0 || row.monitor_inactive > 0) {
-                    tr.style.backgroundColor = "#fff5f5";
+                
+                if (isZdett) {
+                    // Render detailed data
+                    if(row.pc_inactive > 0 || row.monitor_inactive > 0) {
+                        tr.style.backgroundColor = "#fff5f5";
+                    }
+                    const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 
+                                          ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 
+                                          ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const internetStatus = row.internet === "✅ Yes" 
+                                          ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` 
+                                          : '<span class="badge-no">❌ No</span>';
+                    
+                    tr.innerHTML = `
+                        <td class="fw-bold text-secondary">${index + 1}</td>
+                        <td>${row.division}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
+                        <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
+                        <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
+                        <td class="text-danger fw-bold bg-light-blue">${row.monitor_inactive}</td>
+                        <td class="text-primary fw-bold">${row.laptop_active}</td>
+                        <td>${hasSmartBoard}</td>
+                        <td>${hasArduino}</td>
+                        <td class="bg-light-blue">${internetStatus}</td>
+                    `;
+                } else {
+                    // Render basic data
+                    tr.innerHTML = `
+                        <td class="fw-bold text-secondary">${index + 1}</td>
+                        <td>${row.division}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td>-</td> <!-- Principal placeholder -->
+                        <td>-</td> <!-- Contact placeholder -->
+                        <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
+                    `;
                 }
-                
-                const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 
-                                      ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
-                const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 
-                                      ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
-                const internetStatus = row.internet === "✅ Yes" 
-                                      ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` 
-                                      : '<span class="badge-no">❌ No</span>';
-                
-                tr.innerHTML = `
-                    <td class="fw-bold text-secondary">${index + 1}</td>
-                    <td>${row.division}</td>
-                    <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
-                    <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
-                    <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
-                    <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
-                    <td class="text-danger fw-bold bg-light-blue">${row.monitor_inactive}</td>
-                    <td class="text-primary fw-bold">${row.laptop_active}</td>
-                    <td>${hasSmartBoard}</td>
-                    <td>${hasArduino}</td>
-                    <td class="bg-light-blue">${internetStatus}</td>
-                `;
                 tbody.appendChild(tr);
             });
         }
 
-        function filterSchoolData() {
+        window.filterSchoolData = function() {
             const divFilter = document.getElementById('divisionFilter').value;
-            const internetFilter = document.getElementById('internetFilter').value;
-            const connTypeFilter = document.getElementById('connTypeFilter').value;
             const searchStr = document.getElementById('schoolSearch').value.toLowerCase();
-            const showInactiveOnly = document.getElementById('inactiveFilter').checked;
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin');
+            
+            let internetFilter = "All";
+            let connTypeFilter = "All";
+            let showInactiveOnly = false;
+
+            if (isZdett) {
+                internetFilter = document.getElementById('internetFilter').value;
+                connTypeFilter = document.getElementById('connTypeFilter').value;
+                showInactiveOnly = document.getElementById('inactiveFilter').checked;
+            }
             
             const filtered = rawSchoolData.filter(row => {
                 const matchDiv = (divFilter === "All" || row.division === divFilter);
@@ -618,11 +655,11 @@
                 return matchDiv && matchInternet && matchConnType && matchSearch && matchInactive;
             });
             
-            renderSchoolTable(filtered);
+            window.renderSchoolTable(filtered);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderSchoolTable(rawSchoolData);
+            window.renderSchoolTable(rawSchoolData);
         });
     </script>
 
@@ -647,7 +684,8 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        let currentUserData = null;
+        // Making sure currentUserData is globally available to regular scripts
+        window.currentUserData = null;
         let marksChartInstance = null; 
 
         window.showSection = function(sectionId) {
@@ -734,7 +772,7 @@
                 let userCred = await signInWithEmailAndPassword(auth, email, pass);
                 let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
                 if(snapshot.exists()) {
-                    currentUserData = snapshot.val();
+                    window.currentUserData = snapshot.val();
                     document.getElementById('nav-login').style.display = 'none';
                     document.getElementById('nav-dashboard').style.display = 'block';
                     document.getElementById('nav-logout').style.display = 'block';
@@ -746,30 +784,35 @@
 
         window.logoutUser = async function() {
             await signOut(auth);
-            currentUserData = null;
+            window.currentUserData = null;
             document.getElementById('nav-login').style.display = 'block';
             document.getElementById('nav-dashboard').style.display = 'none';
             document.getElementById('nav-logout').style.display = 'none';
+            window.filterSchoolData(); // Re-render table as guest
             window.showSection('home');
         };
 
         function setupDashboard() {
-            let idText = currentUserData.teacherId ? ` | ID: ${currentUserData.teacherId}` : '';
-            document.getElementById('welcome-msg').innerText = `Welcome ${currentUserData.name} (${currentUserData.school}${idText})`;
+            let user = window.currentUserData;
+            let idText = user.teacherId ? ` | ID: ${user.teacherId}` : '';
+            document.getElementById('welcome-msg').innerText = `Welcome ${user.name} (${user.school}${idText})`;
             
-            document.getElementById('edit-name').value = currentUserData.name || '';
-            document.getElementById('edit-school').value = currentUserData.school || '';
-            document.getElementById('edit-phone').value = currentUserData.phone || '';
+            document.getElementById('edit-name').value = user.name || '';
+            document.getElementById('edit-school').value = user.school || '';
+            document.getElementById('edit-phone').value = user.phone || '';
 
-            if (currentUserData.role === 'teacher') {
+            if (user.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
                 loadMyInventory(); loadTeacherFaults(); 
-            } else if (currentUserData.role === 'zdett') {
+            } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
                 loadMyInventory(); loadTeacherFaults(); loadAdminData();   
             }
+            
+            // Re-render school table based on login role
+            window.filterSchoolData();
         }
 
         window.updateProfile = async function() {
@@ -785,17 +828,19 @@
             }
             try {
                 await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone });
-                currentUserData.name = newName; currentUserData.school = newSchool; currentUserData.phone = newPhone;
+                window.currentUserData.name = newName; 
+                window.currentUserData.school = newSchool; 
+                window.currentUserData.phone = newPhone;
                 setupDashboard();
                 alert("Profile updated successfully!");
-                if(currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
+                if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
             } catch (error) { alert("Error: " + error.message); }
         };
 
         window.addInventory = async function() {
             let newInvRef = push(ref(db, 'inventory'));
             let item = {
-                id: newInvRef.key, school: currentUserData.school,
+                id: newInvRef.key, school: window.currentUserData.school,
                 book: document.getElementById('inv-book').value, page: document.getElementById('inv-page').value,
                 col: document.getElementById('inv-col').value, name: document.getElementById('inv-name').value,
                 avail: document.getElementById('inv-avail').value, short: document.getElementById('inv-short').value,
@@ -817,7 +862,7 @@
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let i = childSnap.val();
-                    if(i.school === currentUserData.school) {
+                    if(i.school === window.currentUserData.school) {
                         tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
                         select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
                     }
@@ -832,7 +877,7 @@
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let f = childSnap.val();
-                    if(f.school === currentUserData.school) {
+                    if(f.school === window.currentUserData.school) {
                         let statusColor = f.status === 'Completed' ? '#10b981' : '#ef4444';
                         tbody.innerHTML += `<tr>
                             <td>${f.device}</td><td>${f.description}</td>
@@ -854,12 +899,12 @@
                 invSnap.forEach((childSnap) => { if(childSnap.val().id === deviceId) selectedItem = childSnap.val(); });
                 if(selectedItem) {
                     await set(push(ref(db, 'faults')), {
-                        school: currentUserData.school, itemInfo: `Book: ${selectedItem.book} | Pg: ${selectedItem.page}`,
+                        school: window.currentUserData.school, itemInfo: `Book: ${selectedItem.book} | Pg: ${selectedItem.page}`,
                         device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
                     });
                     alert("Fault report submitted!");
                     document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); if(currentUserData.role === 'zdett') loadAdminData(); 
+                    loadTeacherFaults(); if(window.currentUserData.role === 'zdett') loadAdminData(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
@@ -868,7 +913,7 @@
             let actionNote = prompt("Enter the repair report / message for the school:");
             if(actionNote !== null) { 
                 await update(ref(db, 'faults/' + faultId), {
-                    status: 'Completed', completedBy: currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
+                    status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
                 });
                 alert("Job marked as complete!");
                 loadAdminData(); loadTeacherFaults(); 
@@ -947,6 +992,7 @@
                     usersArray.push(childSnap.val());
                 });
 
+                // ZDETT Numerical Sorting
                 usersArray.sort((a, b) => {
                     let idA = a.idNo || "";
                     let idB = b.idNo || "";
