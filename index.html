@@ -87,6 +87,8 @@
         .btn-success { background: linear-gradient(135deg, #10b981, #059669); font-size: 0.85rem; padding: 8px 12px;} 
         .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
+        .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
+        .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
@@ -103,6 +105,13 @@
         .text-success { color: #28a745 !important; }
         .text-danger { color: #dc3545 !important; }
         .text-primary { color: #007bff !important; }
+        
+        /* Marks Grades badges */
+        .grade-a { background: #d1fae5; color: #047857; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #a7f3d0; }
+        .grade-b { background: #dbeafe; color: #1d4ed8; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #bfdbfe; }
+        .grade-c { background: #fef3c7; color: #047857; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #a7f3d0; color: #b45309; border-color: #fde68a;}
+        .grade-s { background: #f3e8ff; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #e9d5ff; }
+        .grade-w { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #fecaca; }
 
         /* Filter Section Styling */
         .filter-section {
@@ -116,31 +125,10 @@
             gap: 15px;
             align-items: center;
         }
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-            min-width: 150px;
-            flex: 1;
-        }
-        .filter-item label {
-            font-size: 0.85rem;
-            color: #555;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .filter-item select, .filter-item input[type="text"] {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 0.95rem;
-        }
-        .filter-item-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 20px;
-            flex-direction: row !important;
-        }
+        .filter-item { display: flex; flex-direction: column; min-width: 150px; flex: 1; }
+        .filter-item label { font-size: 0.85rem; color: #555; font-weight: bold; margin-bottom: 5px; }
+        .filter-item select, .filter-item input[type="text"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
+        .filter-item-checkbox { display: flex; align-items: center; gap: 8px; margin-top: 20px; flex-direction: row !important; }
         .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
         .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
 
@@ -196,6 +184,7 @@
 
     <div class="container">
         
+        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -243,6 +232,7 @@
         <div id="marks" class="section">
             <div class="card">
                 <h2>Zonal Marks Analysis</h2>
+                <p style="font-size: 0.95rem; color: #555;">School-wise performance visualization based on recent evaluations. Teachers can input marks from the Dashboard.</p>
                 <div style="width: 100%; max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; border: 1px solid #e1e8ed;">
                     <canvas id="marksChart"></canvas>
                 </div>
@@ -255,7 +245,6 @@
                 <h2>ICT Lab Resources Analyzer</h2>
                 <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
-                <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
                         <label>Division:</label>
@@ -271,7 +260,6 @@
                         <input type="text" id="schoolSearch" placeholder="Type school name..." onkeyup="window.filterSchoolData()">
                     </div>
 
-                    <!-- Advanced Filters (Visible only to ZDETT/Admin) -->
                     <div id="adv-filters" style="display: none; flex-wrap: wrap; gap: 15px; flex: 1;">
                         <div class="filter-item">
                             <label>Internet Availability:</label>
@@ -281,7 +269,6 @@
                                 <option value="No">Not Available</option>
                             </select>
                         </div>
-
                         <div class="filter-item">
                             <label>Connection Type:</label>
                             <select id="connTypeFilter" onchange="window.filterSchoolData()">
@@ -291,7 +278,6 @@
                                 <option value="Personal">Personal</option>
                             </select>
                         </div>
-                        
                         <div class="filter-item filter-item-checkbox">
                             <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()">
                             <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
@@ -299,15 +285,10 @@
                     </div>
                 </div>
 
-                <!-- Table Section -->
                 <div class="table-container">
                     <table>
-                        <thead id="schools-table-head">
-                            <!-- Populated via JS based on user role -->
-                        </thead>
-                        <tbody id="schools-table-body">
-                            <!-- Populated via JS -->
-                        </tbody>
+                        <thead id="schools-table-head"></thead>
+                        <tbody id="schools-table-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -349,6 +330,7 @@
             </div>
         </div>
 
+        <!-- LOGIN / REGISTER TABS -->
         <div id="login" class="section">
             <div class="card" style="max-width: 450px; margin: auto;">
                 <h2 style="text-align: center;">System Login</h2>
@@ -391,11 +373,13 @@
             </div>
         </div>
 
+        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
             </div>
 
+            <!-- Profile Edit Section -->
             <div class="card" id="profile-edit-section" style="border-left: 5px solid #0ea5e9;">
                 <h3>⚙️ Update My Profile</h3>
                 <div class="grid-form">
@@ -406,7 +390,44 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
+            <!-- TEACHER TOOLS SECTION -->
             <div id="teacher-tools" style="display: none;">
+                
+                <!-- NEW: ICT Marks Entry for Grade 10/11 -->
+                <div class="card" style="border-left: 5px solid #8b5cf6;">
+                    <h3>📝 Grade 10 & 11 ICT Marks Entry</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Enter term evaluation marks for your school students here.</p>
+                    <div class="grid-form">
+                        <div>
+                            <label>Grade</label>
+                            <select id="mark-grade"><option value="10">Grade 10</option><option value="11">Grade 11</option></select>
+                        </div>
+                        <div>
+                            <label>Term</label>
+                            <select id="mark-term"><option value="Term 1">Term 1</option><option value="Term 2">Term 2</option><option value="Term 3">Term 3</option></select>
+                        </div>
+                        <div>
+                            <label>Class</label>
+                            <input type="text" id="mark-class" placeholder="e.g. A">
+                        </div>
+                    </div>
+                    <div class="grid-form">
+                        <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Full Name"></div>
+                        <div><label>Marks</label><input type="number" id="mark-score" placeholder="0-100" min="0" max="100"></div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Recently Added Marks</h4>
+                    <div class="table-container" style="max-height: 300px;">
+                        <table>
+                            <thead><tr><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Status</th></tr></thead>
+                            <tbody id="my-marks-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="card" style="border-left: 5px solid #f59e0b;">
                     <h3>My Fault Reports & Notifications</h3>
                     <div class="table-container">
@@ -436,7 +457,49 @@
                 </div>
             </div>
 
+            <!-- ZDETT TOOLS SECTION -->
             <div id="zdett-tools" style="display: none;">
+                
+                <!-- NEW: Zonal Marks Analyzer (Filter Tool) -->
+                <div class="card" style="border-left: 5px solid #8b5cf6;">
+                    <h3>📊 Zonal Marks Analyzer (Admin Filter)</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers.</p>
+                    <div class="filter-section" style="border-left-color: #8b5cf6;">
+                        <div class="filter-item">
+                            <label>School:</label>
+                            <select id="admin-mark-school" onchange="loadAdminMarks()">
+                                <option value="All">All Schools</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Grade:</label>
+                            <select id="admin-mark-grade" onchange="loadAdminMarks()">
+                                <option value="All">All Grades</option>
+                                <option value="10">Grade 10</option>
+                                <option value="11">Grade 11</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Marks Range (Category):</label>
+                            <select id="admin-mark-range" onchange="loadAdminMarks()">
+                                <option value="All">All Marks</option>
+                                <option value="A">A (75 - 100)</option>
+                                <option value="B">B (65 - 74)</option>
+                                <option value="C">C (50 - 64)</option>
+                                <option value="S">S (35 - 49)</option>
+                                <option value="W">W (Less than 35)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th></tr></thead>
+                            <tbody id="admin-marks-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="card" style="border-left: 5px solid #ef4444;">
                     <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
                     <div class="table-container">
@@ -467,6 +530,7 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
+    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
@@ -535,14 +599,12 @@
         ];
 
         window.renderSchoolTable = function(data) {
-            // Check if user is logged in AND is ZDETT/Admin
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin');
             
             const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
             
             if (isZdett) {
-                // FULL VIEW for ZDETT
                 thead.innerHTML = `
                     <tr>
                         <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
@@ -564,7 +626,6 @@
                 `;
                 document.getElementById('adv-filters').style.display = 'flex';
             } else {
-                // RESTRICTED VIEW for Teachers / Guests
                 thead.innerHTML = `
                     <tr>
                         <th style="background:#e9ecef; width: 50px;">#</th>
@@ -582,19 +643,11 @@
             
             data.forEach((row, index) => {
                 const tr = document.createElement('tr');
-                
                 if (isZdett) {
-                    // Render detailed data
-                    if(row.pc_inactive > 0 || row.monitor_inactive > 0) {
-                        tr.style.backgroundColor = "#fff5f5";
-                    }
-                    const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 
-                                          ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
-                    const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 
-                                          ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
-                    const internetStatus = row.internet === "✅ Yes" 
-                                          ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` 
-                                          : '<span class="badge-no">❌ No</span>';
+                    if(row.pc_inactive > 0 || row.monitor_inactive > 0) tr.style.backgroundColor = "#fff5f5";
+                    const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const internetStatus = row.internet === "✅ Yes" ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` : '<span class="badge-no">❌ No</span>';
                     
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
@@ -610,13 +663,12 @@
                         <td class="bg-light-blue">${internetStatus}</td>
                     `;
                 } else {
-                    // Render basic data
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
                         <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
-                        <td>-</td> <!-- Principal placeholder -->
-                        <td>-</td> <!-- Contact placeholder -->
+                        <td>-</td>
+                        <td>-</td>
                         <td><span style="color: #28a745; font-weight: bold;">Active</span></td>
                     `;
                 }
@@ -641,25 +693,30 @@
             
             const filtered = rawSchoolData.filter(row => {
                 const matchDiv = (divFilter === "All" || row.division === divFilter);
-                
                 let matchInternet = true;
                 if (internetFilter === "Yes") matchInternet = (row.internet === "✅ Yes");
                 else if (internetFilter === "No") matchInternet = (row.internet === "❌ No");
-
                 let matchConnType = true;
                 if (connTypeFilter !== "All") matchConnType = (row.internet_type && row.internet_type.includes(connTypeFilter));
-
                 const matchSearch = row.school.toLowerCase().includes(searchStr);
                 const matchInactive = showInactiveOnly ? (row.pc_inactive > 0 || row.monitor_inactive > 0) : true;
-                
                 return matchDiv && matchInternet && matchConnType && matchSearch && matchInactive;
             });
-            
             window.renderSchoolTable(filtered);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
+            
+            // Populate Admin School Filter Dropdown for Marks Analyzer
+            const adminSchFilter = document.getElementById('admin-mark-school');
+            if(adminSchFilter) {
+                rawSchoolData.forEach(s => {
+                    let opt = document.createElement('option');
+                    opt.value = s.school; opt.innerHTML = s.school;
+                    adminSchFilter.appendChild(opt);
+                });
+            }
         });
     </script>
 
@@ -684,7 +741,6 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Making sure currentUserData is globally available to regular scripts
         window.currentUserData = null;
         let marksChartInstance = null; 
 
@@ -709,6 +765,15 @@
             });
         }
 
+        function getMarkGradeObj(marks) {
+            let m = parseInt(marks);
+            if(m >= 75) return { grade: 'A', class: 'grade-a' };
+            if(m >= 65) return { grade: 'B', class: 'grade-b' };
+            if(m >= 50) return { grade: 'C', class: 'grade-c' };
+            if(m >= 35) return { grade: 'S', class: 'grade-s' };
+            return { grade: 'W', class: 'grade-w' };
+        }
+
         async function generateTeacherId() {
             let countRef = ref(db, 'metadata/teacherCount');
             let snapshot = await get(countRef);
@@ -729,7 +794,6 @@
                 alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
                 return;
             }
-
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
@@ -753,7 +817,6 @@
                 alert("කරුණාකර දුරකථන අංකය ඇතුළුව සියලුම තොරතුරු පුරවන්න.");
                 return;
             }
-
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
@@ -788,7 +851,7 @@
             document.getElementById('nav-login').style.display = 'block';
             document.getElementById('nav-dashboard').style.display = 'none';
             document.getElementById('nav-logout').style.display = 'none';
-            window.filterSchoolData(); // Re-render table as guest
+            window.filterSchoolData(); 
             window.showSection('home');
         };
 
@@ -804,14 +867,12 @@
             if (user.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'none';
-                loadMyInventory(); loadTeacherFaults(); 
+                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks();
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
-                loadMyInventory(); loadTeacherFaults(); loadAdminData();   
+                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminData(); loadAdminMarks();
             }
-            
-            // Re-render school table based on login role
             window.filterSchoolData();
         }
 
@@ -822,21 +883,100 @@
             let newSchool = document.getElementById('edit-school').value;
             let newPhone = document.getElementById('edit-phone').value;
             
-            if(!newName || !newSchool || !newPhone) {
-                alert("Name, School, and Phone Number cannot be empty.");
-                return;
-            }
+            if(!newName || !newSchool || !newPhone) { alert("Name, School, and Phone Number cannot be empty."); return; }
             try {
                 await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone });
-                window.currentUserData.name = newName; 
-                window.currentUserData.school = newSchool; 
-                window.currentUserData.phone = newPhone;
+                window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
                 setupDashboard();
                 alert("Profile updated successfully!");
-                if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
             } catch (error) { alert("Error: " + error.message); }
         };
 
+        // NEW: Teacher Marks Entry Function
+        window.addStudentMark = async function() {
+            let grade = document.getElementById('mark-grade').value;
+            let term = document.getElementById('mark-term').value;
+            let cls = document.getElementById('mark-class').value;
+            let sName = document.getElementById('mark-student').value;
+            let score = document.getElementById('mark-score').value;
+
+            if(!cls || !sName || score === '') {
+                alert("Please fill all details including Class, Student Name, and Marks."); return;
+            }
+
+            try {
+                await set(push(ref(db, 'student_marks')), {
+                    school: window.currentUserData.school,
+                    grade: grade, term: term, className: cls,
+                    studentName: sName, marks: parseInt(score),
+                    addedBy: window.currentUserData.name, timestamp: Date.now()
+                });
+                alert("Student mark added successfully!");
+                document.getElementById('mark-student').value = '';
+                document.getElementById('mark-score').value = '';
+                loadTeacherMarks();
+                if(window.currentUserData.role === 'zdett') loadAdminMarks();
+            } catch (error) { alert("Error: " + error.message); }
+        };
+
+        // NEW: Load Teacher's Entered Marks
+        window.loadTeacherMarks = async function() {
+            let tbody = document.getElementById('my-marks-list');
+            tbody.innerHTML = '';
+            let snapshot = await get(ref(db, 'student_marks'));
+            if(snapshot.exists()) {
+                let marksArr = [];
+                snapshot.forEach(child => {
+                    let m = child.val();
+                    if(m.school === window.currentUserData.school) marksArr.push(m);
+                });
+                
+                marksArr.sort((a,b) => b.timestamp - a.timestamp); // newest first
+                
+                marksArr.forEach(m => {
+                    let gradeObj = getMarkGradeObj(m.marks);
+                    tbody.innerHTML += `<tr>
+                        <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
+                        <td class="text-start">${m.studentName}</td><td><strong>${m.marks}</strong></td>
+                        <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
+                    </tr>`;
+                });
+            }
+        };
+
+        // NEW: Load & Filter Zonal Marks for Admin
+        window.loadAdminMarks = async function() {
+            let tbody = document.getElementById('admin-marks-list');
+            tbody.innerHTML = '';
+            
+            let schFilter = document.getElementById('admin-mark-school').value;
+            let gradeFilter = document.getElementById('admin-mark-grade').value;
+            let rangeFilter = document.getElementById('admin-mark-range').value;
+            
+            let snapshot = await get(ref(db, 'student_marks'));
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => {
+                    let m = childSnap.val();
+                    let gradeObj = getMarkGradeObj(m.marks);
+                    
+                    let passSch = (schFilter === 'All' || m.school === schFilter);
+                    let passGr = (gradeFilter === 'All' || m.grade == gradeFilter);
+                    let passRg = (rangeFilter === 'All' || gradeObj.grade === rangeFilter);
+                    
+                    if(passSch && passGr && passRg) {
+                        tbody.innerHTML += `<tr>
+                            <td class="text-start" style="font-size:0.85em;"><strong>${m.school}</strong></td>
+                            <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
+                            <td class="text-start">${m.studentName}</td>
+                            <td><strong>${m.marks}</strong></td>
+                            <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
+                        </tr>`;
+                    }
+                });
+            }
+        };
+
+        // Inventory & Faults Functions
         window.addInventory = async function() {
             let newInvRef = push(ref(db, 'inventory'));
             let item = {
@@ -847,10 +987,8 @@
                 surp: document.getElementById('inv-surp').value, timestamp: Date.now()
             };
             if(item.name && item.book) {
-                await set(newInvRef, item);
-                alert("Inventory updated!");
-                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = '');
-                loadMyInventory();
+                await set(newInvRef, item); alert("Inventory updated!");
+                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = ''); loadMyInventory();
             } else { alert("Book No and Equipment Name are required."); }
         };
 
@@ -902,8 +1040,7 @@
                         school: window.currentUserData.school, itemInfo: `Book: ${selectedItem.book} | Pg: ${selectedItem.page}`,
                         device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
                     });
-                    alert("Fault report submitted!");
-                    document.getElementById('fault-desc').value = '';
+                    alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
                     loadTeacherFaults(); if(window.currentUserData.role === 'zdett') loadAdminData(); 
                 }
             } else { alert("Select a device and describe the fault."); }
@@ -915,8 +1052,7 @@
                 await update(ref(db, 'faults/' + faultId), {
                     status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
                 });
-                alert("Job marked as complete!");
-                loadAdminData(); loadTeacherFaults(); 
+                alert("Job marked as complete!"); loadAdminData(); loadTeacherFaults(); 
             }
         };
 
@@ -957,26 +1093,12 @@
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 let usersArray = [];
-                snapshot.forEach((childSnap) => {
-                    usersArray.push(childSnap.val());
-                });
-
-                usersArray.sort((a, b) => {
-                    let idA = a.teacherId || "";
-                    let idB = b.teacherId || "";
-                    return idA.localeCompare(idB);
-                });
-
+                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
+                usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
                 usersArray.forEach((u) => {
                     if(u.role === 'teacher' || u.role === 'zdett') {
                         let tId = u.teacherId ? u.teacherId : "T-0000";
-                        tbody.innerHTML += `<tr>
-                            <td><strong>${tId}</strong></td>
-                            <td>${u.name}</td>
-                            <td>${u.school}</td>
-                            <td>${u.email}</td>
-                            <td>${u.phone || 'N/A'}</td>
-                        </tr>`;
+                        tbody.innerHTML += `<tr><td><strong>${tId}</strong></td><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
             }
@@ -988,20 +1110,13 @@
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 let usersArray = [];
-                snapshot.forEach((childSnap) => {
-                    usersArray.push(childSnap.val());
-                });
-
-                // ZDETT Numerical Sorting
+                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
                 usersArray.sort((a, b) => {
-                    let idA = a.idNo || "";
-                    let idB = b.idNo || "";
-                    let numA = parseInt(idA.match(/\d+$/)) || 0;
-                    let numB = parseInt(idB.match(/\d+$/)) || 0;
+                    let idA = a.idNo || ""; let idB = b.idNo || "";
+                    let numA = parseInt(idA.match(/\d+$/)) || 0; let numB = parseInt(idB.match(/\d+$/)) || 0;
                     if (numA !== numB) { return numA - numB; }
                     return idA.localeCompare(idB);
                 });
-
                 usersArray.forEach((u) => {
                     if(u.role === 'zdett') {
                         tbody.innerHTML += `<tr><td>${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
