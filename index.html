@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellawaya Zonal ICT Branch</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json?v=2">
@@ -83,7 +85,7 @@
         .btn-danger { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); }
         .btn-danger:hover { background: linear-gradient(135deg, #c82333, #bd2130); }
         .btn-success { background: linear-gradient(135deg, #10b981, #059669); font-size: 0.85rem; padding: 8px 12px;} 
-        .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); } 
+        .btn-primary { background: linear-gradient(135deg, #0056b3, #004080); box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2); } 
         .btn-primary:hover { background: linear-gradient(135deg, #004080, #002b5e); }
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
         .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
@@ -107,9 +109,10 @@
         /* Marks Grades badges */
         .grade-a { background: #d1fae5; color: #047857; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #a7f3d0; }
         .grade-b { background: #dbeafe; color: #1d4ed8; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #bfdbfe; }
-        .grade-c { background: #fef3c7; color: #047857; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #a7f3d0; color: #b45309; border-color: #fde68a;}
+        .grade-c { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #fde68a; }
         .grade-s { background: #f3e8ff; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #e9d5ff; }
         .grade-w { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #fecaca; }
+        .grade-ab { background: #f3f4f6; color: #475569; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #cbd5e1; } /* For Absent */
 
         /* Filter Section Styling */
         .filter-section {
@@ -399,7 +402,7 @@
                 
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
                     <h3>📝 Grade 10 & 11 ICT Marks Entry</h3>
-                    <p style="font-size: 0.9rem; color: #555;">Enter term evaluation marks for your school students here.</p>
+                    <p style="font-size: 0.9rem; color: #555;">Enter term evaluation marks for your school students here. (Type 'AB' for Absent)</p>
                     <div class="grid-form">
                         <div>
                             <label>Grade</label>
@@ -416,7 +419,8 @@
                     </div>
                     <div class="grid-form">
                         <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Full Name"></div>
-                        <div><label>Marks</label><input type="number" id="mark-score" placeholder="0-100" min="0" max="100"></div>
+                        <!-- UPDATE: Changed input type to text to allow 'AB' -->
+                        <div><label>Marks (0-100 or AB)</label><input type="text" id="mark-score" placeholder="e.g. 85 or AB"></div>
                         <div style="display: flex; align-items: flex-end;">
                             <button class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
                         </div>
@@ -425,7 +429,7 @@
                     <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Recently Added Marks</h4>
                     <div class="table-container" style="max-height: 300px;">
                         <table>
-                            <thead><tr><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Status</th></tr></thead>
+                            <thead><tr><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Status</th><th>Subject Teacher</th></tr></thead>
                             <tbody id="my-marks-list"></tbody>
                         </table>
                     </div>
@@ -464,7 +468,10 @@
             <div id="zdett-tools" style="display: none;">
                 
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
-                    <h3>📊 Zonal Marks Analyzer (Admin Filter)</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>📊 Zonal Marks Analyzer (Admin Filter)</h3>
+                        <button class="btn-primary mb-2" onclick="printAdminMarks()">🖨️ Print Marks Report</button>
+                    </div>
                     <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers.</p>
                     <div class="filter-section" style="border-left-color: #8b5cf6;">
                         <div class="filter-item">
@@ -491,12 +498,14 @@
                                 <option value="C">C (50 - 64)</option>
                                 <option value="S">S (35 - 49)</option>
                                 <option value="W">W (Less than 35)</option>
+                                <option value="AB">AB (Absent)</option>
                             </select>
                         </div>
                     </div>
-                    <div class="table-container">
+                    <!-- Added ID here for printing -->
+                    <div class="table-container" id="admin-marks-container">
                         <table>
-                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th></tr></thead>
+                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
                             <tbody id="admin-marks-list"></tbody>
                         </table>
                     </div>
@@ -532,11 +541,13 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
+    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
+    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -600,7 +611,6 @@
 
         window.renderSchoolTable = function(data) {
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
-            
             const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
             
@@ -640,7 +650,6 @@
             }
 
             tbody.innerHTML = '';
-            
             data.forEach((row, index) => {
                 const tr = document.createElement('tr');
                 if (isZdett) {
@@ -681,9 +690,7 @@
             const searchStr = document.getElementById('schoolSearch').value.toLowerCase();
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
-            let internetFilter = "All";
-            let connTypeFilter = "All";
-            let showInactiveOnly = false;
+            let internetFilter = "All"; let connTypeFilter = "All"; let showInactiveOnly = false;
 
             if (isZdett) {
                 internetFilter = document.getElementById('internetFilter').value;
@@ -705,9 +712,21 @@
             window.renderSchoolTable(filtered);
         }
 
+        window.printAdminMarks = function() {
+            let printContents = document.getElementById('admin-marks-container').innerHTML;
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Zonal Marks Report</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: center;} .text-start{text-align:left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Marks Report</h2>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
-            
             const adminSchFilter = document.getElementById('admin-mark-school');
             if(adminSchFilter) {
                 rawSchoolData.forEach(s => {
@@ -752,8 +771,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
+        // NEW: Grade Object Handler to allow 'AB' (Absent)
         function getMarkGradeObj(marks) {
+            let mStr = String(marks).toUpperCase().trim();
+            if(mStr === 'AB') return { grade: 'AB', class: 'grade-ab' }; // Absent Case
+            
             let m = parseInt(marks);
+            if(isNaN(m)) return { grade: '-', class: 'grade-ab' };
             if(m >= 75) return { grade: 'A', class: 'grade-a' };
             if(m >= 65) return { grade: 'B', class: 'grade-b' };
             if(m >= 50) return { grade: 'C', class: 'grade-c' };
@@ -817,7 +841,6 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, email, pass);
                 
-                // --- SUPER ADMIN LOGIC ---
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -835,7 +858,6 @@
                     return; 
                 }
 
-                // Normal Flow
                 let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
                 if(snapshot.exists()) {
                     window.currentUserData = snapshot.val();
@@ -930,21 +952,34 @@
             }
         };
 
+        // NEW: Marks Input with AB handling
         window.addStudentMark = async function() {
             let grade = document.getElementById('mark-grade').value;
             let term = document.getElementById('mark-term').value;
             let cls = document.getElementById('mark-class').value;
             let sName = document.getElementById('mark-student').value;
-            let score = document.getElementById('mark-score').value;
+            let scoreRaw = document.getElementById('mark-score').value.trim().toUpperCase();
 
-            if(!cls || !sName || score === '') { alert("Please fill all details including Class, Student Name, and Marks."); return; }
+            if(!cls || !sName || scoreRaw === '') { 
+                alert("Please fill all details including Class, Student Name, and Marks."); return; 
+            }
+
+            let finalScore = scoreRaw;
+            if(scoreRaw !== 'AB') {
+                let parsed = parseInt(scoreRaw);
+                if(isNaN(parsed) || parsed < 0 || parsed > 100) {
+                    alert("Marks must be a number between 0 and 100, or 'AB' for Absent."); return;
+                }
+                finalScore = parsed;
+            }
 
             try {
                 await set(push(ref(db, 'student_marks')), {
                     school: window.currentUserData.school,
                     grade: grade, term: term, className: cls,
-                    studentName: sName, marks: parseInt(score),
-                    addedBy: window.currentUserData.name, timestamp: Date.now()
+                    studentName: sName, marks: finalScore,
+                    addedBy: window.currentUserData.name, // Saves Subject Teacher Name
+                    timestamp: Date.now()
                 });
                 alert("Student mark added successfully!");
                 document.getElementById('mark-student').value = '';
@@ -971,6 +1006,7 @@
                         <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
                         <td class="text-start">${m.studentName}</td><td><strong>${m.marks}</strong></td>
                         <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
+                        <td>${m.addedBy}</td>
                     </tr>`;
                 });
             }
@@ -1000,6 +1036,7 @@
                             <td class="text-start">${m.studentName}</td>
                             <td><strong>${m.marks}</strong></td>
                             <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
+                            <td>${m.addedBy}</td>
                         </tr>`;
                     }
                 });
