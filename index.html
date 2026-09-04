@@ -90,7 +90,6 @@
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
         .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 
-        /* ALL TABLES LEFT ALIGNED */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -98,6 +97,7 @@
         th { color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
         tr:hover { background-color: #f8fafc; }
 
+        .text-start { text-align: left !important; }
         .bg-light-blue { background-color: #f1f8ff !important; }
         .badge-yes { background-color: #d4edda; color: #155724; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #c3e6cb; font-size: 0.85em; display: inline-block;}
         .badge-no { color: #aaa; font-weight: bold; font-size: 0.85em;}
@@ -177,7 +177,6 @@
 
     <div class="container">
         
-        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -240,7 +239,6 @@
                     
                     <div class="filter-item">
                         <label>Search School:</label>
-                        <!-- Searchable Datalist Input -->
                         <input type="text" id="schoolSearch" list="allSchoolsList" placeholder="Search school name..." oninput="window.filterSchoolData()">
                     </div>
 
@@ -384,7 +382,6 @@
                     <div class="filter-section" style="border-left-color: #8b5cf6;">
                         <div class="filter-item">
                             <label>School:</label>
-                            <!-- Searchable Dropdown for School Filter -->
                             <input type="text" id="admin-mark-school" list="allSchoolsList" oninput="loadAdminMarks()" placeholder="Search School... (Leave empty for All)">
                         </div>
                         <div class="filter-item">
@@ -410,7 +407,7 @@
                     </div>
                     <div class="table-container" id="admin-marks-container">
                         <table>
-                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
+                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
                             <tbody id="admin-marks-list"></tbody>
                         </table>
                     </div>
@@ -485,15 +482,12 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <h3>Report a Fault (New Job)</h3>
-                    <div class="form-group"><label>Select Equipment:</label><select id="fault-device"><option value="">-- Select from Inventory --</option></select></div>
-                    <div class="form-group"><textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea></div>
-                    <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
-                </div>
-
-                <div class="card">
-                    <h3>Update Lab Inventory</h3>
+                <!-- UPDATE: ADDED PRINT INVENTORY TO TEACHER SECTION -->
+                <div class="card" style="border-left: 5px solid #10b981;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>📦 Update & View Lab Inventory</h3>
+                        <button class="btn-primary mb-2" onclick="printMyInventory()">🖨️ Print My Inventory</button>
+                    </div>
                     <div class="grid-form">
                         <input type="text" id="inv-book" placeholder="Book No."><input type="number" id="inv-page" placeholder="Page No."><input type="text" id="inv-col" placeholder="Column/Row">
                     </div>
@@ -501,6 +495,21 @@
                         <input type="text" id="inv-name" placeholder="Equipment Name"><input type="number" id="inv-avail" placeholder="Available Qty"><input type="number" id="inv-short" placeholder="Shortfall Qty"><input type="number" id="inv-surp" placeholder="Surplus Qty">
                     </div>
                     <button onclick="addInventory()">Add to Inventory Book</button>
+
+                    <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">My Inventory Items</h4>
+                    <div class="table-container" id="my-inventory-container">
+                        <table>
+                            <thead><tr><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th></tr></thead>
+                            <tbody id="my-inventory-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Report a Fault (New Job)</h3>
+                    <div class="form-group"><label>Select Equipment:</label><select id="fault-device"><option value="">-- Select from Inventory --</option></select></div>
+                    <div class="form-group"><textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea></div>
+                    <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
                 </div>
             </div>
 
@@ -521,8 +530,11 @@
                 </div>
                 
                 <div class="card" style="border-left: 5px solid #10b981;">
-                    <h3>Zonal Master Inventory (Admin Tool)</h3>
-                    <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>Zonal Master Inventory (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
+                    </div>
+                    <div class="table-container" id="admin-inventory-container">
                         <table>
                             <thead>
                                 <tr><th>School</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
@@ -589,7 +601,7 @@
             {"division": "Buththala", "school": "Mo/Yudhaganawa Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "077-8054937"}, 
             {"division": "Buththala", "school": "Mo/Waguruwela Maha Vidyalaya", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "H.G.G. Piyadarshana", "contact": "071-2429817"}, 
             {"division": "Buththala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "A.S. Nalin Tharanga Kumara", "contact": "071-8566220"}, 
-            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.D. Padmasiri", "contact": "070-5863508"}, 
+            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M.J. Dissanayake", "contact": "070-4528455"}, 
             {"division": "Buththala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Ajith Ruwan Priyadarshana", "contact": "071-3379988"}, 
             {"division": "Buththala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M.S. Kamal Kumara", "contact": "071-8034722"}, 
             {"division": "Buththala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "071-0117228"}, 
@@ -616,7 +628,7 @@
                     <tr>
                         <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
                         <th rowspan="2">Division</th>
-                        <th rowspan="2">School Name</th>
+                        <th rowspan="2" class="text-start">School Name</th>
                         <th colspan="2" class="bg-light-blue">System Units</th>
                         <th colspan="2" class="bg-light-blue">Monitors</th>
                         <th rowspan="2" style="color:#007bff;">Active Laptops</th>
@@ -637,7 +649,7 @@
                     <tr>
                         <th style="background:#e9ecef; width: 50px;">#</th>
                         <th>Division</th>
-                        <th>School Name</th>
+                        <th class="text-start">School Name</th>
                         <th>Principal Name</th>
                         <th>Contact No</th>
                     </tr>
@@ -657,7 +669,7 @@
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
-                        <td class="fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                         <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
                         <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
                         <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
@@ -671,7 +683,7 @@
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
-                        <td class="fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                         <td>${row.principal || '-'}</td>
                         <td>${row.contact || '-'}</td>
                     `;
@@ -682,10 +694,8 @@
 
         window.filterSchoolData = function() {
             let searchInput = document.getElementById('schoolSearch');
-            let adminSearchInput = document.getElementById('admin-mark-school');
             
             const divFilter = document.getElementById('divisionFilter').value;
-            // Handle both search inputs depending on which exists/used
             const searchStr = (searchInput ? searchInput.value : "").toLowerCase();
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
@@ -724,7 +734,6 @@
             printWindow.print();
         };
 
-        // NEW: Print Fault Reports
         window.printFaultReports = function() {
             let printContents = document.getElementById('admin-faults-container').innerHTML;
             let printWindow = window.open('', '', 'height=600,width=1000');
@@ -737,11 +746,44 @@
             printWindow.document.close();
             printWindow.print();
         };
+        
+        // NEW: Print Function for Teacher Inventory
+        window.printMyInventory = function() {
+            let schoolName = window.currentUserData ? window.currentUserData.school : "School";
+            let dateStr = new Date().toLocaleDateString();
+            let printContents = document.getElementById('my-inventory-container').innerHTML;
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>School Inventory Report</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - School Inventory</h2>');
+            printWindow.document.write('<h4>School: ' + schoolName + '</h4>');
+            printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        };
+
+        // NEW: Print Function for Admin Master Inventory
+        window.printAdminInventory = function() {
+            let dateStr = new Date().toLocaleDateString();
+            let printContents = document.getElementById('admin-inventory-container').innerHTML;
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Zonal Master Inventory Report</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Master Inventory</h2>');
+            printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        };
 
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
             
-            // Populate Datalist with unique school names for easy searching anywhere
             const datalist = document.getElementById('allSchoolsList');
             if(datalist) {
                 rawSchoolData.forEach(s => {
@@ -965,9 +1007,9 @@
                     tbody.innerHTML += `<tr>
                         <td>${roleBadge}</td>
                         <td><strong>${u.teacherId || '-'}</strong></td>
-                        <td>${u.name}</td>
-                        <td>${u.email}</td>
-                        <td>${u.school}</td>
+                        <td class="text-start">${u.name}</td>
+                        <td class="text-start">${u.email}</td>
+                        <td class="text-start">${u.school}</td>
                         <td>${u.phone}</td>
                     </tr>`;
                 });
@@ -1025,7 +1067,7 @@
                     let gradeObj = getMarkGradeObj(m.marks);
                     tbody.innerHTML += `<tr>
                         <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
-                        <td>${m.studentName}</td><td><strong>${m.marks}</strong></td>
+                        <td class="text-start">${m.studentName}</td><td><strong>${m.marks}</strong></td>
                         <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
                         <td>${m.addedBy}</td>
                     </tr>`;
@@ -1036,7 +1078,10 @@
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
             tbody.innerHTML = '';
-            let schFilter = document.getElementById('admin-mark-school').value.trim();
+            
+            // Fix: read admin-mark-school by ID properly for Admin Marks Analyzer
+            let schFilterElement = document.getElementById('admin-mark-school');
+            let schFilter = schFilterElement ? schFilterElement.value.trim() : "All";
             if (schFilter === '' || schFilter.toLowerCase() === 'all') schFilter = 'All';
 
             let gradeFilter = document.getElementById('admin-mark-grade').value;
@@ -1054,9 +1099,9 @@
                     
                     if(passSch && passGr && passRg) {
                         tbody.innerHTML += `<tr>
-                            <td style="font-size:0.85em;"><strong>${m.school}</strong></td>
+                            <td class="text-start" style="font-size:0.85em;"><strong>${m.school}</strong></td>
                             <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
-                            <td>${m.studentName}</td>
+                            <td class="text-start">${m.studentName}</td>
                             <td><strong>${m.marks}</strong></td>
                             <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
                             <td>${m.addedBy}</td>
@@ -1090,7 +1135,7 @@
                 snapshot.forEach((childSnap) => {
                     let i = childSnap.val();
                     if(i.school === window.currentUserData.school) {
-                        tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
+                        tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td class="text-start">${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
                         select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
                     }
                 });
@@ -1109,10 +1154,10 @@
                         let dtStr = formatDateTime(f.timestamp);
                         tbody.innerHTML += `<tr>
                             <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
-                            <td>${f.device}</td><td>${f.description}</td>
+                            <td class="text-start">${f.device}</td><td class="text-start">${f.description}</td>
                             <td style="color: ${statusColor}; font-weight: bold;">${f.status}</td>
-                            <td style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
-                            <td><strong>${f.completedBy || '-'}</strong></td>
+                            <td class="text-start" style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
+                            <td class="text-start"><strong>${f.completedBy || '-'}</strong></td>
                         </tr>`;
                     }
                 });
@@ -1159,8 +1204,8 @@
                     let dtStr = formatDateTime(f.timestamp);
                     fBody.innerHTML += `<tr>
                         <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
-                        <td><strong>${f.school}</strong></td><td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
-                        <td>${f.device}</td><td>${f.description}</td>
+                        <td class="text-start"><strong>${f.school}</strong></td><td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
+                        <td class="text-start">${f.device}</td><td class="text-start">${f.description}</td>
                         <td style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
                         <td>${actionHtml}</td>
                     </tr>`;
@@ -1174,8 +1219,8 @@
                 iSnap.forEach((childSnap) => {
                     let i = childSnap.val();
                     iBody.innerHTML += `<tr>
-                        <td><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
-                        <td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
+                        <td class="text-start"><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
+                        <td class="text-start">${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
                     </tr>`;
                 });
             }
@@ -1194,7 +1239,7 @@
 
                     if(u.role === 'teacher' || u.role === 'zdett') {
                         let tId = u.teacherId ? u.teacherId : "T-0000";
-                        tbody.innerHTML += `<tr><td><strong>${tId}</strong></td><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
+                        tbody.innerHTML += `<tr><td><strong>${tId}</strong></td><td class="text-start">${u.name}</td><td class="text-start">${u.school}</td><td class="text-start">${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
             }
@@ -1217,7 +1262,7 @@
                     if (u.email === 'zonalicthub@gmail.com') return;
 
                     if(u.role === 'zdett') {
-                        tbody.innerHTML += `<tr><td>${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
+                        tbody.innerHTML += `<tr><td class="text-start">${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
                 });
             }
