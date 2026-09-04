@@ -174,6 +174,7 @@
 
     <div class="container">
         
+        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -218,6 +219,7 @@
             </div>
         </div>
 
+        <!-- SCHOOLS SECTION -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
                 <h2>ICT Lab Resources Analyzer</h2>
@@ -308,6 +310,7 @@
             </div>
         </div>
 
+        <!-- LOGIN / REGISTER TABS -->
         <div id="login" class="section">
             <div class="card" style="max-width: 450px; margin: auto;">
                 <h2 style="text-align: center;">System Login</h2>
@@ -350,6 +353,7 @@
             </div>
         </div>
 
+        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
@@ -367,6 +371,51 @@
 
             <!-- SUPER ADMIN TOOLS SECTION -->
             <div id="superadmin-tools" style="display: none;">
+                
+                <!-- MOVED: Marks Analyzer is now ONLY for Super Admin -->
+                <div class="card" style="border-left: 5px solid #8b5cf6;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>📊 Zonal Marks Analyzer (Super Admin)</h3>
+                        <button class="btn-primary mb-2" onclick="printAdminMarks()">🖨️ Print Marks Report</button>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers across the zone.</p>
+                    <div class="filter-section" style="border-left-color: #8b5cf6;">
+                        <div class="filter-item">
+                            <label>School:</label>
+                            <select id="admin-mark-school" onchange="loadAdminMarks()">
+                                <option value="All">All Schools</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Grade:</label>
+                            <select id="admin-mark-grade" onchange="loadAdminMarks()">
+                                <option value="All">All Grades</option>
+                                <option value="10">Grade 10</option>
+                                <option value="11">Grade 11</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Marks Range (Category):</label>
+                            <select id="admin-mark-range" onchange="loadAdminMarks()">
+                                <option value="All">All Marks</option>
+                                <option value="A">A (75 - 100)</option>
+                                <option value="B">B (65 - 74)</option>
+                                <option value="C">C (50 - 64)</option>
+                                <option value="S">S (35 - 49)</option>
+                                <option value="W">W (Less than 35)</option>
+                                <option value="AB">AB (Absent)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container" id="admin-marks-container">
+                        <table>
+                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
+                            <tbody id="admin-marks-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
                     <h3 style="color: #9333ea;">👑 Super Admin Privileges</h3>
                     <p style="font-size: 0.9rem; color: #6b21a8;">Overview of all registered users in the Wellawaya Zonal ICT Hub system.</p>
@@ -458,48 +507,6 @@
             <!-- ZDETT / ADMIN TOOLS SECTION -->
             <div id="zdett-tools" style="display: none;">
                 
-                <div class="card" style="border-left: 5px solid #8b5cf6;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3>📊 Zonal Marks Analyzer (Admin Filter)</h3>
-                        <button class="btn-primary mb-2" onclick="printAdminMarks()">🖨️ Print Marks Report</button>
-                    </div>
-                    <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers.</p>
-                    <div class="filter-section" style="border-left-color: #8b5cf6;">
-                        <div class="filter-item">
-                            <label>School:</label>
-                            <select id="admin-mark-school" onchange="loadAdminMarks()">
-                                <option value="All">All Schools</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label>Grade:</label>
-                            <select id="admin-mark-grade" onchange="loadAdminMarks()">
-                                <option value="All">All Grades</option>
-                                <option value="10">Grade 10</option>
-                                <option value="11">Grade 11</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label>Marks Range (Category):</label>
-                            <select id="admin-mark-range" onchange="loadAdminMarks()">
-                                <option value="All">All Marks</option>
-                                <option value="A">A (75 - 100)</option>
-                                <option value="B">B (65 - 74)</option>
-                                <option value="C">C (50 - 64)</option>
-                                <option value="S">S (35 - 49)</option>
-                                <option value="W">W (Less than 35)</option>
-                                <option value="AB">AB (Absent)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="table-container" id="admin-marks-container">
-                        <table>
-                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
-                            <tbody id="admin-marks-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-
                 <div class="card" style="border-left: 5px solid #ef4444;">
                     <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
                     <div class="table-container">
@@ -530,11 +537,13 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
+    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
+    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -771,7 +780,6 @@
             return { grade: 'W', class: 'grade-w' };
         }
 
-        // NEW: Formatting Timestamp to human-readable Date & Time
         function formatDateTime(timestamp) {
             if (!timestamp) return '-';
             let d = new Date(timestamp);
@@ -932,6 +940,9 @@
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
                     let u = child.val();
+                    // NEW: Prevent super admin email from showing in the users list
+                    if (u.email === 'zonalicthub@gmail.com') return; 
+
                     let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Teacher</span>';
                     tbody.innerHTML += `<tr>
                         <td>${roleBadge}</td>
@@ -977,7 +988,7 @@
                 document.getElementById('mark-student').value = '';
                 document.getElementById('mark-score').value = '';
                 loadTeacherMarks();
-                if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminMarks();
+                if(window.currentUserData.role === 'superadmin') loadAdminMarks();
             } catch (error) { alert("Error: " + error.message); }
         };
 
@@ -1101,7 +1112,8 @@
                         device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
                     });
                     alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminData(); 
+                    loadTeacherFaults(); 
+                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminData(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
@@ -1158,6 +1170,9 @@
                 snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
                 usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
                 usersArray.forEach((u) => {
+                    // NEW: Exclude superadmin from the teacher list
+                    if (u.email === 'zonalicthub@gmail.com') return;
+
                     if(u.role === 'teacher' || u.role === 'zdett') {
                         let tId = u.teacherId ? u.teacherId : "T-0000";
                         tbody.innerHTML += `<tr><td><strong>${tId}</strong></td><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
@@ -1180,6 +1195,9 @@
                     return idA.localeCompare(idB);
                 });
                 usersArray.forEach((u) => {
+                    // NEW: Exclude superadmin from the ZDETT list
+                    if (u.email === 'zonalicthub@gmail.com') return;
+
                     if(u.role === 'zdett') {
                         tbody.innerHTML += `<tr><td>${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
                     }
