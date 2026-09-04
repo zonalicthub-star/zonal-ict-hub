@@ -174,6 +174,7 @@
 
     <div class="container">
         
+        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -224,7 +225,6 @@
                 <h2>Wellawaya Zonal Schools</h2>
                 <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
-                <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
                         <label>Division:</label>
@@ -382,7 +382,6 @@
                             <label>School:</label>
                             <select id="admin-mark-school" onchange="loadAdminMarks()">
                                 <option value="All">All Schools</option>
-                                <!-- Populated dynamically -->
                             </select>
                         </div>
                         <div class="filter-item">
@@ -540,7 +539,6 @@
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.R.S.S. Bandara", "contact": "071-3574806"}, 
@@ -554,46 +552,46 @@
             {"division": "Wellawaya", "school": "Mo/Saddhatissa Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.R.G. Munasinghe", "contact": "071-6206506"}, 
             {"division": "Wellawaya", "school": "Mo/Balaharuwa Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.M. Indika Ruwan Kumara", "contact": "074-0056375"}, 
             {"division": "Wellawaya", "school": "Mo/Thelulla Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 6, "monitor_active": 8, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "D.G. Gunathilaka", "contact": "071-8127789"}, 
-            {"division": "Wellawaya", "school": "Mo/Thelulla Janapada Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Pradeep Hemantha", "contact": "070-3415195"}, 
-            {"division": "Wellawaya", "school": "Mo/Kithulkote Maha Vidyalaya", "pc_active": 18, "pc_inactive": 3, "monitor_active": 22, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G. Senarathne", "contact": "077-1707818"}, 
-            {"division": "Wellawaya", "school": "Mo/Yauvanakumarapura Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.R.P. Rathnayake", "contact": "071-2266640"}, 
+            {"division": "Wellawaya", "school": "Mo/Thelulla Janapada Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.G. K.C. Kumara", "contact": "071-8127440"}, 
+            {"division": "Wellawaya", "school": "Mo/Kithulkote Maha Vidyalaya", "pc_active": 18, "pc_inactive": 3, "monitor_active": 22, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "P.M.G. Ananda", "contact": "071-0635724"}, 
+            {"division": "Wellawaya", "school": "Mo/Yauvanakumarapura Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.M. Kumarasena", "contact": "071-2266640"}, 
             {"division": "Wellawaya", "school": "Mo/Maharagama Kanishta Vidyalaya", "pc_active": 5, "pc_inactive": 1, "monitor_active": 6, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "A.M.B. Amarakoon", "contact": "070-2974700"}, 
-            {"division": "Wellawaya", "school": "Mo/Debaraara Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 4, "monitor_active": 1, "monitor_inactive": 6, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.M. Kumarasena", "contact": "072-4501372"}, 
+            {"division": "Wellawaya", "school": "Mo/Debaraara Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 4, "monitor_active": 1, "monitor_inactive": 6, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Sunil Premarathne", "contact": "072-4501372"}, 
             {"division": "Wellawaya", "school": "Mo/Yalabowa Primary Vidyalaya", "pc_active": 1, "pc_inactive": 3, "monitor_active": 1, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "D.M. Rathnapala", "contact": "071-8218575"}, 
             {"division": "Wellawaya", "school": "Mo/Anapallama Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.G. Ananda", "contact": "071-9715115"}, 
             {"division": "Wellawaya", "school": "Mo/Mahawelamulla Muslim Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 4, "monitor_active": 5, "monitor_inactive": 1, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 3, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.M.S. Amarasinghe", "contact": "071-2184308"}, 
-            {"division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.G. Athula", "contact": "078-8285577"}, 
+            {"division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.G. Athula", "contact": "077-1707818"}, 
             {"division": "Wellawaya", "school": "Mo/Athadutuwewa Kanishta Vidyalaya", "pc_active": 7, "pc_inactive": 0, "monitor_active": 7, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "D.M.D.M. Wijesinghe", "contact": "070-4883032"}, 
-            {"division": "Wellawaya", "school": "Mo/D.S. Senanayake Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "-", "contact": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "071-1586199"}, 
+            {"division": "Wellawaya", "school": "Mo/D.S. Senanayake Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "R.D. Rathnapala", "contact": "078-8285577"}, 
+            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M. Jayasinghe", "contact": "071-1586199"}, 
             {"division": "Wellawaya", "school": "Mo/Malwaththawela Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D. Suneth", "contact": "071-8134680"}, 
             {"division": "Wellawaya", "school": "Mo/Chandawimala Primary Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "R.D. Jayathilaka", "contact": "071-8218580"}, 
             {"division": "Wellawaya", "school": "Mo/Buduruwagala Primary Vidyalaya", "pc_active": 1, "pc_inactive": 1, "monitor_active": 1, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "N.M. Chandra", "contact": "071-5165951"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M.R. Kumara", "contact": "077-6401283"}, 
-            {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "P.M.G. Ananda", "contact": "071-0635724"}, 
+            {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.M.J. Dissanayake", "contact": "070-4528455"}, 
             {"division": "Wellawaya", "school": "Mo/Buduruwagala Maha Vidyalaya", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 26, "arduino_inactive": 1, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M. Senarathne", "contact": "071-8089596"}, 
             {"division": "Wellawaya", "school": "Mo/Malwaththawela Central College", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.B.K. Bandaranayake", "contact": "071-4931550"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Maha Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.P.D. Jayanayake", "contact": "076-3631863"}, 
-            {"division": "Buththala", "school": "Mo/Unawatuna Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Sunil Premarathne", "contact": "071-8127440"}, 
+            {"division": "Buththala", "school": "Mo/Unawatuna Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Pradeep Hemantha", "contact": "070-3415195"}, 
             {"division": "Buththala", "school": "Mo/Munasinghe Primary Vidyalaya", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "K.D.M. Samarakoon", "contact": "071-1879335"}, 
-            {"division": "Buththala", "school": "Mo/Siddhartha Maha Vidyalaya", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "T.M. S.D. Thennakoon", "contact": "071-4418530"}, 
+            {"division": "Buththala", "school": "Mo/Siddhartha Maha Vidyalaya", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "T.M.S.D. Thennakoon", "contact": "071-4418530"}, 
             {"division": "Buththala", "school": "Mo/Dutugemunu Model Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.D.M. Kumara", "contact": "071-8009701"}, 
             {"division": "Buththala", "school": "Mo/Okkampitiya Janapada Kanishta Vidyalaya", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "-", "contact": "-"}, 
-            {"division": "Buththala", "school": "Mo/Kukurampola Kanishta Vidyalaya", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D. Nandapala", "contact": "071-5276656"}, 
-            {"division": "Buththala", "school": "Mo/Ranjan Wijerathne Maha Vidyalaya", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "W.D.T.B. Rathnayake", "contact": "070-3343679"}, 
+            {"division": "Buththala", "school": "Mo/Kukurampola Kanishta Vidyalaya", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Prasanna Indika Wickramasinghe", "contact": "071-5276656"}, 
+            {"division": "Buththala", "school": "Mo/Ranjan Wijerathne Maha Vidyalaya", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "W.T.B. Rathnayake", "contact": "070-3343679"}, 
             {"division": "Buththala", "school": "Mo/Piyananda Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.D. Thilakarathne", "contact": "071-3814848"}, 
             {"division": "Buththala", "school": "Mo/Yudhaganawa Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "077-8054937"}, 
             {"division": "Buththala", "school": "Mo/Waguruwela Maha Vidyalaya", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "H.G.G. Piyadarshana", "contact": "071-2429817"}, 
-            {"division": "Buththala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "R.D. Padmasiri", "contact": "070-5863508"}, 
-            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M.J. Dissanayake", "contact": "070-4528455"}, 
-            {"division": "Buththala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "N.M. Priyadarshani", "contact": "071-3379988"}, 
-            {"division": "Buththala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Ajith Ruwan Priyadarshana", "contact": "071-8034722"}, 
-            {"division": "Buththala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M.S. Kamal Kumara", "contact": "071-0117228"}, 
-            {"division": "Buththala", "school": "Mo/Mahasengama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.D.M. Jayathilaka", "contact": "071-0623505"}, 
-            {"division": "Buththala", "school": "Mo/Viharamahadevi Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "M.M. Jayasinghe", "contact": "070-1446601"}, 
+            {"division": "Buththala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "A.S. Nalin Tharanga Kumara", "contact": "071-8566220"}, 
+            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.D. Padmasiri", "contact": "070-5863508"}, 
+            {"division": "Buththala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Ajith Ruwan Priyadarshana", "contact": "071-3379988"}, 
+            {"division": "Buththala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M.S. Kamal Kumara", "contact": "071-8034722"}, 
+            {"division": "Buththala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "071-0117228"}, 
+            {"division": "Buththala", "school": "Mo/Mahasengama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.M. R.M. Jayathilaka", "contact": "070-6046433"}, 
+            {"division": "Buththala", "school": "Mo/Viharamahadevi Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "W.D. Nandapala", "contact": "070-1446601"}, 
             {"division": "Buththala", "school": "Mo/Dambeyaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "E.B. Jayathilaka", "contact": "071-8430254"}, 
-            {"division": "Buththala", "school": "Mo/G/Sri Sumanajothi Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "A.S. Nalin Tharanga Kumara", "contact": "071-8566220"}, 
-            {"division": "Buththala", "school": "Mo/Sri Subodha Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "R.P. Prasanna Indika Wickramasinghe", "contact": "070-4528535"}, 
+            {"division": "Buththala", "school": "Mo/G/Sri Sumanajothi Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "A.D.M. Jayathilaka", "contact": "071-0623505"}, 
+            {"division": "Buththala", "school": "Mo/Sri Subodha Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "R.M.R.P. Rathnayake", "contact": "070-4528535"}, 
             {"division": "Buththala", "school": "Mo/Pelwatta Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.M. Rathnayake", "contact": "076-6070413"}, 
             {"division": "Buththala", "school": "Mo/Dutugemunu Primary Vidyalaya", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "M.B. Gunapala", "contact": "076-5524959"}, 
             {"division": "Buththala", "school": "Mo/Okkampitiya Vijayabahu Primary Vidyalaya", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "R.M.R. Rathnayake", "contact": "070-7745572"}, 
@@ -1023,189 +1021,1036 @@
                     let gradeObj = getMarkGradeObj(m.marks);
                     
                     let passSch = (schFilter === 'All' || m.school === schFilter);
-                    let passGr = (gradeFilter === 'All' || m.grade == gradeFilter);
-                    let passRg = (rangeFilter === 'All' || gradeObj.grade === rangeFilter);
-                    
-                    if(passSch && passGr && passRg) {
-                        tbody.innerHTML += `<tr>
-                            <td class="text-start" style="font-size:0.85em;"><strong>${m.school}</strong></td>
-                            <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
-                            <td class="text-start">${m.studentName}</td>
-                            <td><strong>${m.marks}</strong></td>
-                            <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
-                            <td>${m.addedBy}</td>
-                        </tr>`;
-                    }
-                });
-            }
-        };
+                    let passGr = (gradeFilter === 'All' || m.grade == gradeFilterඔබ අප්ලෝඩ් කර ඇති ඡායාරූප දෙකෙහි ඇති තොරතුරු ඉතාම පරෙස්සමින් කියවා පාසල්, විදුහල්පතිවරුන්ගේ නම් සහ දුරකථන අංක නිවැරදිව ගළපා සකස් කළ අලුත් ලැයිස්තුව පහතින් ලබා දී ඇත.
 
-        window.addInventory = async function() {
-            let newInvRef = push(ref(db, 'inventory'));
-            let item = {
-                id: newInvRef.key, school: window.currentUserData.school,
-                book: document.getElementById('inv-book').value, page: document.getElementById('inv-page').value,
-                col: document.getElementById('inv-col').value, name: document.getElementById('inv-name').value,
-                avail: document.getElementById('inv-avail').value, short: document.getElementById('inv-short').value,
-                surp: document.getElementById('inv-surp').value, timestamp: Date.now()
-            };
-            if(item.name && item.book) {
-                await set(newInvRef, item); alert("Inventory updated!");
-                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = ''); loadMyInventory();
-            } else { alert("Book No and Equipment Name are required."); }
-        };
+මෙම අලුත් JSON දත්ත ගොනුව ඔබේ කේතයට (App.jsx / data.js) copy-paste කර භාවිතා කරන්න:
 
-        async function loadMyInventory() {
-            let tbody = document.getElementById('my-inventory-list');
-            let select = document.getElementById('fault-device');
-            tbody.innerHTML = ''; select.innerHTML = '<option value="">-- Select from Inventory --</option>';
-            let snapshot = await get(ref(db, 'inventory'));
-            if(snapshot.exists()) {
-                snapshot.forEach((childSnap) => {
-                    let i = childSnap.val();
-                    if(i.school === window.currentUserData.school) {
-                        tbody.innerHTML += `<tr><td>${i.book}</td><td>${i.page}</td><td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td></tr>`;
-                        select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
-                    }
-                });
-            }
-        }
-
-        async function loadTeacherFaults() {
-            let tbody = document.getElementById('my-faults-list');
-            tbody.innerHTML = '';
-            let snapshot = await get(ref(db, 'faults'));
-            if(snapshot.exists()) {
-                snapshot.forEach((childSnap) => {
-                    let f = childSnap.val();
-                    if(f.school === window.currentUserData.school) {
-                        let statusColor = f.status === 'Completed' ? '#10b981' : '#ef4444';
-                        let dtStr = formatDateTime(f.timestamp);
-                        tbody.innerHTML += `<tr>
-                            <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
-                            <td>${f.device}</td><td>${f.description}</td>
-                            <td style="color: ${statusColor}; font-weight: bold;">${f.status}</td>
-                            <td style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
-                            <td><strong>${f.completedBy || '-'}</strong></td>
-                        </tr>`;
-                    }
-                });
-            }
-        }
-
-        window.reportFault = async function() {
-            let deviceId = document.getElementById('fault-device').value;
-            let desc = document.getElementById('fault-desc').value;
-            if(deviceId && desc) {
-                let invSnap = await get(ref(db, 'inventory'));
-                let selectedItem = null;
-                invSnap.forEach((childSnap) => { if(childSnap.val().id === deviceId) selectedItem = childSnap.val(); });
-                if(selectedItem) {
-                    await set(push(ref(db, 'faults')), {
-                        school: window.currentUserData.school, itemInfo: `Book: ${selectedItem.book} | Pg: ${selectedItem.page}`,
-                        device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
-                    });
-                    alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); 
-                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminData(); 
-                }
-            } else { alert("Select a device and describe the fault."); }
-        };
-
-        window.markJobComplete = async function(faultId) {
-            let actionNote = prompt("Enter the repair report / message for the school:");
-            if(actionNote !== null) { 
-                await update(ref(db, 'faults/' + faultId), {
-                    status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
-                });
-                alert("Job marked as complete!"); loadAdminData(); loadTeacherFaults(); 
-            }
-        };
-
-        async function loadAdminData() {
-            let fBody = document.getElementById('all-faults-list');
-            fBody.innerHTML = '';
-            let fSnap = await get(ref(db, 'faults'));
-            if(fSnap.exists()) {
-                fSnap.forEach((childSnap) => {
-                    let f = childSnap.val();
-                    let actionHtml = f.status === 'Pending' ? `<button class="btn-success" onclick="markJobComplete('${childSnap.key}')">Mark Complete</button>` : `<span style="color: #10b981; font-size: 0.85em;">Done</span>`;
-                    let dtStr = formatDateTime(f.timestamp);
-                    fBody.innerHTML += `<tr>
-                        <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
-                        <td><strong>${f.school}</strong></td><td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
-                        <td>${f.device}</td><td>${f.description}</td>
-                        <td style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
-                        <td>${actionHtml}</td>
-                    </tr>`;
-                });
-            }
-            
-            let iBody = document.getElementById('all-inventory-list');
-            iBody.innerHTML = '';
-            let iSnap = await get(ref(db, 'inventory'));
-            if(iSnap.exists()) {
-                iSnap.forEach((childSnap) => {
-                    let i = childSnap.val();
-                    iBody.innerHTML += `<tr>
-                        <td><strong>${i.school}</strong></td><td>${i.book}</td><td>${i.page}</td><td>${i.col}</td>
-                        <td>${i.name}</td><td>${i.avail}</td><td>${i.short}</td><td>${i.surp}</td>
-                    </tr>`;
-                });
-            }
-        }
-
-        async function loadTeachers() {
-            let tbody = document.getElementById('teacher-list');
-            tbody.innerHTML = '';
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                let usersArray = [];
-                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
-                usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
-                usersArray.forEach((u) => {
-                    if (u.email === 'zonalicthub@gmail.com') return;
-
-                    if(u.role === 'teacher' || u.role === 'zdett') {
-                        let tId = u.teacherId ? u.teacherId : "T-0000";
-                        tbody.innerHTML += `<tr><td><strong>${tId}</strong></td><td>${u.name}</td><td>${u.school}</td><td>${u.email}</td><td>${u.phone || 'N/A'}</td></tr>`;
-                    }
-                });
-            }
-        }
-
-        async function loadZdettTeam() {
-            let tbody = document.getElementById('zdett-public-list');
-            tbody.innerHTML = '';
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                let usersArray = [];
-                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
-                usersArray.sort((a, b) => {
-                    let idA = a.idNo || ""; let idB = b.idNo || "";
-                    let numA = parseInt(idA.match(/\d+$/)) || 0; let numB = parseInt(idB.match(/\d+$/)) || 0;
-                    if (numA !== numB) { return numA - numB; }
-                    return idA.localeCompare(idB);
-                });
-                usersArray.forEach((u) => {
-                    if (u.email === 'zonalicthub@gmail.com') return;
-
-                    if(u.role === 'zdett') {
-                        tbody.innerHTML += `<tr><td>${u.name}</td><td><strong>${u.idNo || 'N/A'}</strong></td><td>${u.school}</td><td>${u.phone || 'N/A'}</td></tr>`;
-                    }
-                });
-            }
-        }
-    </script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); });
-        }
-        let deferredPrompt; const installBtnContainer = document.getElementById('nav-install'); const installBtn = document.getElementById('installAppBtn');
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtnContainer.style.display = 'block'; });
-        installBtn.addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; installBtnContainer.style.display = 'none'; } });
-        window.addEventListener('appinstalled', () => { installBtnContainer.style.display = 'none'; });
-    </script>
-</body>
-</html>
+```json
+[
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Weherayaya Maha Vidyalaya",
+    "pc_active": 9,
+    "pc_inactive": 3,
+    "monitor_active": 12,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "D.R.S.S. Bandara",
+    "contact": "071-3574806"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Kurugama Kanishta Vidyalaya",
+    "pc_active": 3,
+    "pc_inactive": 2,
+    "monitor_active": 5,
+    "monitor_inactive": 9,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "-",
+    "contact": "-"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/J.M. Kumaradasa Maha Vidyalaya",
+    "pc_active": 52,
+    "pc_inactive": 38,
+    "monitor_active": 85,
+    "monitor_inactive": 5,
+    "smartboard_active": 4,
+    "smartboard_inactive": 0,
+    "laptop_active": 5,
+    "laptop_inactive": 4,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router, Fiber",
+    "principal": "S.W. Ranathunga",
+    "contact": "074-3303400"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Weherayaya Kanishta Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 3,
+    "monitor_active": 5,
+    "monitor_inactive": 10,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "A.M.D.B. Dissanayake",
+    "contact": "071-5659033"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Siyambalagunay Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 3,
+    "monitor_active": 0,
+    "monitor_inactive": 3,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "P.G.N. Karunarathne",
+    "contact": "071-7678939"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Handapanagala Maha Vidyalaya",
+    "pc_active": 10,
+    "pc_inactive": 12,
+    "monitor_active": 17,
+    "monitor_inactive": 10,
+    "smartboard_active": 3,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "R.M. Premarathne",
+    "contact": "077-8914747"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Randenivela Kanishta Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 5,
+    "monitor_active": 6,
+    "monitor_inactive": 1,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 1,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "-",
+    "contact": "-"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Gampangugama Kanishta Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 5,
+    "monitor_active": 7,
+    "monitor_inactive": 3,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 2,
+    "laptop_inactive": 1,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "N.M. Priyadarshani",
+    "contact": "072-5265720"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Saddhatissa Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "S.R.G. Munasinghe",
+    "contact": "071-6206506"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Balaharuwa Kanishta Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 4,
+    "monitor_active": 4,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "W.M. Indika Ruwan Kumara",
+    "contact": "074-0056375"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Thelulla Kanishta Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 6,
+    "monitor_active": 8,
+    "monitor_inactive": 0,
+    "smartboard_active": 2,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "D.G. Gunathilaka",
+    "contact": "071-8127789"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Thelulla Janapada Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "H.G. K.C. Kumara",
+    "contact": "071-8127440"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Kithulkote Maha Vidyalaya",
+    "pc_active": 18,
+    "pc_inactive": 3,
+    "monitor_active": 22,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "P.M.G. Ananda",
+    "contact": "071-0635724"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Yauvanakumarapura Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "A.M. Kumarasena",
+    "contact": "071-2266640"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Maharagama Kanishta Vidyalaya",
+    "pc_active": 5,
+    "pc_inactive": 1,
+    "monitor_active": 6,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 3,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "A.M.B. Amarakoon",
+    "contact": "070-2974700"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Debaraara Kanishta Vidyalaya",
+    "pc_active": 1,
+    "pc_inactive": 4,
+    "monitor_active": 1,
+    "monitor_inactive": 6,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "D.M. Sunil Premarathne",
+    "contact": "072-4501372"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Yalabowa Primary Vidyalaya",
+    "pc_active": 1,
+    "pc_inactive": 3,
+    "monitor_active": 1,
+    "monitor_inactive": 3,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "D.M. Rathnapala",
+    "contact": "071-8218575"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Anapallama Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "M.G. Ananda",
+    "contact": "071-9715115"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Mahawelamulla Muslim Kanishta Vidyalaya",
+    "pc_active": 1,
+    "pc_inactive": 4,
+    "monitor_active": 5,
+    "monitor_inactive": 1,
+    "smartboard_active": 2,
+    "smartboard_inactive": 0,
+    "laptop_active": 2,
+    "laptop_inactive": 3,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "A.M.S. Amarasinghe",
+    "contact": "071-2184308"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Wandinahelayaya Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "M.G. Athula",
+    "contact": "077-1707818"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Athadutuwewa Kanishta Vidyalaya",
+    "pc_active": 7,
+    "pc_inactive": 0,
+    "monitor_active": 7,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "D.M.D.M. Wijesinghe",
+    "contact": "070-4883032"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/D.S. Senanayake Kanishta Vidyalaya",
+    "pc_active": 1,
+    "pc_inactive": 0,
+    "monitor_active": 1,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "R.D. Rathnapala",
+    "contact": "078-8285577"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Morahelagama Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "M.M. Jayasinghe",
+    "contact": "071-1586199"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Malwaththawela Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "W.D. Suneth",
+    "contact": "071-8134680"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Chandawimala Primary Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 2,
+    "monitor_active": 2,
+    "monitor_inactive": 2,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "R.D. Jayathilaka",
+    "contact": "071-8218580"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Buduruwagala Primary Vidyalaya",
+    "pc_active": 1,
+    "pc_inactive": 1,
+    "monitor_active": 1,
+    "monitor_inactive": 2,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 2,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "N.M. Chandra",
+    "contact": "071-5165951"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Kudaoya Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "H.M.R. Kumara",
+    "contact": "077-6401283"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Ethiliwewa Maha Vidyalaya",
+    "pc_active": 44,
+    "pc_inactive": 21,
+    "monitor_active": 56,
+    "monitor_inactive": 9,
+    "smartboard_active": 4,
+    "smartboard_inactive": 1,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 20,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "D.M.J. Dissanayake",
+    "contact": "070-4528455"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Buduruwagala Maha Vidyalaya",
+    "pc_active": 59,
+    "pc_inactive": 7,
+    "monitor_active": 73,
+    "monitor_inactive": 1,
+    "smartboard_active": 3,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 26,
+    "arduino_inactive": 1,
+    "internet": "✅ Yes",
+    "internet_type": "Router, Fiber",
+    "principal": "R.M. Senarathne",
+    "contact": "071-8089596"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Malwaththawela Central College",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "R.M.B.K. Bandaranayake",
+    "contact": "071-4931550"
+  },
+  {
+    "division": "Wellawaya",
+    "school": "Mo/Kudaoya Maha Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "K.P.D. Jayanayake",
+    "contact": "076-3631863"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Unawatuna Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "D.M. Pradeep Hemantha",
+    "contact": "070-3415195"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Munasinghe Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 2,
+    "monitor_active": 0,
+    "monitor_inactive": 2,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "K.D.M. Samarakoon",
+    "contact": "071-1879335"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Siddhartha Maha Vidyalaya",
+    "pc_active": 10,
+    "pc_inactive": 12,
+    "monitor_active": 13,
+    "monitor_inactive": 5,
+    "smartboard_active": 3,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 2,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "T.M.S.D. Thennakoon",
+    "contact": "071-4418530"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Dutugemunu Model Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "W.A.D.M. Kumara",
+    "contact": "071-8009701"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Okkampitiya Janapada Kanishta Vidyalaya",
+    "pc_active": 15,
+    "pc_inactive": 0,
+    "monitor_active": 17,
+    "monitor_inactive": 0,
+    "smartboard_active": 2,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "-",
+    "contact": "-"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Kukurampola Kanishta Vidyalaya",
+    "pc_active": 8,
+    "pc_inactive": 7,
+    "monitor_active": 10,
+    "monitor_inactive": 5,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "R.P. Prasanna Indika Wickramasinghe",
+    "contact": "071-5276656"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Ranjan Wijerathne Maha Vidyalaya",
+    "pc_active": 17,
+    "pc_inactive": 11,
+    "monitor_active": 26,
+    "monitor_inactive": 2,
+    "smartboard_active": 3,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router, Fiber",
+    "principal": "W.T.B. Rathnayake",
+    "contact": "070-3343679"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Piyananda Kanishta Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 6,
+    "monitor_active": 2,
+    "monitor_inactive": 6,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "W.D. Thilakarathne",
+    "contact": "071-3814848"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Yudhaganawa Kanishta Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 4,
+    "monitor_active": 8,
+    "monitor_inactive": 2,
+    "smartboard_active": 2,
+    "smartboard_inactive": 0,
+    "laptop_active": 11,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "R.P. Senadheera",
+    "contact": "077-8054937"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Waguruwela Maha Vidyalaya",
+    "pc_active": 4,
+    "pc_inactive": 5,
+    "monitor_active": 4,
+    "monitor_inactive": 7,
+    "smartboard_active": 4,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router, Fiber",
+    "principal": "H.G.G. Piyadarshana",
+    "contact": "071-2429817"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Helagama Kanishta Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 3,
+    "monitor_active": 6,
+    "monitor_inactive": 3,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 2,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "A.S. Nalin Tharanga Kumara",
+    "contact": "071-8566220"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Gonaganara Kanishta Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 13,
+    "monitor_active": 14,
+    "monitor_inactive": 5,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "R.D. Padmasiri",
+    "contact": "070-5863508"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Janasankha Model Kanishta Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "W.A. Ajith Ruwan Priyadarshana",
+    "contact": "071-3379988"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Niyadella Kanishta Vidyalaya",
+    "pc_active": 4,
+    "pc_inactive": 4,
+    "monitor_active": 4,
+    "monitor_inactive": 4,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "M.M.S. Kamal Kumara",
+    "contact": "071-8034722"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Kumaragama Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "H.A.M. Shriyani Champika",
+    "contact": "071-0117228"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Mahasengama Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "K.M. R.M. Jayathilaka",
+    "contact": "070-6046433"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Viharamahadevi Kanishta Vidyalaya",
+    "pc_active": 3,
+    "pc_inactive": 4,
+    "monitor_active": 3,
+    "monitor_inactive": 2,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "W.D. Nandapala",
+    "contact": "070-1446601"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Dambeyaya Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "E.B. Jayathilaka",
+    "contact": "071-8430254"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/G/Sri Sumanajothi Kanishta Vidyalaya",
+    "pc_active": 4,
+    "pc_inactive": 10,
+    "monitor_active": 6,
+    "monitor_inactive": 5,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 1,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "A.D.M. Jayathilaka",
+    "contact": "071-0623505"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Sri Subodha Kanishta Vidyalaya",
+    "pc_active": 2,
+    "pc_inactive": 2,
+    "monitor_active": 2,
+    "monitor_inactive": 2,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Personal",
+    "principal": "R.M.R.P. Rathnayake",
+    "contact": "070-4528535"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Pelwatta Primary Vidyalaya",
+    "pc_active": 0,
+    "pc_inactive": 0,
+    "monitor_active": 0,
+    "monitor_inactive": 0,
+    "smartboard_active": 0,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "❌ No",
+    "internet_type": "-",
+    "principal": "W.M. Rathnayake",
+    "contact": "076-6070413"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Dutugemunu Primary Vidyalaya",
+    "pc_active": 6,
+    "pc_inactive": 2,
+    "monitor_active": 6,
+    "monitor_inactive": 2,
+    "smartboard_active": 2,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router",
+    "principal": "M.B. Gunapala",
+    "contact": "076-5524959"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Okkampitiya Vijayabahu Primary Vidyalaya",
+    "pc_active": 9,
+    "pc_inactive": 7,
+    "monitor_active": 16,
+    "monitor_inactive": 0,
+    "smartboard_active": 1,
+    "smartboard_inactive": 0,
+    "laptop_active": 0,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "R.M.R. Rathnayake",
+    "contact": "070-7745572"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Dutugemunu National School",
+    "pc_active": 63,
+    "pc_inactive": 37,
+    "monitor_active": 80,
+    "monitor_inactive": 20,
+    "smartboard_active": 5,
+    "smartboard_inactive": 0,
+    "laptop_active": 6,
+    "laptop_inactive": 0,
+    "arduino_active": 1,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "W.G. Premathilaka",
+    "contact": "071-8218565"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya",
+    "pc_active": 51,
+    "pc_inactive": 27,
+    "monitor_active": 43,
+    "monitor_inactive": 35,
+    "smartboard_active": 5,
+    "smartboard_inactive": 0,
+    "laptop_active": 10,
+    "laptop_inactive": 0,
+    "arduino_active": 0,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Router, Fiber",
+    "principal": "R.M.N. Wickramasinghe",
+    "contact": "070-5113570"
+  },
+  {
+    "division": "Buththala",
+    "school": "Mo/Pelwatta Navodya Maha Vidyalaya",
+    "pc_active": 42,
+    "pc_inactive": 25,
+    "monitor_active": 37,
+    "monitor_inactive": 30,
+    "smartboard_active": 4,
+    "smartboard_inactive": 0,
+    "laptop_active": 1,
+    "laptop_inactive": 1,
+    "arduino_active": 10,
+    "arduino_inactive": 0,
+    "internet": "✅ Yes",
+    "internet_type": "Fiber",
+    "principal": "S.D. Gunawardhana",
+    "contact": "070-2973082"
+  }
+]
