@@ -112,20 +112,10 @@
         .grade-c { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #fde68a; }
         .grade-s { background: #f3e8ff; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #e9d5ff; }
         .grade-w { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #fecaca; }
-        .grade-ab { background: #f3f4f6; color: #475569; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #cbd5e1; } /* For Absent */
+        .grade-ab { background: #f3f4f6; color: #475569; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #cbd5e1; }
 
         /* Filter Section Styling */
-        .filter-section {
-            background-color: #f8f9fa;
-            border-left: 4px solid #e67e22;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
+        .filter-section { background-color: #f8f9fa; border-left: 4px solid #e67e22; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
         .filter-item { display: flex; flex-direction: column; min-width: 150px; flex: 1; }
         .filter-item label { font-size: 0.85rem; color: #555; font-weight: bold; margin-bottom: 5px; }
         .filter-item select, .filter-item input[type="text"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
@@ -184,7 +174,6 @@
 
     <div class="container">
         
-        <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
                 <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
@@ -229,13 +218,11 @@
             </div>
         </div>
 
-        <!-- SCHOOLS SECTION -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
                 <h2>ICT Lab Resources Analyzer</h2>
                 <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
-                <!-- Filter Section -->
                 <div class="filter-section">
                     <div class="filter-item">
                         <label>Division:</label>
@@ -321,7 +308,6 @@
             </div>
         </div>
 
-        <!-- LOGIN / REGISTER TABS -->
         <div id="login" class="section">
             <div class="card" style="max-width: 450px; margin: auto;">
                 <h2 style="text-align: center;">System Login</h2>
@@ -364,13 +350,11 @@
             </div>
         </div>
 
-        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
             </div>
 
-            <!-- Profile Edit Section -->
             <div class="card" id="profile-edit-section" style="border-left: 5px solid #0ea5e9;">
                 <h3>⚙️ Update My Profile</h3>
                 <div class="grid-form">
@@ -409,17 +393,24 @@
                             <select id="mark-grade"><option value="10">Grade 10</option><option value="11">Grade 11</option></select>
                         </div>
                         <div>
+                            <label>Class</label>
+                            <select id="mark-class">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                            </select>
+                        </div>
+                        <div>
                             <label>Term</label>
                             <select id="mark-term"><option value="Term 1">Term 1</option><option value="Term 2">Term 2</option><option value="Term 3">Term 3</option></select>
                         </div>
-                        <div>
-                            <label>Class</label>
-                            <input type="text" id="mark-class" placeholder="e.g. A">
-                        </div>
                     </div>
                     <div class="grid-form">
-                        <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Full Name"></div>
-                        <!-- UPDATE: Changed input type to text to allow 'AB' -->
+                        <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Name with initials"></div>
                         <div><label>Marks (0-100 or AB)</label><input type="text" id="mark-score" placeholder="e.g. 85 or AB"></div>
                         <div style="display: flex; align-items: flex-end;">
                             <button class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
@@ -439,7 +430,7 @@
                     <h3>My Fault Reports & Notifications</h3>
                     <div class="table-container">
                         <table>
-                            <thead><tr><th>Equipment</th><th>Fault</th><th>Status</th><th>ZDETT Message/Report</th><th>Handled By</th></tr></thead>
+                            <thead><tr><th>Date & Time</th><th>Equipment</th><th>Fault</th><th>Status</th><th>ZDETT Message/Report</th><th>Handled By</th></tr></thead>
                             <tbody id="my-faults-list"></tbody>
                         </table>
                     </div>
@@ -478,7 +469,6 @@
                             <label>School:</label>
                             <select id="admin-mark-school" onchange="loadAdminMarks()">
                                 <option value="All">All Schools</option>
-                                <!-- Populated dynamically -->
                             </select>
                         </div>
                         <div class="filter-item">
@@ -502,7 +492,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- Added ID here for printing -->
                     <div class="table-container" id="admin-marks-container">
                         <table>
                             <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
@@ -515,7 +504,7 @@
                     <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
                     <div class="table-container">
                         <table>
-                            <thead><tr><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Date & Time</th><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th></tr></thead>
                             <tbody id="all-faults-list"></tbody>
                         </table>
                     </div>
@@ -541,13 +530,11 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Mobile Menu & Alerts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- Logic for Schools Tab with Restricted Access and English Data -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router"}, 
@@ -771,10 +758,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // NEW: Grade Object Handler to allow 'AB' (Absent)
         function getMarkGradeObj(marks) {
             let mStr = String(marks).toUpperCase().trim();
-            if(mStr === 'AB') return { grade: 'AB', class: 'grade-ab' }; // Absent Case
+            if(mStr === 'AB') return { grade: 'AB', class: 'grade-ab' }; 
             
             let m = parseInt(marks);
             if(isNaN(m)) return { grade: '-', class: 'grade-ab' };
@@ -783,6 +769,13 @@
             if(m >= 50) return { grade: 'C', class: 'grade-c' };
             if(m >= 35) return { grade: 'S', class: 'grade-s' };
             return { grade: 'W', class: 'grade-w' };
+        }
+
+        // NEW: Formatting Timestamp to human-readable Date & Time
+        function formatDateTime(timestamp) {
+            if (!timestamp) return '-';
+            let d = new Date(timestamp);
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         }
 
         async function generateTeacherId() {
@@ -952,7 +945,6 @@
             }
         };
 
-        // NEW: Marks Input with AB handling
         window.addStudentMark = async function() {
             let grade = document.getElementById('mark-grade').value;
             let term = document.getElementById('mark-term').value;
@@ -978,7 +970,7 @@
                     school: window.currentUserData.school,
                     grade: grade, term: term, className: cls,
                     studentName: sName, marks: finalScore,
-                    addedBy: window.currentUserData.name, // Saves Subject Teacher Name
+                    addedBy: window.currentUserData.name, 
                     timestamp: Date.now()
                 });
                 alert("Student mark added successfully!");
@@ -1083,7 +1075,9 @@
                     let f = childSnap.val();
                     if(f.school === window.currentUserData.school) {
                         let statusColor = f.status === 'Completed' ? '#10b981' : '#ef4444';
+                        let dtStr = formatDateTime(f.timestamp);
                         tbody.innerHTML += `<tr>
+                            <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
                             <td>${f.device}</td><td>${f.description}</td>
                             <td style="color: ${statusColor}; font-weight: bold;">${f.status}</td>
                             <td style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
@@ -1130,7 +1124,9 @@
                 fSnap.forEach((childSnap) => {
                     let f = childSnap.val();
                     let actionHtml = f.status === 'Pending' ? `<button class="btn-success" onclick="markJobComplete('${childSnap.key}')">Mark Complete</button>` : `<span style="color: #10b981; font-size: 0.85em;">Done</span>`;
+                    let dtStr = formatDateTime(f.timestamp);
                     fBody.innerHTML += `<tr>
+                        <td style="font-size: 0.85em; color: #666;">${dtStr}</td>
                         <td><strong>${f.school}</strong></td><td style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
                         <td>${f.device}</td><td>${f.description}</td>
                         <td style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
