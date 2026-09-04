@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellawaya Zonal ICT Branch</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json?v=2">
@@ -88,14 +90,14 @@
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
         .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 
+        /* ALL TABLES LEFT ALIGNED */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        th, td { border-bottom: 1px solid #e1e8ed; padding: 12px 15px; text-align: center; vertical-align: middle; }
+        th, td { border-bottom: 1px solid #e1e8ed; padding: 12px 15px; text-align: left; vertical-align: middle; }
         th { color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
         tr:hover { background-color: #f8fafc; }
 
-        .text-start { text-align: left !important; }
         .bg-light-blue { background-color: #f1f8ff !important; }
         .badge-yes { background-color: #d4edda; color: #155724; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #c3e6cb; font-size: 0.85em; display: inline-block;}
         .badge-no { color: #aaa; font-weight: bold; font-size: 0.85em;}
@@ -133,6 +135,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Datalist for Searchable Schools across the system -->
+    <datalist id="allSchoolsList"></datalist>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Hub Banner">
@@ -235,7 +240,8 @@
                     
                     <div class="filter-item">
                         <label>Search School:</label>
-                        <input type="text" id="schoolSearch" placeholder="Type school name..." onkeyup="window.filterSchoolData()">
+                        <!-- Searchable Datalist Input -->
+                        <input type="text" id="schoolSearch" list="allSchoolsList" placeholder="Search school name..." oninput="window.filterSchoolData()">
                     </div>
 
                     <div id="adv-filters" style="display: none; flex-wrap: wrap; gap: 15px; flex: 1;">
@@ -327,7 +333,7 @@
                 <h2>Register Teacher</h2>
                 <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
                 <div class="form-group"><label>Full Name</label><input type="text" id="t-name"></div>
-                <div class="form-group"><label>School Name</label><input type="text" id="t-school"></div>
+                <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
@@ -342,7 +348,7 @@
                 <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
                 <div class="form-group"><label>Full Name</label><input type="text" id="z-name"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
-                <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school"></div>
+                <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
@@ -351,7 +357,6 @@
             </div>
         </div>
 
-        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
@@ -361,7 +366,7 @@
                 <h3>⚙️ Update My Profile</h3>
                 <div class="grid-form">
                     <div><label style="font-size: 0.85rem; color: #666;">Full Name</label><input type="text" id="edit-name" placeholder="Full Name"></div>
-                    <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" placeholder="School Name"></div>
+                    <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" list="allSchoolsList" placeholder="School Name"></div>
                     <div><label style="font-size: 0.85rem; color: #666;">Phone Number</label><input type="tel" id="edit-phone" placeholder="Phone Number"></div>
                 </div>
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
@@ -379,9 +384,8 @@
                     <div class="filter-section" style="border-left-color: #8b5cf6;">
                         <div class="filter-item">
                             <label>School:</label>
-                            <select id="admin-mark-school" onchange="loadAdminMarks()">
-                                <option value="All">All Schools</option>
-                            </select>
+                            <!-- Searchable Dropdown for School Filter -->
+                            <input type="text" id="admin-mark-school" list="allSchoolsList" oninput="loadAdminMarks()" placeholder="Search School... (Leave empty for All)">
                         </div>
                         <div class="filter-item">
                             <label>Grade:</label>
@@ -406,7 +410,7 @@
                     </div>
                     <div class="table-container" id="admin-marks-container">
                         <table>
-                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th class="text-start">Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
+                            <thead><tr><th>School</th><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Grade</th><th>Subject Teacher</th></tr></thead>
                             <tbody id="admin-marks-list"></tbody>
                         </table>
                     </div>
@@ -504,8 +508,11 @@
             <div id="zdett-tools" style="display: none;">
                 
                 <div class="card" style="border-left: 5px solid #ef4444;">
-                    <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
-                    <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printFaultReports()">🖨️ Print Fault Reports</button>
+                    </div>
+                    <div class="table-container" id="admin-faults-container">
                         <table>
                             <thead><tr><th>Date & Time</th><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th></tr></thead>
                             <tbody id="all-faults-list"></tbody>
@@ -533,7 +540,6 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Branch</p>
     </footer>
 
-    <!-- Scripts -->
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
@@ -563,12 +569,12 @@
             {"division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.G. Athula", "contact": "077-1707818"}, 
             {"division": "Wellawaya", "school": "Mo/Athadutuwewa Kanishta Vidyalaya", "pc_active": 7, "pc_inactive": 0, "monitor_active": 7, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "D.M.D.M. Wijesinghe", "contact": "070-4883032"}, 
             {"division": "Wellawaya", "school": "Mo/D.S. Senanayake Kanishta Vidyalaya", "pc_active": 1, "pc_inactive": 0, "monitor_active": 1, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "R.D. Rathnapala", "contact": "078-8285577"}, 
-            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "071-1586199"}, 
+            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M. Jayasinghe", "contact": "071-1586199"}, 
             {"division": "Wellawaya", "school": "Mo/Malwaththawela Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D. Suneth", "contact": "071-8134680"}, 
             {"division": "Wellawaya", "school": "Mo/Chandawimala Primary Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "R.D. Jayathilaka", "contact": "071-8218580"}, 
             {"division": "Wellawaya", "school": "Mo/Buduruwagala Primary Vidyalaya", "pc_active": 1, "pc_inactive": 1, "monitor_active": 1, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "N.M. Chandra", "contact": "071-5165951"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M.R. Kumara", "contact": "077-6401283"}, 
-            {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "P.M.G. Ananda", "contact": "071-0635724"}, 
+            {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.M.J. Dissanayake", "contact": "070-4528455"}, 
             {"division": "Wellawaya", "school": "Mo/Buduruwagala Maha Vidyalaya", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 26, "arduino_inactive": 1, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M. Senarathne", "contact": "071-8089596"}, 
             {"division": "Wellawaya", "school": "Mo/Malwaththawela Central College", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.B.K. Bandaranayake", "contact": "071-4931550"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Maha Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.P.D. Jayanayake", "contact": "076-3631863"}, 
@@ -583,7 +589,7 @@
             {"division": "Buththala", "school": "Mo/Yudhaganawa Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "077-8054937"}, 
             {"division": "Buththala", "school": "Mo/Waguruwela Maha Vidyalaya", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "H.G.G. Piyadarshana", "contact": "071-2429817"}, 
             {"division": "Buththala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "A.S. Nalin Tharanga Kumara", "contact": "071-8566220"}, 
-            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M.J. Dissanayake", "contact": "070-4528455"}, 
+            {"division": "Buththala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.D. Padmasiri", "contact": "070-5863508"}, 
             {"division": "Buththala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Ajith Ruwan Priyadarshana", "contact": "071-3379988"}, 
             {"division": "Buththala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M.S. Kamal Kumara", "contact": "071-8034722"}, 
             {"division": "Buththala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "071-0117228"}, 
@@ -610,7 +616,7 @@
                     <tr>
                         <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
                         <th rowspan="2">Division</th>
-                        <th rowspan="2" class="text-start">School Name</th>
+                        <th rowspan="2">School Name</th>
                         <th colspan="2" class="bg-light-blue">System Units</th>
                         <th colspan="2" class="bg-light-blue">Monitors</th>
                         <th rowspan="2" style="color:#007bff;">Active Laptops</th>
@@ -627,12 +633,11 @@
                 `;
                 document.getElementById('adv-filters').style.display = 'flex';
             } else {
-                // Update: Removed Status, kept only Principal Name and Contact
                 thead.innerHTML = `
                     <tr>
                         <th style="background:#e9ecef; width: 50px;">#</th>
                         <th>Division</th>
-                        <th class="text-start">School Name</th>
+                        <th>School Name</th>
                         <th>Principal Name</th>
                         <th>Contact No</th>
                     </tr>
@@ -652,7 +657,7 @@
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
-                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="fw-bold" style="color: #34495e;">${row.school}</td>
                         <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
                         <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
                         <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
@@ -663,11 +668,10 @@
                         <td class="bg-light-blue">${internetStatus}</td>
                     `;
                 } else {
-                    // Update: Show Principal Name & Contact only
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
-                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="fw-bold" style="color: #34495e;">${row.school}</td>
                         <td>${row.principal || '-'}</td>
                         <td>${row.contact || '-'}</td>
                     `;
@@ -677,13 +681,17 @@
         }
 
         window.filterSchoolData = function() {
+            let searchInput = document.getElementById('schoolSearch');
+            let adminSearchInput = document.getElementById('admin-mark-school');
+            
             const divFilter = document.getElementById('divisionFilter').value;
-            const searchStr = document.getElementById('schoolSearch').value.toLowerCase();
+            // Handle both search inputs depending on which exists/used
+            const searchStr = (searchInput ? searchInput.value : "").toLowerCase();
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
             let internetFilter = "All"; let connTypeFilter = "All"; let showInactiveOnly = false;
 
-            if (isZdett) {
+            if (isZdett && document.getElementById('internetFilter')) {
                 internetFilter = document.getElementById('internetFilter').value;
                 connTypeFilter = document.getElementById('connTypeFilter').value;
                 showInactiveOnly = document.getElementById('inactiveFilter').checked;
@@ -707,7 +715,7 @@
             let printContents = document.getElementById('admin-marks-container').innerHTML;
             let printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html><head><title>Zonal Marks Report</title>');
-            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: center;} .text-start{text-align:left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
             printWindow.document.write('</head><body>');
             printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Marks Report</h2>');
             printWindow.document.write(printContents);
@@ -716,14 +724,30 @@
             printWindow.print();
         };
 
+        // NEW: Print Fault Reports
+        window.printFaultReports = function() {
+            let printContents = document.getElementById('admin-faults-container').innerHTML;
+            let printWindow = window.open('', '', 'height=600,width=1000');
+            printWindow.document.write('<html><head><title>Zonal Fault & Repair Reports</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Fault & Repair Reports</h2>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
-            const adminSchFilter = document.getElementById('admin-mark-school');
-            if(adminSchFilter) {
+            
+            // Populate Datalist with unique school names for easy searching anywhere
+            const datalist = document.getElementById('allSchoolsList');
+            if(datalist) {
                 rawSchoolData.forEach(s => {
                     let opt = document.createElement('option');
-                    opt.value = s.school; opt.innerHTML = s.school;
-                    adminSchFilter.appendChild(opt);
+                    opt.value = s.school;
+                    datalist.appendChild(opt);
                 });
             }
         });
@@ -941,9 +965,9 @@
                     tbody.innerHTML += `<tr>
                         <td>${roleBadge}</td>
                         <td><strong>${u.teacherId || '-'}</strong></td>
-                        <td class="text-start">${u.name}</td>
-                        <td class="text-start">${u.email}</td>
-                        <td class="text-start">${u.school}</td>
+                        <td>${u.name}</td>
+                        <td>${u.email}</td>
+                        <td>${u.school}</td>
                         <td>${u.phone}</td>
                     </tr>`;
                 });
@@ -1001,7 +1025,7 @@
                     let gradeObj = getMarkGradeObj(m.marks);
                     tbody.innerHTML += `<tr>
                         <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
-                        <td class="text-start">${m.studentName}</td><td><strong>${m.marks}</strong></td>
+                        <td>${m.studentName}</td><td><strong>${m.marks}</strong></td>
                         <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
                         <td>${m.addedBy}</td>
                     </tr>`;
@@ -1012,7 +1036,9 @@
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
             tbody.innerHTML = '';
-            let schFilter = document.getElementById('admin-mark-school').value;
+            let schFilter = document.getElementById('admin-mark-school').value.trim();
+            if (schFilter === '' || schFilter.toLowerCase() === 'all') schFilter = 'All';
+
             let gradeFilter = document.getElementById('admin-mark-grade').value;
             let rangeFilter = document.getElementById('admin-mark-range').value;
             
@@ -1028,9 +1054,9 @@
                     
                     if(passSch && passGr && passRg) {
                         tbody.innerHTML += `<tr>
-                            <td class="text-start" style="font-size:0.85em;"><strong>${m.school}</strong></td>
+                            <td style="font-size:0.85em;"><strong>${m.school}</strong></td>
                             <td>${m.grade}</td><td>${m.className}</td><td>${m.term}</td>
-                            <td class="text-start">${m.studentName}</td>
+                            <td>${m.studentName}</td>
                             <td><strong>${m.marks}</strong></td>
                             <td><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
                             <td>${m.addedBy}</td>
