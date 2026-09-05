@@ -17,7 +17,7 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
-        /* Top Contact Bar (NEW) */
+        /* Top Contact Bar */
         .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
         .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
         .top-contact-bar a:hover { color: #38bdf8; text-decoration: underline; }
@@ -96,7 +96,6 @@
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
         .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 
-        /* ALL TABLES LEFT ALIGNED */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -132,15 +131,21 @@
 
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem 5px; width: 100%; }
+            .hero-banner h1 { font-size: 1.5rem; }
+            .filter-item { min-width: 100%; }
+            .filter-item-checkbox { margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Datalist for Searchable Schools & Teachers -->
+    <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
-    <datalist id="allTeachersList"></datalist>
 
-    <!-- NEW: Professional Top Contact Bar -->
+    <!-- Top Contact Bar -->
     <div class="top-contact-bar">
         <div>
             <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
@@ -225,6 +230,7 @@
             </div>
         </div>
 
+        <!-- ABOUT SECTION -->
         <div id="about" class="section">
             <div class="card">
                 <h2>About Us</h2>
@@ -351,10 +357,10 @@
         <div id="register-teacher" class="section">
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register Teacher</h2>
-                <p style="font-size: 0.85rem; color: #d32f2f;">* You can search your name or type it manually.</p>
-                <div class="form-group"><label>Full Name</label><input type="text" id="t-name" list="allTeachersList" placeholder="Search and Select Name"></div>
+                <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
+                <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="t-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
@@ -366,11 +372,11 @@
             <div class="card" style="max-width: 500px; margin: auto;">
                 <h2>Register ZDETT</h2>
                 <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
-                <div class="form-group"><label>Full Name</label><input type="text" id="z-name" list="allTeachersList" placeholder="Search and Select Name"></div>
+                <div class="form-group"><label>Name with initials</label><input type="text" id="z-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="z-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
                 <button onclick="registerZdett()">Register Account</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
@@ -382,17 +388,19 @@
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
             </div>
 
+            <!-- Profile Edit Section -->
             <div class="card" id="profile-edit-section" style="border-left: 5px solid #0ea5e9;">
-                <h3>⚙️ Update My Profile</h3>
+                <h3>✏️ Edit My Profile</h3>
+                <p style="font-size: 0.9rem; color: #555;">Update your personal information below.</p>
                 <div class="grid-form">
-                    <div><label style="font-size: 0.85rem; color: #666;">Full Name</label><input type="text" id="edit-name" placeholder="Full Name"></div>
+                    <div><label style="font-size: 0.85rem; color: #666;">Name with initials</label><input type="text" id="edit-name" placeholder="Name with initials"></div>
                     <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" list="allSchoolsList" placeholder="School Name"></div>
                     <div><label style="font-size: 0.85rem; color: #666;">Phone Number</label><input type="tel" id="edit-phone" placeholder="Phone Number"></div>
                 </div>
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
-            <!-- SUPER ADMIN TOOLS SECTION -->
+            <!-- ADMIN / SUPER ADMIN TOOLS SECTION -->
             <div id="superadmin-tools" style="display: none;">
                 
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
@@ -437,15 +445,15 @@
 
                 <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3 style="color: #9333ea;">👑 Registered ICT Teachers (Database)</h3>
+                        <h3 style="color: #9333ea;">👑 Admin Dashboard - User Management</h3>
                         <button class="btn-primary mb-2" onclick="printTeachersDb()">🖨️ Print Teachers DB</button>
                     </div>
-                    <p style="font-size: 0.9rem; color: #6b21a8;">Overview and management of all registered users in the Wellawaya Zonal ICT Hub system. This data is pulled automatically from the official records.</p>
+                    <p style="font-size: 0.9rem; color: #6b21a8;">Overview and management of all registered users in the Wellawaya Zonal ICT Hub system.</p>
                     
                     <div class="table-container" id="teachers-db-container">
                         <table>
                             <thead>
-                                <tr><th>Role</th><th>System ID</th><th>Name</th><th>Email</th><th>School</th><th>Phone</th><th>Action</th></tr>
+                                <tr><th>Role</th><th>System ID</th><th>Name</th><th>Email</th><th>School</th><th>Phone</th><th>Status</th></tr>
                             </thead>
                             <tbody id="all-users-list"></tbody>
                         </table>
@@ -574,7 +582,6 @@
     </div>
 
     <footer>
-        <!-- UPDATED FOOTER -->
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Hub</p>
     </footer>
 
@@ -583,7 +590,6 @@
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- Data Logic -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.R.S.S. Bandara", "contact": "071-3574806"}, 
@@ -643,66 +649,6 @@
             {"division": "Buththala", "school": "Mo/Dutugemunu National School", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.G. Premathilaka", "contact": "071-8218565"}, 
             {"division": "Buththala", "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M.N. Wickramasinghe", "contact": "070-5113570"}, 
             {"division": "Buththala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "S.D. Gunawardhana", "contact": "070-2973082"}
-        ];
-
-        const rawTeacherData = [
-            {"name": "H .V.I.Madhushika", "school": "Mo/Anapallama K.V.", "email": "madhushikaishara1980@gmail.com", "phone": "0777130885"}, 
-            {"name": "M.M.I.K.K.Madurasingha", "school": "Mo/Athadutuwewa K.V.", "email": "madurasinghairesha190@gmail.com", "phone": "0701017161"}, 
-            {"name": "G.W.D.C. de Silva", "school": "Mo/Ethiliwewa M.V.", "email": "gwdedunusilva@gmail.com", "phone": "0766906938"}, 
-            {"name": "W.D Yureka", "school": "Mo/Kithulkote M.V.", "email": "wijesinhagedonyureka@gmail.com", "phone": "0719673916"}, 
-            {"name": "L.M.G.MANJULA SANJEEWANI", "school": "Mo/Kudaoya M.V.", "email": "msanjeewani722@gmail.com", "phone": "0766480391"}, 
-            {"name": "L.W.HETTIARACHCHI", "school": "Mo/Kudaoya M.V.", "email": "lwhettiarachchi@gmail.com", "phone": "0776357534"}, 
-            {"name": "W.B.M.P.M.K.Wijekoon", "school": "Mo/Kudaoya M.V.", "email": "piyumaliwijekoon98@gmail.com", "phone": "0703218681"}, 
-            {"name": "Karunarathna W. A. G. G.", "school": "Mo/Kurugama K.V.", "email": "gimhanag@gmail.com", "phone": "0719788809"}, 
-            {"name": "D.M.T.U.K.Wijesinghe", "school": "Mo/Gampangugama K.V.", "email": "bnstharanga@gmail.com", "phone": "0777944308"}, 
-            {"name": "N.S Wickramasinghe", "school": "Mo/J.M. Kumaradasa M.V.", "email": "sachethaninisansala@gmail.com", "phone": "0769171192"}, 
-            {"name": "T.K.S.D.Priyadarshani", "school": "Mo/J.M. Kumaradasa M.V.", "email": "trasdsajee@gmail.com", "phone": "0778175334"}, 
-            {"name": "HARSHANI R.M.P", "school": "Mo/D.S. Senanayake K.V.", "email": "harshi.monaragala@gmail.com", "phone": "0714385944"}, 
-            {"name": "W.P.R.K.Wicramathunga", "school": "Mo/Thelulla K.V.", "email": "kalpaniwicramathunga@gmail.com", "phone": "0774875549"}, 
-            {"name": "K.M.N. Herandika Rathnayake", "school": "Mo/Thelulla Janapada K.V.", "email": "abesinghasr@gmail.com", "phone": "0777689943"}, 
-            {"name": "Kumari M.W", "school": "Mo/Debaraara K.V.", "email": "wathsalasenadeera1@gmail.com", "phone": "0766834731"}, 
-            {"name": "A.L.SUGATHADASA", "school": "Mo/Balaharuwa K.V.", "email": "ayeshalaki@gmail.com", "phone": ""}, 
-            {"name": "K.A.D.M.NAYANAJITH", "school": "Mo/Balaharuwa K.V.", "email": "nayanajithmadhusankha@gmail.com", "phone": ""}, 
-            {"name": "K.D.H.SANCHANI", "school": "Mo/Balaharuwa K.V.", "email": "sanchanihiruni@gmail.com", "phone": ""}, 
-            {"name": "H.T.S.Kithsiri", "school": "Mo/Buduruwagala M.V.", "email": "sumudu.kithsiri@gmail.com", "phone": "0714693937"}, 
-            {"name": "W.H.G.N.Sudarshani", "school": "Mo/Buduruwagala M.V.", "email": "whgnsudarshani@gmail.com", "phone": "0713404950"}, 
-            {"name": "L.A.K.E Bandara", "school": "Mo/Malwaththawala M.M.V.", "email": "lakebandara@gmail.com", "phone": "0712342878"}, 
-            {"name": "M.P.C.M. Nishadi", "school": "Mo/Malwaththawala M.M.V.", "email": "manodyanishadi@gmail.com", "phone": "0719875180"}, 
-            {"name": "N.M.K.Sanjeewa", "school": "Mo/Malwaththawala M.M.V.", "email": "sanjeewanmk@gmail.com", "phone": ""}, 
-            {"name": "R.M.N.Lakshani", "school": "Mo/Malwaththawala M.M.V.", "email": "nomeshalakshani91@gmail.com", "phone": "0716429037"}, 
-            {"name": "V.B.C.Hansani", "school": "Mo/Malwaththawala M.M.V.", "email": "vbchansani@gmail.com", "phone": "0717599113"}, 
-            {"name": "W.I.Sandamali", "school": "Mo/Malwaththawala M.M.V.", "email": "wisandamali71@gmail.com", "phone": ""}, 
-            {"name": "Mrs.M.Fathima Zimla", "school": "Mo/Mahawelamulla Muslim K.V.", "email": "simlamowjooth@gmail.com", "phone": "0729726136"}, 
-            {"name": "K.S Nisansala", "school": "Mo/Randenivela K.V.", "email": "sauri93nisansala@gmail.com", "phone": "0712183997"}, 
-            {"name": "R.M.N.Chathuranga", "school": "Mo/Randenivela K.V.", "email": "sithum980@gmail.com", "phone": "0714170216"}, 
-            {"name": "W. L. G. D. Dilsara", "school": "Mo/Weherayaya K.V.", "email": "denethdilsara12@gmail.com", "phone": "0711460850"}, 
-            {"name": "K.M.D.S.G.Amarasekara", "school": "Mo/Weherayaya M.V.", "email": "dilkisharuka@gmail.com", "phone": "0725576636"}, 
-            {"name": "S.R.M.A.M.Madhavi", "school": "Mo/Siyambalagunay K.V.", "email": "madhavisamaradivakara@gmail.com", "phone": "0715702001"}, 
-            {"name": "Pushpakumawa W M J", "school": "Mo/Handapanagala M.V.", "email": "janithapushpakumarawm@gmail.com", "phone": "0719120618"}, 
-            {"name": "W.D.Menaka perera", "school": "Mo/Handapanagala M.V.", "email": "menakadilhani412@gmail.com", "phone": "0706007146"}, 
-            {"name": "M.Sudassa himi", "school": "Mo/Unawatuna K.V.", "email": "unawatunajuniorschool@gmail.com", "phone": "0771311387"}, 
-            {"name": "Godevitharana A.G.I.S.", "school": "Mo/Okkampitiya Janapada K.V.", "email": "agisanojee@gmail.com", "phone": "0713794018"}, 
-            {"name": "H. M. R. Bandara", "school": "Mo/Okkampitiya Janapada K.V.", "email": "rasiherath616@gmail.com", "phone": "0704882466"}, 
-            {"name": "K.H.W.M.M.U.Kumara", "school": "Mo/Okkampitiya Vijayabahu M.V.", "email": "malindaudayakumara@gmail.com", "phone": "0776519901"}, 
-            {"name": "K.W.SASHIKA PRASADI", "school": "Mo/Okkampitiya Vijayabahu M.V.", "email": "sashiprasadi1120@gmail.com", "phone": "0766536483"}, 
-            {"name": "J.A.C.M. JAYASOORIYA", "school": "Mo/Kukurampola K.V.", "email": "madu319@gmail.com", "phone": "0777892887"}, 
-            {"name": "J M Shanika Madushani", "school": "Mo/Sri Sumanajothi K.V.", "email": "ruwanikonara5@gmail.com", "phone": "0712376575"}, 
-            {"name": "GAMAGE GCS", "school": "Mo/Gonaganara K.V.", "email": "gamagechathu492@gmail.com", "phone": "0701370614"}, 
-            {"name": "A.Vinoranjani", "school": "Mo/Janasankha Model K.V.", "email": "", "phone": "0764483943"}, 
-            {"name": "K.M.R.Priyakelum", "school": "Mo/Dutugemunu Central M.V.", "email": "priyakelum@gmail.com", "phone": "0714469232"}, 
-            {"name": "P.V.T.Ayodani", "school": "Mo/Dutugemunu Central M.V.", "email": "tayodani@gmail.com", "phone": "0716590035"}, 
-            {"name": "S.A. GAYAN PRABUDDHA INDIKA SOORIYAARACHCHI", "school": "Mo/Dutugemunu Central M.V.", "email": "saindika@gmail.com", "phone": "0718200577"}, 
-            {"name": "S.S DISSANAYAKA", "school": "Mo/Dutugemunu Central M.V.", "email": "", "phone": "0713407414"}, 
-            {"name": "W.A.N.Nilanthi", "school": "Mo/Dutugemunu Central M.V.", "email": "nilulanka@gmail.com", "phone": "0712042736"}, 
-            {"name": "R.M.A.K Rathnayaka", "school": "Mo/Pelwatta Navodya M.V.", "email": "anil.rathnayaka@gmail.com", "phone": "0715890169"}, 
-            {"name": "W.M.S.Madhuwanthi", "school": "Mo/Pelwatta Navodya M.V.", "email": "sithara7104@gmail.com", "phone": "0710456366"}, 
-            {"name": "P.M.S.Kumari", "school": "Mo/Piyananda K.V.", "email": "swarna06kumari@gmail.com", "phone": "0753776710"}, 
-            {"name": "NISANSALA K.M.J.", "school": "Mo/Yudhaganawa K.V.", "email": "me.jeewani@gmail.com", "phone": "0719034096"}, 
-            {"name": "M.A.R.Pasan", "school": "Mo/Ranjan Wijerathne M.V.", "email": "arc.creation95@gmail.com", "phone": "0706993367"}, 
-            {"name": "E K D H Lakmali", "school": "Mo/Waguruwela M.V.", "email": "dulaniharshika90@gmail.com", "phone": "0705047189"}, 
-            {"name": "D.M.D.H.Dissanayaka", "school": "Mo/Sri Subodha K.V.", "email": "dhanushadissanayaka@gmail.com", "phone": "0771425957"}, 
-            {"name": "R.V.K.N.Rawathawaththa", "school": "Mo/Siddhartha M.V.", "email": "nuwanrawatawatta@gmail.com", "phone": "0711577209"}, 
-            {"name": "A.C.T. Mendis", "school": "Mo/Helagama K.V.", "email": "nuwandhika94@gmail.com", "phone": "0782877719"}
         ];
 
         window.renderSchoolTable = function(data) {
@@ -771,8 +717,8 @@
                         <td class="fw-bold text-secondary">${index + 1}</td>
                         <td>${row.division}</td>
                         <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
-                        <td>${row.principal || '-'}</td>
-                        <td>${row.contact || '-'}</td>
+                        <td class="text-start">${row.principal || '-'}</td>
+                        <td class="text-start">${row.contact || '-'}</td>
                     `;
                 }
                 tbody.appendChild(tr);
@@ -890,15 +836,6 @@
                     let opt = document.createElement('option');
                     opt.value = s.school;
                     datalist.appendChild(opt);
-                });
-            }
-
-            const teacherDatalist = document.getElementById('allTeachersList');
-            if(teacherDatalist) {
-                rawTeacherData.forEach(t => {
-                    let opt = document.createElement('option');
-                    opt.value = t.name;
-                    teacherDatalist.appendChild(opt);
                 });
             }
         });
@@ -1109,29 +1046,12 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
-            // Map the imported teachers into the table first
-            rawTeacherData.forEach(t => {
-                let roleBadge = '<span class="grade-b">Teacher</span>';
-                tbody.innerHTML += `<tr>
-                    <td>${roleBadge}</td>
-                    <td><strong>-</strong></td>
-                    <td class="text-start">${t.name}</td>
-                    <td class="text-start">${t.email}</td>
-                    <td class="text-start">${t.school}</td>
-                    <td class="text-start">${t.phone}</td>
-                    <td><button class="btn-primary" style="font-size: 0.7em; padding: 4px 8px;" onclick="alert('Editing pre-loaded teacher base is currently restricted.')">Edit</button></td>
-                </tr>`;
-            });
-
             // Append actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
                     let u = child.val();
                     if (u.email === 'zonalicthub@gmail.com') return; 
-                    
-                    let exists = rawTeacherData.find(rt => rt.email.toLowerCase() === u.email.toLowerCase());
-                    if(exists) return; 
 
                     let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
                     tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
