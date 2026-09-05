@@ -17,12 +17,6 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
-        /* Top Contact Bar */
-        .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
-        .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
-        .top-contact-bar a:hover { color: #38bdf8; text-decoration: underline; }
-        @media (max-width: 600px) { .top-contact-bar { flex-direction: column; gap: 6px; text-align: center; } }
-
         /* MOE Style Header Banner */
         .header-banner { width: 100%; background-color: #001f3f; text-align: center; position: relative; }
         .header-banner img { width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block; }
@@ -96,6 +90,7 @@
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
         .btn-purple:hover { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 
+        /* ALL TABLES LEFT ALIGNED */
         .table-container { width: 100%; overflow-x: auto; background: white; border-radius: 8px; margin-top: 15px; border: 1px solid #e1e8ed; max-height: 600px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.95rem; white-space: nowrap; }
         thead { position: sticky; top: 0; background: #f1f5f9; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -144,15 +139,6 @@
 
     <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
-
-    <!-- Top Contact Bar -->
-    <div class="top-contact-bar">
-        <div>
-            <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
-            <span style="margin-left: 15px;">📞 <a href="tel:0552274750">055 227 4750</a></span>
-        </div>
-        <div>📍 Wellawaya Zonal Education Office - ICT Hub</div>
-    </div>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Hub Banner">
@@ -228,6 +214,17 @@
                     <span style="font-size: 0.75rem; color: #7f8c8d; font-weight: normal;">National Institute of Education</span>
                 </a>
             </div>
+
+            <!-- Professional Contact Section (Moved Above Footer) -->
+            <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
+                <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Hub</h3>
+                <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
+                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 15px;">
+                    <span style="font-size: 1.1rem; font-weight: bold; color: #0369a1;">✉️ <a href="mailto:zonalicthub@gmail.com" style="color: #0369a1; text-decoration: none;">zonalicthub@gmail.com</a></span>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: #0369a1;">☎️ <a href="tel:0552274750" style="color: #0369a1; text-decoration: none;">055 227 4750</a></span>
+                </div>
+            </div>
+
         </div>
 
         <!-- ABOUT SECTION -->
@@ -360,7 +357,7 @@
                 <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
                 <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="t-email" placeholder="example@gmail.com"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
@@ -376,7 +373,7 @@
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="z-email" placeholder="example@gmail.com"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
                 <button onclick="registerZdett()">Register Account</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
@@ -400,7 +397,7 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
-            <!-- ADMIN / SUPER ADMIN TOOLS SECTION -->
+            <!-- SUPER ADMIN TOOLS SECTION -->
             <div id="superadmin-tools" style="display: none;">
                 
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
@@ -443,6 +440,7 @@
                     </div>
                 </div>
 
+                <!-- Admin User Management -->
                 <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                         <h3 style="color: #9333ea;">👑 Admin Dashboard - User Management</h3>
