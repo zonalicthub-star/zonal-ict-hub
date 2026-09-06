@@ -17,6 +17,12 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
+        /* Top Contact Bar */
+        .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
+        .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
+        .top-contact-bar a:hover { color: #38bdf8; text-decoration: underline; }
+        @media (max-width: 600px) { .top-contact-bar { flex-direction: column; gap: 6px; text-align: center; } }
+
         /* MOE Style Header Banner */
         .header-banner { width: 100%; background-color: #001f3f; text-align: center; position: relative; }
         .header-banner img { width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block; }
@@ -77,9 +83,14 @@
         
         .form-group { margin-bottom: 18px; }
         .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        input, textarea, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #cfd9e0; border-radius: 8px; font-size: 1rem; transition: border 0.3s; background: #fdfdfd;}
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], textarea, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #cfd9e0; border-radius: 8px; font-size: 1rem; transition: border 0.3s; background: #fdfdfd;}
         input:focus, textarea:focus, select:focus { outline: none; border-color: #0056b3; box-shadow: 0 0 5px rgba(0,86,179,0.2); }
         
+        /* Checkbox styling */
+        .checkbox-group { display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.95rem; margin-top: 5px; }
+        .checkbox-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; color: #334155; font-weight: 500;}
+        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; margin: 0;}
+
         button { background: linear-gradient(135deg, #28a745, #218838); color: white; font-weight: bold; cursor: pointer; border: none; padding: 12px 20px; border-radius: 8px; transition: 0.3s; font-size: 1rem; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);}
         button:hover { background: linear-gradient(135deg, #218838, #1e7e34); transform: scale(1.02); }
         .btn-danger { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); }
@@ -120,9 +131,6 @@
         .filter-item { display: flex; flex-direction: column; min-width: 150px; flex: 1; }
         .filter-item label { font-size: 0.85rem; color: #555; font-weight: bold; margin-bottom: 5px; }
         .filter-item select, .filter-item input[type="text"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
-        .filter-item-checkbox { display: flex; align-items: center; gap: 8px; margin-top: 20px; flex-direction: row !important; }
-        .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
-        .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
 
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
@@ -131,15 +139,13 @@
             .container { padding: 1rem 5px; width: 100%; }
             .hero-banner h1 { font-size: 1.5rem; }
             .filter-item { min-width: 100%; }
-            .filter-item-checkbox { margin-top: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Datalist for Searchable Schools & Teachers -->
+    <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
-    <datalist id="allTeachersList"></datalist>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
@@ -216,7 +222,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section (Moved Above Footer) -->
+            <!-- Professional Contact Section -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -286,9 +292,9 @@
                                 <option value="Personal">Personal</option>
                             </select>
                         </div>
-                        <div class="filter-item filter-item-checkbox">
-                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()">
-                            <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
+                        <div class="filter-item" style="flex-direction: row; align-items: center; margin-top: 20px;">
+                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()" style="width: 18px; height: 18px; margin: 0 10px 0 0; cursor: pointer;">
+                            <label for="inactiveFilter" style="margin:0; color: #d32f2f; cursor:pointer;">Show schools with Inactive PCs/Monitors</label>
                         </div>
                     </div>
                 </div>
@@ -302,10 +308,39 @@
             </div>
         </div>
 
+        <!-- TEACHERS SECTION (PUBLIC) -->
         <div id="teachers" class="section">
             <div class="card">
                 <h2>Registered ICT Teachers</h2>
                 <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
+                
+                <!-- NEW: Teachers Filter Section -->
+                <div class="filter-section" style="border-left-color: #0ea5e9;">
+                    <div class="filter-item">
+                        <label>Search Teacher/School:</label>
+                        <input type="text" id="teacherSearchPublic" placeholder="Type name or school..." oninput="window.filterTeacherData()">
+                    </div>
+                    <div class="filter-item">
+                        <label>Teaching Grade:</label>
+                        <select id="teacherGradeFilter" onchange="window.filterTeacherData()">
+                            <option value="All">All Grades</option>
+                            <option value="6-9">6-9</option>
+                            <option value="10-11">10-11</option>
+                            <option value="A/L ICT">A/L ICT</option>
+                            <option value="GIT">GIT</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Medium:</label>
+                        <select id="teacherMediumFilter" onchange="window.filterTeacherData()">
+                            <option value="All">All Mediums</option>
+                            <option value="Sinhala">Sinhala</option>
+                            <option value="English">English</option>
+                            <option value="Tamil">Tamil</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
@@ -313,6 +348,8 @@
                                 <th>Teacher ID</th>
                                 <th>Name</th>
                                 <th>School</th>
+                                <th>Teaching Grades</th>
+                                <th>Medium</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                             </tr>
@@ -352,12 +389,32 @@
             </div>
         </div>
 
+        <!-- NEW: TEACHER REGISTRATION FORM -->
         <div id="register-teacher" class="section">
-            <div class="card" style="max-width: 500px; margin: auto;">
+            <div class="card" style="max-width: 600px; margin: auto;">
                 <h2>Register Teacher</h2>
                 <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
                 <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
+                
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="t-grade" value="6-9"> 6-9</label>
+                        <label><input type="checkbox" name="t-grade" value="10-11"> 10-11</label>
+                        <label><input type="checkbox" name="t-grade" value="A/L ICT"> A/L ICT</label>
+                        <label><input type="checkbox" name="t-grade" value="GIT"> GIT</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="t-medium" value="Sinhala"> Sinhala</label>
+                        <label><input type="checkbox" name="t-medium" value="English"> English</label>
+                        <label><input type="checkbox" name="t-medium" value="Tamil"> Tamil</label>
+                    </div>
+                </div>
+
                 <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
@@ -366,13 +423,33 @@
             </div>
         </div>
 
+        <!-- NEW: ZDETT REGISTRATION FORM -->
         <div id="register-zdett" class="section">
-            <div class="card" style="max-width: 500px; margin: auto;">
+            <div class="card" style="max-width: 600px; margin: auto;">
                 <h2>Register ZDETT</h2>
                 <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
                 <div class="form-group"><label>Name with initials</label><input type="text" id="z-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
+                
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="z-grade" value="6-9"> 6-9</label>
+                        <label><input type="checkbox" name="z-grade" value="10-11"> 10-11</label>
+                        <label><input type="checkbox" name="z-grade" value="A/L ICT"> A/L ICT</label>
+                        <label><input type="checkbox" name="z-grade" value="GIT"> GIT</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="z-medium" value="Sinhala"> Sinhala</label>
+                        <label><input type="checkbox" name="z-medium" value="English"> English</label>
+                        <label><input type="checkbox" name="z-medium" value="Tamil"> Tamil</label>
+                    </div>
+                </div>
+
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
@@ -381,6 +458,7 @@
             </div>
         </div>
 
+        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
@@ -395,7 +473,26 @@
                     <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" list="allSchoolsList" placeholder="School Name"></div>
                     <div><label style="font-size: 0.85rem; color: #666;">Phone Number</label><input type="tel" id="edit-phone" placeholder="Phone Number"></div>
                 </div>
-                <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
+                <div class="grid-form">
+                    <div>
+                        <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="edit-grade" value="6-9"> 6-9</label>
+                            <label><input type="checkbox" name="edit-grade" value="10-11"> 10-11</label>
+                            <label><input type="checkbox" name="edit-grade" value="A/L ICT"> A/L ICT</label>
+                            <label><input type="checkbox" name="edit-grade" value="GIT"> GIT</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="edit-medium" value="Sinhala"> Sinhala</label>
+                            <label><input type="checkbox" name="edit-medium" value="English"> English</label>
+                            <label><input type="checkbox" name="edit-medium" value="Tamil"> Tamil</label>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="updateProfile()" style="margin-top: 15px;">Save Profile Changes</button>
             </div>
 
             <!-- SUPER ADMIN TOOLS SECTION -->
@@ -452,7 +549,7 @@
                     <div class="table-container" id="teachers-db-container">
                         <table>
                             <thead>
-                                <tr><th>Role</th><th>System ID</th><th>Name</th><th>Email</th><th>School</th><th>Phone</th><th>Status</th></tr>
+                                <tr><th>Role</th><th>System ID</th><th>Name</th><th>School</th><th>Grades</th><th>Medium</th><th>Email</th><th>Phone</th><th>Status</th></tr>
                             </thead>
                             <tbody id="all-users-list"></tbody>
                         </table>
@@ -607,6 +704,7 @@
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
+    <!-- School Data Setup -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.R.S.S. Bandara", "contact": "0713574806"}, 
@@ -638,7 +736,7 @@
             {"division": "Wellawaya", "school": "Mo/Kudaoya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M.R. Kumara", "contact": "0776401283"}, 
             {"division": "Wellawaya", "school": "Mo/Ethiliwewa Maha Vidyalaya", "pc_active": 44, "pc_inactive": 21, "monitor_active": 56, "monitor_inactive": 9, "smartboard_active": 4, "smartboard_inactive": 1, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 20, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.M.J. Dissanayake", "contact": "0704528455"}, 
             {"division": "Wellawaya", "school": "Mo/Buduruwagala Maha Vidyalaya", "pc_active": 59, "pc_inactive": 7, "monitor_active": 73, "monitor_inactive": 1, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 26, "arduino_inactive": 1, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M. Senarathne", "contact": "0718089596"}, 
-            {"division": "Wellawaya", "school": "Mo/Malwaththawela Central College", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.B.K. Bandaranayake", "contact": "0714931550"}, 
+            {"division": "Wellawaya", "school": "Mo/Malwaththawala M.M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.B.K. Bandaranayake", "contact": "0714931550"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Maha Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.P.D. Jayanayake", "contact": "0763631863"}, 
             {"division": "Buttala", "school": "Mo/Unawatuna Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Pradeep Hemantha", "contact": "0703415195"}, 
             {"division": "Buttala", "school": "Mo/Munasingha Primary School", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "K.D.M. Samarakoon", "contact": "0711879335"}, 
@@ -744,7 +842,6 @@
 
         window.filterSchoolData = function() {
             let searchInput = document.getElementById('schoolSearch');
-            let adminSearchInput = document.getElementById('admin-mark-school');
             
             const divFilter = document.getElementById('divisionFilter').value;
             const searchStr = (searchInput ? searchInput.value : "").toLowerCase();
@@ -881,6 +978,7 @@
         const db = getDatabase(app);
 
         window.currentUserData = null;
+        window.globalTeachers = []; // For filtering on public page
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -926,14 +1024,17 @@
             let email = document.getElementById('t-email').value;
             let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
+            
+            let grades = Array.from(document.querySelectorAll('#register-teacher input[name="t-grade"]:checked')).map(cb => cb.value).join(', ');
+            let mediums = Array.from(document.querySelectorAll('#register-teacher input[name="t-medium"]:checked')).map(cb => cb.value).join(', ');
 
-            if(!name || !school || !email || !phone || !pass) { alert("Please fill all fields."); return; }
+            if(!name || !school || !email || !phone || !pass) { alert("Please fill all required fields."); return; }
 
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, school, email, phone, role: 'teacher', teacherId: tId
+                    name, school, email, phone, grades, mediums, role: 'teacher', teacherId: tId
                 });
                 alert(`Registration Successful! Your Teacher ID is: ${tId}`);
                 window.showSection('login');
@@ -948,13 +1049,16 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            if(!name || !idNo || !school || !phone || !email || !pass) { alert("Please fill all fields."); return; }
+            let grades = Array.from(document.querySelectorAll('#register-zdett input[name="z-grade"]:checked')).map(cb => cb.value).join(', ');
+            let mediums = Array.from(document.querySelectorAll('#register-zdett input[name="z-medium"]:checked')).map(cb => cb.value).join(', ');
+
+            if(!name || !idNo || !school || !phone || !email || !pass) { alert("Please fill all required fields."); return; }
 
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, idNo, school, phone, email, role: 'zdett', teacherId: tId
+                    name, idNo, school, phone, email, grades, mediums, role: 'zdett', teacherId: tId
                 });
                 alert(`ZDETT Registration Successful! (Teacher ID: ${tId}).`);
                 window.showSection('login');
@@ -968,7 +1072,6 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
                 
-                // SUPER ADMIN ONLY BY SPECIFIC EMAIL
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -1017,6 +1120,23 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
+            // Set checkboxes for Edit Profile
+            document.querySelectorAll('input[name="edit-grade"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('input[name="edit-medium"]').forEach(cb => cb.checked = false);
+
+            if (user.grades) {
+                user.grades.split(', ').forEach(val => {
+                    let cb = document.querySelector(`input[name="edit-grade"][value="${val}"]`);
+                    if (cb) cb.checked = true;
+                });
+            }
+            if (user.mediums) {
+                user.mediums.split(', ').forEach(val => {
+                    let cb = document.querySelector(`input[name="edit-medium"][value="${val}"]`);
+                    if (cb) cb.checked = true;
+                });
+            }
+
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
             document.getElementById('superadmin-tools').style.display = 'none';
@@ -1043,6 +1163,9 @@
             let newName = document.getElementById('edit-name').value;
             let newSchool = document.getElementById('edit-school').value;
             let newPhone = document.getElementById('edit-phone').value;
+
+            let newGrades = Array.from(document.querySelectorAll('input[name="edit-grade"]:checked')).map(cb => cb.value).join(', ');
+            let newMediums = Array.from(document.querySelectorAll('input[name="edit-medium"]:checked')).map(cb => cb.value).join(', ');
             
             if(!newName || !newSchool || !newPhone) { alert("Name with initials, School, and Phone Number cannot be empty."); return; }
 
@@ -1052,8 +1175,9 @@
             }
 
             try {
-                await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone });
+                await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone, grades: newGrades, mediums: newMediums });
                 window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
+                window.currentUserData.grades = newGrades; window.currentUserData.mediums = newMediums;
                 setupDashboard();
                 alert("Profile updated successfully!");
                 if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
@@ -1064,7 +1188,6 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
-            // Only fetch actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
@@ -1076,8 +1199,10 @@
                         <td>${roleBadge}</td>
                         <td><strong>${u.teacherId || '-'}</strong></td>
                         <td class="text-start">${u.name}</td>
-                        <td class="text-start">${u.email}</td>
                         <td class="text-start">${u.school}</td>
+                        <td class="text-start">${u.grades || '-'}</td>
+                        <td class="text-start">${u.mediums || '-'}</td>
+                        <td class="text-start">${u.email}</td>
                         <td class="text-start">${u.phone}</td>
                         <td><button class="btn-success" style="font-size: 0.7em; padding: 4px 8px;">Active</button></td>
                     </tr>`;
@@ -1315,23 +1440,52 @@
             }
         };
 
-        async function loadTeachers() {
+        // NEW: Teacher Filter Logic
+        window.filterTeacherData = function() {
+            let searchInput = document.getElementById('teacherSearchPublic');
+            let searchStr = (searchInput ? searchInput.value : "").toLowerCase();
+            let gradeFilter = document.getElementById('teacherGradeFilter').value;
+            let mediumFilter = document.getElementById('teacherMediumFilter').value;
+
             let tbody = document.getElementById('teacher-list');
             tbody.innerHTML = '';
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                let usersArray = [];
-                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
-                usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
-                usersArray.forEach((u) => {
-                    if (u.email === 'zonalicthub@gmail.com') return;
 
-                    if(u.role === 'teacher' || u.role === 'zdett') {
-                        let tId = u.teacherId ? u.teacherId : "T-0000";
-                        tbody.innerHTML += `<tr><td class="text-start"><strong>${tId}</strong></td><td class="text-start">${u.name}</td><td class="text-start">${u.school}</td><td class="text-start">${u.email}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+            let filtered = window.globalTeachers.filter(u => {
+                let matchSearch = u.name.toLowerCase().includes(searchStr) || u.school.toLowerCase().includes(searchStr);
+                let matchGrade = (gradeFilter === 'All') || (u.grades && u.grades.includes(gradeFilter));
+                let matchMedium = (mediumFilter === 'All') || (u.mediums && u.mediums.includes(mediumFilter));
+                return matchSearch && matchGrade && matchMedium;
+            });
+
+            filtered.forEach(u => {
+                let tId = u.teacherId ? u.teacherId : "T-0000";
+                tbody.innerHTML += `<tr>
+                    <td class="text-start"><strong>${tId}</strong></td>
+                    <td class="text-start">${u.name}</td>
+                    <td class="text-start">${u.school}</td>
+                    <td class="text-start">${u.grades || '-'}</td>
+                    <td class="text-start">${u.mediums || '-'}</td>
+                    <td class="text-start">${u.email}</td>
+                    <td class="text-start">${u.phone || 'N/A'}</td>
+                </tr>`;
+            });
+        }
+
+        async function loadTeachers() {
+            let snapshot = await get(ref(db, 'users'));
+            window.globalTeachers = [];
+            
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnap) => { 
+                    let u = childSnap.val();
+                    if (u.email === 'zonalicthub@gmail.com') return;
+                    if (u.role === 'teacher' || u.role === 'zdett') {
+                        window.globalTeachers.push(u);
                     }
                 });
+                window.globalTeachers.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
             }
+            window.filterTeacherData();
         }
 
         async function loadZdettTeam() {
