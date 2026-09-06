@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wellawaya Zonal ICT Hub</title>
+    <title>Wellawaya Zonal ICT Division</title>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -147,8 +147,17 @@
     <datalist id="allSchoolsList"></datalist>
     <datalist id="allTeachersList"></datalist>
 
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar">
+        <div>
+            <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
+            <span style="margin-left: 15px;">📞 <a href="tel:0718581675">071 858 1675</a> | <a href="tel:0714469232">071 446 9232</a></span>
+        </div>
+        <div>📍 Wellawaya Zonal Education Office - ICT Division</div>
+    </div>
+
     <div class="header-banner">
-        <img src="header.jpg" alt="Zonal ICT Hub Banner">
+        <img src="header.jpg" alt="Zonal ICT Division Banner">
     </div>
 
     <div class="nav-container">
@@ -176,7 +185,7 @@
         <span class="ticker-title">Flash News</span>
         <div class="ticker-content">
             <span class="ticker-text">
-                <a onclick="showNews('Welcome to the new Zonal ICT Hub. This platform brings all resources together.')">📢 Welcome to the new Zonal ICT Hub.</a> | 
+                <a onclick="showNews('Welcome to the new Zonal ICT Division Platform. This platform brings all resources together.')">📢 Welcome to the new Zonal ICT Division Platform.</a> | 
                 <a onclick="showNews('ZDETT team is currently conducting school lab technical audits. Please update your inventories.')">🛠️ ZDETT team is currently conducting school lab technical audits.</a> | 
                 <a onclick="showNews('Term evaluation marks updates are required by the end of this month.')">📊 Term evaluation marks updates are required by the end of this month.</a>
             </span>
@@ -188,14 +197,14 @@
         <!-- HOME SECTION -->
         <div id="home" class="section active">
             <div class="hero-banner">
-                <h1>Welcome to Wellawaya Zonal ICT Hub</h1>
+                <h1>Welcome to Wellawaya Zonal ICT Division</h1>
                 <p>Empowering education through digital innovation, efficient computer lab inventory management, and rapid technical support across the educational zone.</p>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>💻 Lab Inventory Tracking</h3>
-                    <p>Securely maintain school computer lab inventories including book numbers, page records, shortfalls, and surpluses.</p>
+                    <p>Securely maintain school computer lab inventories including section details, book numbers, shortfalls, and surpluses.</p>
                 </div>
                 <div class="feature-card">
                     <h3>🛠️ ZDETT Fault Management</h3>
@@ -224,11 +233,11 @@
 
             <!-- Professional Contact Section (Moved Above Footer) -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
-                <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Hub</h3>
+                <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
                 <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 15px;">
                     <span style="font-size: 1.1rem; font-weight: bold; color: #0369a1;">✉️ <a href="mailto:zonalicthub@gmail.com" style="color: #0369a1; text-decoration: none;">zonalicthub@gmail.com</a></span>
-                    <span style="font-size: 1.1rem; font-weight: bold; color: #0369a1;">☎️ <a href="tel:0552274750" style="color: #0369a1; text-decoration: none;">055 227 4750</a></span>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: #0369a1;">☎️ <a href="tel:0718581675" style="color: #0369a1; text-decoration: none;">071 858 1675</a> | <a href="tel:0714469232" style="color: #0369a1; text-decoration: none;">071 446 9232</a></span>
                 </div>
             </div>
 
@@ -238,7 +247,7 @@
         <div id="about" class="section">
             <div class="card">
                 <h2>About Us</h2>
-                <p>The ICT Branch of the Wellawaya Zonal Education Office is dedicated to uplifting information technology standards in all regional schools.</p>
+                <p>The ICT Division of the Wellawaya Zonal Education Office is dedicated to uplifting information technology standards in all regional schools.</p>
                 
                 <div style="background-color: #f8fafc; padding: 25px; border-left: 5px solid #0056b3; border-radius: 8px; margin-top: 25px;">
                     <h3 style="color: #004080; margin-top: 0; font-size: 1.3rem;">Message from Assistant Director</h3>
@@ -404,7 +413,7 @@
                 <button class="btn-primary" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
-            <!-- ADMIN / SUPER ADMIN TOOLS SECTION -->
+            <!-- SUPER ADMIN TOOLS SECTION -->
             <div id="superadmin-tools" style="display: none;">
                 
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
@@ -447,12 +456,13 @@
                     </div>
                 </div>
 
+                <!-- Admin User Management -->
                 <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                         <h3 style="color: #9333ea;">👑 Admin Dashboard - User Management</h3>
                         <button class="btn-primary mb-2" onclick="printTeachersDb()">🖨️ Print Teachers DB</button>
                     </div>
-                    <p style="font-size: 0.9rem; color: #6b21a8;">Overview and management of all registered users in the Wellawaya Zonal ICT Hub system.</p>
+                    <p style="font-size: 0.9rem; color: #6b21a8;">Overview and management of all registered users in the Wellawaya Zonal ICT Division system.</p>
                     
                     <div class="table-container" id="teachers-db-container">
                         <table>
@@ -526,17 +536,23 @@
                         <button class="btn-primary mb-2" onclick="printMyInventory()">🖨️ Print My Inventory</button>
                     </div>
                     <div class="grid-form">
-                        <input type="text" id="inv-book" placeholder="Book No."><input type="number" id="inv-page" placeholder="Page No."><input type="text" id="inv-col" placeholder="Column/Row">
+                        <input type="text" id="inv-section" placeholder="Section (e.g., Main Lab)">
+                        <input type="text" id="inv-book" placeholder="Book No.">
+                        <input type="number" id="inv-page" placeholder="Page No.">
+                        <input type="text" id="inv-col" placeholder="Column/Row">
                     </div>
                     <div class="grid-form">
-                        <input type="text" id="inv-name" placeholder="Equipment Name"><input type="number" id="inv-avail" placeholder="Available Qty"><input type="number" id="inv-short" placeholder="Shortfall Qty"><input type="number" id="inv-surp" placeholder="Surplus Qty">
+                        <input type="text" id="inv-name" placeholder="Equipment Name">
+                        <input type="number" id="inv-avail" placeholder="Available Qty">
+                        <input type="number" id="inv-short" placeholder="Shortfall Qty">
+                        <input type="number" id="inv-surp" placeholder="Surplus Qty">
                     </div>
                     <button onclick="addInventory()">Add to Inventory Book</button>
 
                     <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">My Inventory Items</h4>
                     <div class="table-container" id="my-inventory-container">
                         <table>
-                            <thead><tr><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th></tr></thead>
+                            <thead><tr><th>Section</th><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th></tr></thead>
                             <tbody id="my-inventory-list"></tbody>
                         </table>
                     </div>
@@ -560,7 +576,7 @@
                     </div>
                     <div class="table-container" id="admin-faults-container">
                         <table>
-                            <thead><tr><th>Date & Time</th><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Date & Time</th><th>School</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Handled By</th><th>Action</th></tr></thead>
                             <tbody id="all-faults-list"></tbody>
                         </table>
                     </div>
@@ -571,10 +587,22 @@
                         <h3>Zonal Master Inventory (Admin Tool)</h3>
                         <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
                     </div>
+                    
+                    <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
+                        <div class="filter-item">
+                            <label>School:</label>
+                            <input type="text" id="admin-inv-school" list="allSchoolsList" oninput="loadAdminInventory()" placeholder="Search School... (Leave empty for All)">
+                        </div>
+                        <div class="filter-item">
+                            <label>Section:</label>
+                            <input type="text" id="admin-inv-section" oninput="loadAdminInventory()" placeholder="Filter by Section...">
+                        </div>
+                    </div>
+                    
                     <div class="table-container" id="admin-inventory-container">
                         <table>
                             <thead>
-                                <tr><th>School</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
+                                <tr><th>School</th><th>Section</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
                             </thead>
                             <tbody id="all-inventory-list"></tbody>
                         </table>
@@ -586,7 +614,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Hub</p>
+        <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Division</p>
     </footer>
 
     <script>
@@ -628,31 +656,31 @@
             {"division": "Wellawaya", "school": "Mo/Malwaththawela Central College", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.B.K. Bandaranayake", "contact": "0714931550"}, 
             {"division": "Wellawaya", "school": "Mo/Kudaoya Maha Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.P.D. Jayanayake", "contact": "0763631863"}, 
             {"division": "Buttala", "school": "Mo/Unawatuna Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M. Pradeep Hemantha", "contact": "0703415195"}, 
-            {"division": "Buttala", "school": "Mo/Munasingha Primary School", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "K.D.M. Samarakoon", "contact": "0711879335"}, 
-            {"division": "Buttala", "school": "Mo/Siddhartha M.V.", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "T.M.S.D. Thennakoon", "contact": "0714418530"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Model Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.D.M. Kumara", "contact": "0718009701"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Janapada K.V.", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "L.P. Gnanawathi", "contact": "070-5863508"}, 
-            {"division": "Buttala", "school": "Mo/Kukurampola K.V.", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.G. Nandasena", "contact": "0713814848"}, 
-            {"division": "Buttala", "school": "Mo/Ranjan Wijerathne M.V.", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "K.H. Dilani Premarathna", "contact": "071-3379988"}, 
-            {"division": "Buttala", "school": "Mo/Piyananda K.V.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.D. Indika Nuwan Kumara", "contact": "074-0056375"}, 
-            {"division": "Buttala", "school": "Mo/Yudaganawa K.V.", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "0778054937"}, 
-            {"division": "Buttala", "school": "Mo/Waguruwela M.V.", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "G.G.G. Siriwardhana", "contact": "071-2429817"}, 
-            {"division": "Buttala", "school": "Mo/Helagama K.V.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "H.K. Kapila Chandrasiri", "contact": "0718566220"}, 
-            {"division": "Buttala", "school": "Mo/Gonaganara K.V.", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.J. Pathiranage", "contact": "071 0623505"}, 
-            {"division": "Buttala", "school": "Mo/Janasankha Model K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.J.S.S. Jayalath", "contact": "070-5863508"}, 
-            {"division": "Buttala", "school": "Mo/Niyadella K.V.", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.R.N. Wijesooriya", "contact": "0718034722"}, 
-            {"division": "Buttala", "school": "Mo/Kumaragama Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.H.S.I. Kumari", "contact": "0710117228"}, 
-            {"division": "Buttala", "school": "Mo/Mahasengama Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.P.Y.N. Prasad Sampath", "contact": "0711586199"}, 
-            {"division": "Buttala", "school": "Mo/Viharamahadevi K.V.", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "W.M. Weerasinghe", "contact": "0701446601"}, 
-            {"division": "Buttala", "school": "Mo/Dambeyaya Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Nandapala Gunawardhana", "contact": "0715276656"}, 
-            {"division": "Buttala", "school": "Mo/Sri Sumanajothi K.V.", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "M.D. Prasanna Indika Wijenayake", "contact": "0704528535"}, 
-            {"division": "Buttala", "school": "Mo/Sri Subodha K.V.", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "E.M.N.T. Ekanayake", "contact": "0712266640"}, 
-            {"division": "Buttala", "school": "Mo/Pelwatta Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.S. Kumarasena", "contact": "0724501372"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Primary School", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "H.M. Ajith Hemantha", "contact": "0703415195"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Primary School", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "V.M. Sujith Rohana", "contact": "071-8127440"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Central M.V.", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "R.L. Palliyaguru", "contact": "0718089596"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "S.M.N. Wickramasinghe", "contact": "0705113570"}, 
-            {"division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}
+            {"division": "Buttala", "school": "Mo/Munasinghe Primary Vidyalaya", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "K.D.M. Samarakoon", "contact": "0711879335"}, 
+            {"division": "Buttala", "school": "Mo/Siddhartha Maha Vidyalaya", "pc_active": 10, "pc_inactive": 12, "monitor_active": 13, "monitor_inactive": 5, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 2, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "T.M.S.D. Thennakoon", "contact": "0714418530"}, 
+            {"division": "Buttala", "school": "Mo/Dutugemunu Model Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.D.M. Kumara", "contact": "0718009701"}, 
+            {"division": "Buttala", "school": "Mo/Okkampitiya Janapada Kanishta Vidyalaya", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "-", "contact": "-"}, 
+            {"division": "Buttala", "school": "Mo/Kukurampola Kanishta Vidyalaya", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Prasanna Indika Wickramasinghe", "contact": "0715276656"}, 
+            {"division": "Buttala", "school": "Mo/Ranjan Wijerathne Maha Vidyalaya", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "W.T.B. Rathnayake", "contact": "0703343679"}, 
+            {"division": "Buttala", "school": "Mo/Piyananda Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.D. Thilakarathne", "contact": "0713814848"}, 
+            {"division": "Buttala", "school": "Mo/Yudhaganawa Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "0778054937"}, 
+            {"division": "Buttala", "school": "Mo/Waguruwela Maha Vidyalaya", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "H.G.G. Piyadarshana", "contact": "0712429817"}, 
+            {"division": "Buttala", "school": "Mo/Helagama Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "A.S. Nalin Tharanga Kumara", "contact": "0718566220"}, 
+            {"division": "Buttala", "school": "Mo/Gonaganara Kanishta Vidyalaya", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.D. Padmasiri", "contact": "0705863508"}, 
+            {"division": "Buttala", "school": "Mo/Janasankha Model Kanishta Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Ajith Ruwan Priyadarshana", "contact": "0713379988"}, 
+            {"division": "Buttala", "school": "Mo/Niyadella Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.M.S. Kamal Kumara", "contact": "0718034722"}, 
+            {"division": "Buttala", "school": "Mo/Kumaragama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.A.M. Shriyani Champika", "contact": "0710117228"}, 
+            {"division": "Buttala", "school": "Mo/Mahasengama Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.M. R.M. Jayathilaka", "contact": "0706046433"}, 
+            {"division": "Buttala", "school": "Mo/Viharamahadevi Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 4, "monitor_active": 3, "monitor_inactive": 2, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "W.D. Nandapala", "contact": "0701446601"}, 
+            {"division": "Buttala", "school": "Mo/Dambeyaya Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "E.B. Jayathilaka", "contact": "0718430254"}, 
+            {"division": "Buttala", "school": "Mo/G/Sri Sumanajothi Kanishta Vidyalaya", "pc_active": 4, "pc_inactive": 10, "monitor_active": 6, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "A.D.M. Jayathilaka", "contact": "0710623505"}, 
+            {"division": "Buttala", "school": "Mo/Sri Subodha Kanishta Vidyalaya", "pc_active": 2, "pc_inactive": 2, "monitor_active": 2, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Personal", "principal": "R.M.R.P. Rathnayake", "contact": "0704528535"}, 
+            {"division": "Buttala", "school": "Mo/Pelwatta Primary Vidyalaya", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.M. Rathnayake", "contact": "0766070413"}, 
+            {"division": "Buttala", "school": "Mo/Dutugemunu Primary Vidyalaya", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "M.B. Gunapala", "contact": "0765524959"}, 
+            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Primary Vidyalaya", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "V.M. Sujith Rohana", "contact": "071-8127440"}, 
+            {"division": "Buttala", "school": "Mo/Dutugemunu National School", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.G. Premathilaka", "contact": "071-8218565"}, 
+            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M.N. Wickramasinghe", "contact": "0705113570"}, 
+            {"division": "Buttala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}
         ];
 
         window.renderSchoolTable = function(data) {
@@ -764,7 +792,7 @@
             printWindow.document.write('<html><head><title>Zonal Marks Report</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
             printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Marks Report</h2>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Marks Report</h2>');
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -777,7 +805,7 @@
             printWindow.document.write('<html><head><title>Zonal Fault & Repair Reports</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
             printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Fault & Repair Reports</h2>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Fault & Repair Reports</h2>');
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -792,7 +820,7 @@
             printWindow.document.write('<html><head><title>School Inventory Report</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
             printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - School Inventory</h2>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Division - School Inventory</h2>');
             printWindow.document.write('<h4>School: ' + schoolName + '</h4>');
             printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
             printWindow.document.write(printContents);
@@ -808,7 +836,7 @@
             printWindow.document.write('<html><head><title>Zonal Master Inventory Report</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
             printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Master Inventory</h2>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Master Inventory</h2>');
             printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
@@ -823,7 +851,7 @@
             printWindow.document.write('<html><head><title>Zonal ICT Teachers Database</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
             printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Wellawaya Zonal ICT Hub - Teachers Database</h2>');
+            printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Teachers Database</h2>');
             printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
@@ -921,7 +949,7 @@
                 await set(ref(db, 'users/' + userCred.user.uid), {
                     name, school, email, phone, role: 'teacher', teacherId: tId
                 });
-                alert(`ලියාපදිංචිය සාර්ථකයි! ඔබගේ ගුරු අංකය: ${tId}`);
+                alert(`Registration Successful! Your Teacher ID is: ${tId}`);
                 window.showSection('login');
             } catch (error) { alert("Error: " + error.message); }
         };
@@ -942,7 +970,7 @@
                 await set(ref(db, 'users/' + userCred.user.uid), {
                     name, idNo, school, phone, email, role: 'zdett', teacherId: tId
                 });
-                alert(`ZDETT ලියාපදිංචිය සාර්ථකයි! (Teacher ID: ${tId}).`);
+                alert(`ZDETT Registration Successful! (Teacher ID: ${tId}).`);
                 window.showSection('login');
             } catch (error) { alert("Error: " + error.message); }
         };
@@ -954,6 +982,7 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
                 
+                // SUPER ADMIN ONLY BY SPECIFIC EMAIL
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -1012,11 +1041,11 @@
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
-                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminData();
+                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminFaults(); loadAdminInventory();
             } else if (user.role === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
-                loadAdminData(); loadAdminMarks(); loadAllUsersForAdmin();
+                loadAdminFaults(); loadAdminInventory(); loadAdminMarks(); loadAllUsersForAdmin();
             }
             window.filterSchoolData();
         }
@@ -1049,6 +1078,7 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
+            // Only fetch actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
@@ -1167,6 +1197,7 @@
             let newInvRef = push(ref(db, 'inventory'));
             let item = {
                 id: newInvRef.key, school: window.currentUserData.school,
+                section: document.getElementById('inv-section').value,
                 book: document.getElementById('inv-book').value, page: document.getElementById('inv-page').value,
                 col: document.getElementById('inv-col').value, name: document.getElementById('inv-name').value,
                 avail: document.getElementById('inv-avail').value, short: document.getElementById('inv-short').value,
@@ -1187,8 +1218,10 @@
                 snapshot.forEach((childSnap) => {
                     let i = childSnap.val();
                     if(i.school === window.currentUserData.school) {
-                        tbody.innerHTML += `<tr><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td></tr>`;
-                        select.innerHTML += `<option value="${i.id}">${i.name} (Book: ${i.book}, Pg: ${i.page})</option>`;
+                        let secStr = i.section || '-';
+                        tbody.innerHTML += `<tr><td class="text-start">${secStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td></tr>`;
+                        let selectDesc = i.section ? `${i.name} (${i.section}, Bk: ${i.book}, Pg: ${i.page})` : `${i.name} (Bk: ${i.book}, Pg: ${i.page})`;
+                        select.innerHTML += `<option value="${i.id}">${selectDesc}</option>`;
                     }
                 });
             }
@@ -1230,7 +1263,7 @@
                     });
                     alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
                     loadTeacherFaults(); 
-                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminData(); 
+                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminFaults(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
@@ -1241,11 +1274,11 @@
                 await update(ref(db, 'faults/' + faultId), {
                     status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
                 });
-                alert("Job marked as complete!"); loadAdminData(); loadTeacherFaults(); 
+                alert("Job marked as complete!"); loadAdminFaults(); loadTeacherFaults(); 
             }
         };
 
-        async function loadAdminData() {
+        window.loadAdminFaults = async function() {
             let fBody = document.getElementById('all-faults-list');
             fBody.innerHTML = '';
             let fSnap = await get(ref(db, 'faults'));
@@ -1259,24 +1292,42 @@
                         <td class="text-start"><strong>${f.school}</strong></td><td class="text-start" style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
                         <td class="text-start">${f.device}</td><td class="text-start">${f.description}</td>
                         <td class="text-start" style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
+                        <td class="text-start"><strong>${f.completedBy || '-'}</strong></td>
                         <td class="text-start">${actionHtml}</td>
                     </tr>`;
                 });
             }
-            
+        };
+
+        window.loadAdminInventory = async function() {
             let iBody = document.getElementById('all-inventory-list');
             iBody.innerHTML = '';
+            
+            let schFilterElement = document.getElementById('admin-inv-school');
+            let schFilter = schFilterElement ? schFilterElement.value.trim() : "All";
+            if (schFilter === '' || schFilter.toLowerCase() === 'all') schFilter = 'All';
+
+            let secFilterElement = document.getElementById('admin-inv-section');
+            let secFilter = secFilterElement ? secFilterElement.value.trim().toLowerCase() : "";
+
             let iSnap = await get(ref(db, 'inventory'));
             if(iSnap.exists()) {
                 iSnap.forEach((childSnap) => {
                     let i = childSnap.val();
-                    iBody.innerHTML += `<tr>
-                        <td class="text-start"><strong>${i.school}</strong></td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.col}</td>
-                        <td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td>
-                    </tr>`;
+                    let sectionStr = i.section || '-';
+                    
+                    let passSch = (schFilter === 'All' || i.school === schFilter);
+                    let passSec = (secFilter === '' || sectionStr.toLowerCase().includes(secFilter));
+                    
+                    if(passSch && passSec) {
+                        iBody.innerHTML += `<tr>
+                            <td class="text-start"><strong>${i.school}</strong></td><td class="text-start">${sectionStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.col}</td>
+                            <td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td>
+                        </tr>`;
+                    }
                 });
             }
-        }
+        };
 
         async function loadTeachers() {
             let tbody = document.getElementById('teacher-list');
