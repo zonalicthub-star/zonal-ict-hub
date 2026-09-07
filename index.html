@@ -17,6 +17,34 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
+        /* Google Translate Element Overrides for seamless integration */
+        body { top: 0 !important; }
+        .skiptranslate iframe { display: none !important; }
+        #goog-gt-tt { display: none !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        .goog-logo-link { display: none !important; }
+        .goog-te-gadget { color: transparent !important; font-size: 0px !important; }
+        .goog-te-combo {
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: 1px solid #38bdf8;
+            background-color: #001f3f;
+            color: white;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        
+        .lang-selector {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1100;
+        }
+
         /* Top Contact Bar */
         .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
         .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
@@ -38,7 +66,8 @@
         nav ul li a { color: white; text-decoration: none; font-weight: 600; cursor: pointer; padding: 8px 18px; border-radius: 5px; transition: all 0.3s ease; font-size: 0.95rem; letter-spacing: 0.5px; display: inline-block; }
         nav ul li a:hover { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .lang-selector { position: static; transform: none; display: flex; justify-content: center; background: #002b5e; padding-bottom: 10px; }
             .mobile-menu-toggle { display: block; }
             nav { display: none; width: 100%; background: #002b5e; }
             nav.show { display: block; }
@@ -83,14 +112,9 @@
         
         .form-group { margin-bottom: 18px; }
         .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], textarea, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #cfd9e0; border-radius: 8px; font-size: 1rem; transition: border 0.3s; background: #fdfdfd;}
+        input, textarea, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #cfd9e0; border-radius: 8px; font-size: 1rem; transition: border 0.3s; background: #fdfdfd;}
         input:focus, textarea:focus, select:focus { outline: none; border-color: #0056b3; box-shadow: 0 0 5px rgba(0,86,179,0.2); }
         
-        /* Checkbox styling */
-        .checkbox-group { display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.95rem; margin-top: 5px; }
-        .checkbox-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; color: #334155; font-weight: 500;}
-        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; margin: 0;}
-
         button { background: linear-gradient(135deg, #28a745, #218838); color: white; font-weight: bold; cursor: pointer; border: none; padding: 12px 20px; border-radius: 8px; transition: 0.3s; font-size: 1rem; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);}
         button:hover { background: linear-gradient(135deg, #218838, #1e7e34); transform: scale(1.02); }
         .btn-danger { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2); }
@@ -131,27 +155,39 @@
         .filter-item { display: flex; flex-direction: column; min-width: 150px; flex: 1; }
         .filter-item label { font-size: 0.85rem; color: #555; font-weight: bold; margin-bottom: 5px; }
         .filter-item select, .filter-item input[type="text"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
+        .filter-item-checkbox { display: flex; align-items: center; gap: 8px; margin-top: 20px; flex-direction: row !important; }
+        .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
+        .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
 
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
 
-        @media (max-width: 768px) {
-            .container { padding: 1rem 5px; width: 100%; }
-            .hero-banner h1 { font-size: 1.5rem; }
-            .filter-item { min-width: 100%; }
-        }
+        /* Checkbox groups for form */
+        .cb-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; }
+        .cb-group label { font-weight: normal !important; color: #334155 !important; display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.9rem; }
+        .cb-group input { width: 16px; height: 16px; margin: 0; }
     </style>
 </head>
 <body>
 
-    <!-- Datalist for Searchable Schools -->
+    <!-- Datalist for Searchable Schools & Teachers -->
     <datalist id="allSchoolsList"></datalist>
+    <datalist id="allTeachersList"></datalist>
+
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar">
+        <div>
+            <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
+            <span style="margin-left: 15px;">📞 <a href="tel:0718581675">071 858 1675</a> | <a href="tel:0714469232">071 446 9232</a></span>
+        </div>
+        <div>📍 Wellawaya Zonal Education Office - ICT Division</div>
+    </div>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
     </div>
 
-    <div class="nav-container">
+    <div class="nav-container" style="position: relative;">
         <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
             ☰ MENU
         </div>
@@ -170,6 +206,8 @@
                 <li id="nav-logout" style="display: none;"><a onclick="logoutUser()" style="background-color: #ef4444;">Logout</a></li>
             </ul>
         </nav>
+        <!-- Language Switcher (Google Translate) placed on the right -->
+        <div id="google_translate_element" class="lang-selector"></div>
     </div>
 
     <div class="news-ticker">
@@ -222,7 +260,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section -->
+            <!-- Professional Contact Section (Moved Above Footer) -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -243,7 +281,7 @@
                 <div style="background-color: #f8fafc; padding: 25px; border-left: 5px solid #0056b3; border-radius: 8px; margin-top: 25px;">
                     <h3 style="color: #004080; margin-top: 0; font-size: 1.3rem;">Message from Assistant Director</h3>
                     <p style="font-style: italic; color: #444; line-height: 1.7; font-size: 1.05rem;">
-                        "This website has been created to centralize and maintain information regarding Information and Communication Technology (ICT) teachers and students within the Wellawaya Education Zone. The data collected here will be used exclusively for the advancement of the ICT subject. I look forward to the continued support and collaboration of all our ICT teachers in keeping this platform updated. My sincere gratitude goes to Mr. K.M.R.P. Kelum and all the members in ZDETT Team (Wellawaya Zone Hardware and Network Solution Team) for their invaluable contribution to the creation of this system."
+                        "This website has been created to centralize and maintain information regarding Information and Communication Technology (ICT) teachers and students within the Wellawaya Education Zone. The data collected here will be used exclusively for the advancement of the ICT subject. I look forward to the continued support and collaboration of all our ICT teachers in keeping this platform updated. My sincere gratitude goes to Mr. K.M.R.P. Kelum and all the members in ZDETT Team (Wellawaya Zone Hardware and Network Solution Team) for their invaluable contribution to the creation of this site."
                     </p>
                     <p style="text-align: right; margin-bottom: 0; margin-top: 20px; font-weight: bold; color: #2c3e50;">
                         — Aloka P. Kohomban<br>
@@ -292,9 +330,9 @@
                                 <option value="Personal">Personal</option>
                             </select>
                         </div>
-                        <div class="filter-item" style="flex-direction: row; align-items: center; margin-top: 20px;">
-                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()" style="width: 18px; height: 18px; margin: 0 10px 0 0; cursor: pointer;">
-                            <label for="inactiveFilter" style="margin:0; color: #d32f2f; cursor:pointer;">Show schools with Inactive PCs/Monitors</label>
+                        <div class="filter-item filter-item-checkbox">
+                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()">
+                            <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
                         </div>
                     </div>
                 </div>
@@ -308,31 +346,27 @@
             </div>
         </div>
 
-        <!-- TEACHERS SECTION (PUBLIC) -->
+        <!-- TEACHERS SECTION -->
         <div id="teachers" class="section">
-            <div class="card">
+            <div class="card" style="border-top: 4px solid #f39c12;">
                 <h2>Registered ICT Teachers</h2>
                 <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
                 
-                <!-- NEW: Teachers Filter Section -->
-                <div class="filter-section" style="border-left-color: #0ea5e9;">
+                <!-- Filters for Teachers View -->
+                <div class="filter-section" style="border-left-color: #f39c12;">
                     <div class="filter-item">
-                        <label>Search Teacher/School:</label>
-                        <input type="text" id="teacherSearchPublic" placeholder="Type name or school..." oninput="window.filterTeacherData()">
-                    </div>
-                    <div class="filter-item">
-                        <label>Teaching Grade:</label>
-                        <select id="teacherGradeFilter" onchange="window.filterTeacherData()">
+                        <label>Filter by Grade Taught:</label>
+                        <select id="filter-teacher-grade" onchange="loadTeachers()">
                             <option value="All">All Grades</option>
                             <option value="6-9">6-9</option>
                             <option value="10-11">10-11</option>
-                            <option value="A/L ICT">A/L ICT</option>
+                            <option value="AL ICT">AL ICT</option>
                             <option value="GIT">GIT</option>
                         </select>
                     </div>
                     <div class="filter-item">
-                        <label>Medium:</label>
-                        <select id="teacherMediumFilter" onchange="window.filterTeacherData()">
+                        <label>Filter by Medium:</label>
+                        <select id="filter-teacher-medium" onchange="loadTeachers()">
                             <option value="All">All Mediums</option>
                             <option value="Sinhala">Sinhala</option>
                             <option value="English">English</option>
@@ -348,7 +382,7 @@
                                 <th>Teacher ID</th>
                                 <th>Name</th>
                                 <th>School</th>
-                                <th>Teaching Grades</th>
+                                <th>Grades Taught</th>
                                 <th>Medium</th>
                                 <th>Email</th>
                                 <th>Phone</th>
@@ -389,33 +423,34 @@
             </div>
         </div>
 
-        <!-- NEW: TEACHER REGISTRATION FORM -->
         <div id="register-teacher" class="section">
-            <div class="card" style="max-width: 600px; margin: auto;">
+            <div class="card" style="max-width: 550px; margin: auto;">
                 <h2>Register Teacher</h2>
                 <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
                 <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 
-                <div class="form-group">
-                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="t-grade" value="6-9"> 6-9</label>
-                        <label><input type="checkbox" name="t-grade" value="10-11"> 10-11</label>
-                        <label><input type="checkbox" name="t-grade" value="A/L ICT"> A/L ICT</label>
-                        <label><input type="checkbox" name="t-grade" value="GIT"> GIT</label>
+                <div class="grid-form">
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Grades Taught</label>
+                        <div class="cb-group" id="reg-t-grades">
+                            <label><input type="checkbox" value="6-9"> 6-9</label>
+                            <label><input type="checkbox" value="10-11"> 10-11</label>
+                            <label><input type="checkbox" value="AL ICT"> AL ICT</label>
+                            <label><input type="checkbox" value="GIT"> GIT</label>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="t-medium" value="Sinhala"> Sinhala</label>
-                        <label><input type="checkbox" name="t-medium" value="English"> English</label>
-                        <label><input type="checkbox" name="t-medium" value="Tamil"> Tamil</label>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Instruction</label>
+                        <div class="cb-group" id="reg-t-medium">
+                            <label><input type="checkbox" value="Sinhala"> Sinhala</label>
+                            <label><input type="checkbox" value="English"> English</label>
+                            <label><input type="checkbox" value="Tamil"> Tamil</label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group"><label>Email Address</label><input type="email" id="t-email"></div>
+                <div class="form-group" style="margin-top: 15px;"><label>Email Address</label><input type="email" id="t-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
@@ -423,42 +458,42 @@
             </div>
         </div>
 
-        <!-- NEW: ZDETT REGISTRATION FORM -->
         <div id="register-zdett" class="section">
-            <div class="card" style="max-width: 600px; margin: auto;">
+            <div class="card" style="max-width: 550px; margin: auto;">
                 <h2>Register ZDETT</h2>
                 <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
                 <div class="form-group"><label>Name with initials</label><input type="text" id="z-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 
-                <div class="form-group">
-                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="z-grade" value="6-9"> 6-9</label>
-                        <label><input type="checkbox" name="z-grade" value="10-11"> 10-11</label>
-                        <label><input type="checkbox" name="z-grade" value="A/L ICT"> A/L ICT</label>
-                        <label><input type="checkbox" name="z-grade" value="GIT"> GIT</label>
+                <div class="grid-form">
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Grades Taught</label>
+                        <div class="cb-group" id="reg-z-grades">
+                            <label><input type="checkbox" value="6-9"> 6-9</label>
+                            <label><input type="checkbox" value="10-11"> 10-11</label>
+                            <label><input type="checkbox" value="AL ICT"> AL ICT</label>
+                            <label><input type="checkbox" value="GIT"> GIT</label>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="z-medium" value="Sinhala"> Sinhala</label>
-                        <label><input type="checkbox" name="z-medium" value="English"> English</label>
-                        <label><input type="checkbox" name="z-medium" value="Tamil"> Tamil</label>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Instruction</label>
+                        <div class="cb-group" id="reg-z-medium">
+                            <label><input type="checkbox" value="Sinhala"> Sinhala</label>
+                            <label><input type="checkbox" value="English"> English</label>
+                            <label><input type="checkbox" value="Tamil"> Tamil</label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
+                <div class="form-group" style="margin-top: 15px;"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="z-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
                 <button onclick="registerZdett()">Register Account</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
             </div>
         </div>
 
-        <!-- DASHBOARD -->
         <div id="dashboard" class="section">
             <div class="card" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 15px;">
                 <h2 id="welcome-msg" style="border: none; color: white; margin: 0;">User Dashboard</h2>
@@ -473,26 +508,28 @@
                     <div><label style="font-size: 0.85rem; color: #666;">School Name</label><input type="text" id="edit-school" list="allSchoolsList" placeholder="School Name"></div>
                     <div><label style="font-size: 0.85rem; color: #666;">Phone Number</label><input type="tel" id="edit-phone" placeholder="Phone Number"></div>
                 </div>
-                <div class="grid-form">
+                
+                <div class="grid-form" style="margin-top: 10px;">
                     <div>
-                        <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Teaching Grades</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="edit-grade" value="6-9"> 6-9</label>
-                            <label><input type="checkbox" name="edit-grade" value="10-11"> 10-11</label>
-                            <label><input type="checkbox" name="edit-grade" value="A/L ICT"> A/L ICT</label>
-                            <label><input type="checkbox" name="edit-grade" value="GIT"> GIT</label>
+                        <label style="font-size: 0.85rem; font-weight: bold; color: #666;">Grades Taught</label>
+                        <div class="cb-group" id="edit-t-grades">
+                            <label><input type="checkbox" value="6-9"> 6-9</label>
+                            <label><input type="checkbox" value="10-11"> 10-11</label>
+                            <label><input type="checkbox" value="AL ICT"> AL ICT</label>
+                            <label><input type="checkbox" value="GIT"> GIT</label>
                         </div>
                     </div>
                     <div>
-                        <label style="display:block; margin-bottom:5px; font-size: 0.85rem; color: #555; font-weight: bold;">Medium</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="edit-medium" value="Sinhala"> Sinhala</label>
-                            <label><input type="checkbox" name="edit-medium" value="English"> English</label>
-                            <label><input type="checkbox" name="edit-medium" value="Tamil"> Tamil</label>
+                        <label style="font-size: 0.85rem; font-weight: bold; color: #666;">Medium of Instruction</label>
+                        <div class="cb-group" id="edit-t-medium">
+                            <label><input type="checkbox" value="Sinhala"> Sinhala</label>
+                            <label><input type="checkbox" value="English"> English</label>
+                            <label><input type="checkbox" value="Tamil"> Tamil</label>
                         </div>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="updateProfile()" style="margin-top: 15px;">Save Profile Changes</button>
+                
+                <button class="btn-primary" style="margin-top: 15px;" onclick="updateProfile()">Save Profile Changes</button>
             </div>
 
             <!-- SUPER ADMIN TOOLS SECTION -->
@@ -699,12 +736,23 @@
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Division</p>
     </footer>
 
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', 
+                includedLanguages: 'en,si,ta', 
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
     </script>
 
-    <!-- School Data Setup -->
     <script>
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.R.S.S. Bandara", "contact": "0713574806"}, 
@@ -761,9 +809,9 @@
             {"division": "Buttala", "school": "Mo/Pelwatta Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.S. Kumarasena", "contact": "0724501372"}, 
             {"division": "Buttala", "school": "Mo/Dutugemunu Primary School", "pc_active": 6, "pc_inactive": 2, "monitor_active": 6, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "H.M. Ajith Hemantha", "contact": "0703415195"}, 
             {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Primary School", "pc_active": 9, "pc_inactive": 7, "monitor_active": 16, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "V.M. Sujith Rohana", "contact": "071-8127440"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Central College.", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "S.M. Wanigabadu", "contact": "0754183114"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "S.M.N. Wickramasinghe", "contact": "0705113570"}, 
-            {"division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}
+            {"division": "Buttala", "school": "Mo/Dutugemunu National School", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.G. Premathilaka", "contact": "071-8218565"}, 
+            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M.N. Wickramasinghe", "contact": "0705113570"}, 
+            {"division": "Buttala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}
         ];
 
         window.renderSchoolTable = function(data) {
@@ -978,7 +1026,6 @@
         const db = getDatabase(app);
 
         window.currentUserData = null;
-        window.globalTeachers = []; // For filtering on public page
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -989,6 +1036,21 @@
             if(sectionId === 'zdett') loadZdettTeam();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+
+        // Checkbox Handlers
+        function getCheckedValues(containerId) {
+            let container = document.getElementById(containerId);
+            if(!container) return [];
+            return Array.from(container.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        }
+
+        function setCheckedValues(containerId, valuesArr) {
+            let container = document.getElementById(containerId);
+            if(!container) return;
+            container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = valuesArr && valuesArr.includes(cb.value);
+            });
+        }
 
         function getMarkGradeObj(marks) {
             let mStr = String(marks).toUpperCase().trim();
@@ -1024,17 +1086,17 @@
             let email = document.getElementById('t-email').value;
             let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
-            
-            let grades = Array.from(document.querySelectorAll('#register-teacher input[name="t-grade"]:checked')).map(cb => cb.value).join(', ');
-            let mediums = Array.from(document.querySelectorAll('#register-teacher input[name="t-medium"]:checked')).map(cb => cb.value).join(', ');
 
-            if(!name || !school || !email || !phone || !pass) { alert("Please fill all required fields."); return; }
+            let grades = getCheckedValues('reg-t-grades');
+            let medium = getCheckedValues('reg-t-medium');
+
+            if(!name || !school || !email || !phone || !pass) { alert("Please fill all text fields."); return; }
 
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, school, email, phone, grades, mediums, role: 'teacher', teacherId: tId
+                    name, school, email, phone, grades, medium, role: 'teacher', teacherId: tId
                 });
                 alert(`Registration Successful! Your Teacher ID is: ${tId}`);
                 window.showSection('login');
@@ -1049,16 +1111,16 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            let grades = Array.from(document.querySelectorAll('#register-zdett input[name="z-grade"]:checked')).map(cb => cb.value).join(', ');
-            let mediums = Array.from(document.querySelectorAll('#register-zdett input[name="z-medium"]:checked')).map(cb => cb.value).join(', ');
+            let grades = getCheckedValues('reg-z-grades');
+            let medium = getCheckedValues('reg-z-medium');
 
-            if(!name || !idNo || !school || !phone || !email || !pass) { alert("Please fill all required fields."); return; }
+            if(!name || !idNo || !school || !phone || !email || !pass) { alert("Please fill all text fields."); return; }
 
             try {
                 let tId = await generateTeacherId(); 
                 let userCred = await createUserWithEmailAndPassword(auth, email, pass);
                 await set(ref(db, 'users/' + userCred.user.uid), {
-                    name, idNo, school, phone, email, grades, mediums, role: 'zdett', teacherId: tId
+                    name, idNo, school, phone, email, grades, medium, role: 'zdett', teacherId: tId
                 });
                 alert(`ZDETT Registration Successful! (Teacher ID: ${tId}).`);
                 window.showSection('login');
@@ -1072,6 +1134,7 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
                 
+                // SUPER ADMIN ONLY BY SPECIFIC EMAIL
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -1120,22 +1183,9 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
-            // Set checkboxes for Edit Profile
-            document.querySelectorAll('input[name="edit-grade"]').forEach(cb => cb.checked = false);
-            document.querySelectorAll('input[name="edit-medium"]').forEach(cb => cb.checked = false);
-
-            if (user.grades) {
-                user.grades.split(', ').forEach(val => {
-                    let cb = document.querySelector(`input[name="edit-grade"][value="${val}"]`);
-                    if (cb) cb.checked = true;
-                });
-            }
-            if (user.mediums) {
-                user.mediums.split(', ').forEach(val => {
-                    let cb = document.querySelector(`input[name="edit-medium"][value="${val}"]`);
-                    if (cb) cb.checked = true;
-                });
-            }
+            // Set Checkboxes for Edit Profile
+            setCheckedValues('edit-t-grades', user.grades || []);
+            setCheckedValues('edit-t-medium', user.medium || []);
 
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
@@ -1163,9 +1213,8 @@
             let newName = document.getElementById('edit-name').value;
             let newSchool = document.getElementById('edit-school').value;
             let newPhone = document.getElementById('edit-phone').value;
-
-            let newGrades = Array.from(document.querySelectorAll('input[name="edit-grade"]:checked')).map(cb => cb.value).join(', ');
-            let newMediums = Array.from(document.querySelectorAll('input[name="edit-medium"]:checked')).map(cb => cb.value).join(', ');
+            let newGrades = getCheckedValues('edit-t-grades');
+            let newMediums = getCheckedValues('edit-t-medium');
             
             if(!newName || !newSchool || !newPhone) { alert("Name with initials, School, and Phone Number cannot be empty."); return; }
 
@@ -1175,9 +1224,11 @@
             }
 
             try {
-                await update(ref(db, 'users/' + user.uid), { name: newName, school: newSchool, phone: newPhone, grades: newGrades, mediums: newMediums });
+                await update(ref(db, 'users/' + user.uid), { 
+                    name: newName, school: newSchool, phone: newPhone, grades: newGrades, medium: newMediums 
+                });
                 window.currentUserData.name = newName; window.currentUserData.school = newSchool; window.currentUserData.phone = newPhone;
-                window.currentUserData.grades = newGrades; window.currentUserData.mediums = newMediums;
+                window.currentUserData.grades = newGrades; window.currentUserData.medium = newMediums;
                 setupDashboard();
                 alert("Profile updated successfully!");
                 if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
@@ -1188,6 +1239,7 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
+            // Only fetch actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
@@ -1195,13 +1247,16 @@
                     if (u.email === 'zonalicthub@gmail.com') return; 
 
                     let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
+                    let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
+                    let mdStr = u.medium && u.medium.length > 0 ? u.medium.join(', ') : '-';
+
                     tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
                         <td>${roleBadge}</td>
                         <td><strong>${u.teacherId || '-'}</strong></td>
                         <td class="text-start">${u.name}</td>
                         <td class="text-start">${u.school}</td>
-                        <td class="text-start">${u.grades || '-'}</td>
-                        <td class="text-start">${u.mediums || '-'}</td>
+                        <td class="text-start">${grStr}</td>
+                        <td class="text-start">${mdStr}</td>
                         <td class="text-start">${u.email}</td>
                         <td class="text-start">${u.phone}</td>
                         <td><button class="btn-success" style="font-size: 0.7em; padding: 4px 8px;">Active</button></td>
@@ -1440,53 +1495,49 @@
             }
         };
 
-        // NEW: Teacher Filter Logic
-        window.filterTeacherData = function() {
-            let searchInput = document.getElementById('teacherSearchPublic');
-            let searchStr = (searchInput ? searchInput.value : "").toLowerCase();
-            let gradeFilter = document.getElementById('teacherGradeFilter').value;
-            let mediumFilter = document.getElementById('teacherMediumFilter').value;
-
+        window.loadTeachers = async function() {
             let tbody = document.getElementById('teacher-list');
             tbody.innerHTML = '';
-
-            let filtered = window.globalTeachers.filter(u => {
-                let matchSearch = u.name.toLowerCase().includes(searchStr) || u.school.toLowerCase().includes(searchStr);
-                let matchGrade = (gradeFilter === 'All') || (u.grades && u.grades.includes(gradeFilter));
-                let matchMedium = (mediumFilter === 'All') || (u.mediums && u.mediums.includes(mediumFilter));
-                return matchSearch && matchGrade && matchMedium;
-            });
-
-            filtered.forEach(u => {
-                let tId = u.teacherId ? u.teacherId : "T-0000";
-                tbody.innerHTML += `<tr>
-                    <td class="text-start"><strong>${tId}</strong></td>
-                    <td class="text-start">${u.name}</td>
-                    <td class="text-start">${u.school}</td>
-                    <td class="text-start">${u.grades || '-'}</td>
-                    <td class="text-start">${u.mediums || '-'}</td>
-                    <td class="text-start">${u.email}</td>
-                    <td class="text-start">${u.phone || 'N/A'}</td>
-                </tr>`;
-            });
-        }
-
-        async function loadTeachers() {
-            let snapshot = await get(ref(db, 'users'));
-            window.globalTeachers = [];
             
+            let gradeFilter = document.getElementById('filter-teacher-grade');
+            let selGrade = gradeFilter ? gradeFilter.value : "All";
+            
+            let mediumFilter = document.getElementById('filter-teacher-medium');
+            let selMedium = mediumFilter ? mediumFilter.value : "All";
+
+            let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
-                snapshot.forEach((childSnap) => { 
-                    let u = childSnap.val();
+                let usersArray = [];
+                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
+                usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
+                
+                usersArray.forEach((u) => {
                     if (u.email === 'zonalicthub@gmail.com') return;
-                    if (u.role === 'teacher' || u.role === 'zdett') {
-                        window.globalTeachers.push(u);
+
+                    if(u.role === 'teacher' || u.role === 'zdett') {
+                        let tGrades = u.grades || [];
+                        let tMedium = u.medium || [];
+                        
+                        if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
+                        if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
+
+                        let tId = u.teacherId ? u.teacherId : "T-0000";
+                        let grStr = tGrades.length > 0 ? tGrades.join(', ') : '-';
+                        let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
+                        
+                        tbody.innerHTML += `<tr>
+                            <td class="text-start"><strong>${tId}</strong></td>
+                            <td class="text-start">${u.name}</td>
+                            <td class="text-start">${u.school}</td>
+                            <td class="text-start" style="color:#0ea5e9;">${grStr}</td>
+                            <td class="text-start" style="color:#10b981;">${mdStr}</td>
+                            <td class="text-start">${u.email}</td>
+                            <td class="text-start">${u.phone || 'N/A'}</td>
+                        </tr>`;
                     }
                 });
-                window.globalTeachers.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
             }
-            window.filterTeacherData();
-        }
+        };
 
         async function loadZdettTeam() {
             let tbody = document.getElementById('zdett-public-list');
