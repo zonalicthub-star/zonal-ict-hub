@@ -16,12 +16,6 @@
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
-        
-        /* Top Contact Bar */
-        .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
-        .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
-        .top-contact-bar a:hover { color: #38bdf8; text-decoration: underline; }
-        @media (max-width: 600px) { .top-contact-bar { flex-direction: column; gap: 6px; text-align: center; } }
 
         /* MOE Style Header Banner */
         .header-banner { width: 100%; background-color: #001f3f; text-align: center; position: relative; }
@@ -105,6 +99,7 @@
         tr:hover { background-color: #f8fafc; }
 
         .text-start { text-align: left !important; }
+        .text-center { text-align: center !important; }
         .bg-light-blue { background-color: #f1f8ff !important; }
         .badge-yes { background-color: #d4edda; color: #155724; padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid #c3e6cb; font-size: 0.85em; display: inline-block;}
         .badge-no { color: #aaa; font-weight: bold; font-size: 0.85em;}
@@ -146,15 +141,6 @@
 
     <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
-
-    <!-- Top Contact Bar -->
-    <div class="top-contact-bar">
-        <div>
-            <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
-            <span style="margin-left: 15px;">📞 <a href="tel:0718581675">071 858 1675</a> | <a href="tel:0714469232">071 446 9232</a></span>
-        </div>
-        <div>📍 Wellawaya Zonal Education Office - ICT Division</div>
-    </div>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
@@ -1196,31 +1182,43 @@
 
         window.loadAllUsersForAdmin = async function() {
             let tbody = document.getElementById('all-users-list');
-            tbody.innerHTML = '';
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="9" class="text-center">Loading Data...</td></tr>';
             
-            // Append actively registered users from database
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                snapshot.forEach(child => {
-                    let u = child.val();
-                    if (u.email === 'zonalicthub@gmail.com') return; 
+            try {
+                let snapshot = await get(ref(db, 'users'));
+                tbody.innerHTML = '';
+                if(snapshot.exists()) {
+                    let hasUsers = false;
+                    snapshot.forEach(child => {
+                        let u = child.val();
+                        if (u.email === 'zonalicthub@gmail.com') return; 
+                        hasUsers = true;
+                        let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
+                        let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
+                        let mdStr = u.medium && u.medium.length > 0 ? u.medium.join(', ') : '-';
 
-                    let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
-                    let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
-                    let mdStr = u.medium && u.medium.length > 0 ? u.medium.join(', ') : '-';
-
-                    tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
-                        <td>${roleBadge}</td>
-                        <td><strong>${u.teacherId || '-'}</strong></td>
-                        <td class="text-start">${u.name}</td>
-                        <td class="text-start">${u.school}</td>
-                        <td class="text-start">${grStr}</td>
-                        <td class="text-start">${mdStr}</td>
-                        <td class="text-start">${u.email}</td>
-                        <td class="text-start">${u.phone}</td>
-                        <td><button class="btn-success" style="font-size: 0.7em; padding: 4px 8px;">Active</button></td>
-                    </tr>`;
-                });
+                        tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
+                            <td>${roleBadge}</td>
+                            <td><strong>${u.teacherId || '-'}</strong></td>
+                            <td class="text-start">${u.name}</td>
+                            <td class="text-start">${u.school}</td>
+                            <td class="text-start">${grStr}</td>
+                            <td class="text-start">${mdStr}</td>
+                            <td class="text-start">${u.email}</td>
+                            <td class="text-start">${u.phone}</td>
+                            <td><button class="btn-success" style="font-size: 0.7em; padding: 4px 8px;">Active</button></td>
+                        </tr>`;
+                    });
+                    if(!hasUsers) {
+                        tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
+                    }
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
+                }
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
+                console.error("Firebase read error:", e);
             }
         };
 
@@ -1456,7 +1454,8 @@
 
         window.loadTeachers = async function() {
             let tbody = document.getElementById('teacher-list');
-            tbody.innerHTML = '';
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">Loading Teachers...</td></tr>';
             
             let gradeFilter = document.getElementById('filter-teacher-grade');
             let selGrade = gradeFilter ? gradeFilter.value : "All";
@@ -1464,61 +1463,88 @@
             let mediumFilter = document.getElementById('filter-teacher-medium');
             let selMedium = mediumFilter ? mediumFilter.value : "All";
 
-            // Load registered users from Firebase
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                let usersArray = [];
-                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
-                usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
-                
-                usersArray.forEach((u) => {
-                    if (u.email === 'zonalicthub@gmail.com') return;
+            try {
+                let snapshot = await get(ref(db, 'users'));
+                tbody.innerHTML = '';
+                if(snapshot.exists()) {
+                    let usersArray = [];
+                    snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
+                    usersArray.sort((a, b) => { let idA = a.teacherId || ""; let idB = b.teacherId || ""; return idA.localeCompare(idB); });
+                    
+                    let count = 0;
+                    usersArray.forEach((u) => {
+                        if (u.email === 'zonalicthub@gmail.com') return;
 
-                    if(u.role === 'teacher' || u.role === 'zdett') {
-                        let tGrades = u.grades || [];
-                        let tMedium = u.medium || [];
-                        
-                        if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
-                        if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
+                        if(u.role === 'teacher' || u.role === 'zdett') {
+                            let tGrades = u.grades || [];
+                            let tMedium = u.medium || [];
+                            
+                            if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
+                            if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
 
-                        let tId = u.teacherId ? u.teacherId : "T-0000";
-                        let grStr = tGrades.length > 0 ? tGrades.join(', ') : '-';
-                        let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
-                        
-                        tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
-                            <td class="text-start"><strong>${tId}</strong></td>
-                            <td class="text-start">${u.name}</td>
-                            <td class="text-start">${u.school}</td>
-                            <td class="text-start" style="color:#0ea5e9;">${grStr}</td>
-                            <td class="text-start" style="color:#10b981;">${mdStr}</td>
-                            <td class="text-start">${u.email}</td>
-                            <td class="text-start">${u.phone || 'N/A'}</td>
-                        </tr>`;
+                            let tId = u.teacherId ? u.teacherId : "T-0000";
+                            let grStr = tGrades.length > 0 ? tGrades.join(', ') : '-';
+                            let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
+                            
+                            count++;
+                            tbody.innerHTML += `<tr>
+                                <td class="text-start"><strong>${tId}</strong></td>
+                                <td class="text-start">${u.name}</td>
+                                <td class="text-start">${u.school}</td>
+                                <td class="text-start" style="color:#0ea5e9;">${grStr}</td>
+                                <td class="text-start" style="color:#10b981;">${mdStr}</td>
+                                <td class="text-start">${u.email}</td>
+                                <td class="text-start">${u.phone || 'N/A'}</td>
+                            </tr>`;
+                        }
+                    });
+                    if(count === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found matching the criteria.</td></tr>';
                     }
-                });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
+                }
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
+                console.error("Firebase error:", e);
             }
         };
 
         async function loadZdettTeam() {
             let tbody = document.getElementById('zdett-public-list');
-            tbody.innerHTML = '';
-            let snapshot = await get(ref(db, 'users'));
-            if(snapshot.exists()) {
-                let usersArray = [];
-                snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
-                usersArray.sort((a, b) => {
-                    let idA = a.idNo || ""; let idB = b.idNo || "";
-                    let numA = parseInt(idA.match(/\d+$/)) || 0; let numB = parseInt(idB.match(/\d+$/)) || 0;
-                    if (numA !== numB) { return numA - numB; }
-                    return idA.localeCompare(idB);
-                });
-                usersArray.forEach((u) => {
-                    if (u.email === 'zonalicthub@gmail.com') return;
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Team...</td></tr>';
+            
+            try {
+                let snapshot = await get(ref(db, 'users'));
+                tbody.innerHTML = '';
+                if(snapshot.exists()) {
+                    let usersArray = [];
+                    snapshot.forEach((childSnap) => { usersArray.push(childSnap.val()); });
+                    usersArray.sort((a, b) => {
+                        let idA = a.idNo || ""; let idB = b.idNo || "";
+                        let numA = parseInt(idA.match(/\d+$/)) || 0; let numB = parseInt(idB.match(/\d+$/)) || 0;
+                        if (numA !== numB) { return numA - numB; }
+                        return idA.localeCompare(idB);
+                    });
+                    let count = 0;
+                    usersArray.forEach((u) => {
+                        if (u.email === 'zonalicthub@gmail.com') return;
 
-                    if(u.role === 'zdett') {
-                        tbody.innerHTML += `<tr><td class="text-start">${u.name}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                        if(u.role === 'zdett') {
+                            count++;
+                            tbody.innerHTML += `<tr><td class="text-start">${u.name}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                        }
+                    });
+                    if(count === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
                     }
-                });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
+                }
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
+                console.error("Firebase error:", e);
             }
         }
     </script>
