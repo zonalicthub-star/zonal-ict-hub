@@ -217,7 +217,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section (Below links, above footer) -->
+            <!-- Professional Contact Section -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -351,7 +351,6 @@
             </div>
         </div>
 
-        <!-- ZDETT SECTION -->
         <div id="zdett" class="section">
             <div class="card">
                 <h2>ZDETT Team Members</h2>
@@ -971,6 +970,15 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
+        // SAFE ARRAY HELPER: To prevent u.grades.join is not a function errors from old/dirty data
+        function safeArray(data) {
+            if (!data) return [];
+            if (Array.isArray(data)) return data;
+            if (typeof data === 'string') return [data];
+            if (typeof data === 'object') return Object.values(data);
+            return [String(data)];
+        }
+
         window.currentUserData = null;
 
         window.showSection = function(sectionId) {
@@ -983,7 +991,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // Checkbox Handlers
         function getCheckedValues(containerId) {
             let container = document.getElementById(containerId);
             if(!container) return [];
@@ -1129,9 +1136,9 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
-            // Set Checkboxes for Edit Profile
-            setCheckedValues('edit-t-grades', user.grades || []);
-            setCheckedValues('edit-t-medium', user.medium || []);
+            // Set Checkboxes for Edit Profile using Safe Array Helper
+            setCheckedValues('edit-t-grades', safeArray(user.grades));
+            setCheckedValues('edit-t-medium', safeArray(user.medium));
 
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
@@ -1193,12 +1200,15 @@
                     let hasUsers = false;
                     snapshot.forEach(child => {
                         let u = child.val();
-                        if (u.email === 'zonalicthub@gmail.com') return; 
+                        if (!u || u.email === 'zonalicthub@gmail.com') return; 
                         hasUsers = true;
                         
+                        let tGrades = safeArray(u.grades);
+                        let tMedium = safeArray(u.medium);
+
                         let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
-                        let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
-                        let mdStr = u.medium && u.medium.length > 0 ? u.medium.join(', ') : '-';
+                        let grStr = tGrades.length > 0 ? tGrades.join(', ') : '-';
+                        let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
 
                         tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
                             <td>${roleBadge}</td>
@@ -1219,7 +1229,7 @@
                     tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database yet.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login as Admin to view data)</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please check database rules or format)</td></tr>`;
                 console.error("Firebase Read Error:", e);
             }
         };
@@ -1485,8 +1495,9 @@
 
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'teacher' || roleStr === 'zdett') {
-                            let tGrades = u.grades || [];
-                            let tMedium = u.medium || [];
+                            
+                            let tGrades = safeArray(u.grades);
+                            let tMedium = safeArray(u.medium);
                             
                             if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
                             if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
@@ -1496,12 +1507,12 @@
                             let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
                             
                             count++;
-                            tbody.innerHTML += `<tr>
+                            tbody.innerHTML += `<tr style="background-color: #fdfdfd;">
                                 <td class="text-start"><strong>${tId}</strong></td>
                                 <td class="text-start">${u.name || '-'}</td>
                                 <td class="text-start">${u.school || '-'}</td>
-                                <td class="text-start" style="color:#0ea5e9;">${grStr}</td>
-                                <td class="text-start" style="color:#10b981;">${mdStr}</td>
+                                <td class="text-start" style="color:#0ea5e9; font-weight:bold;">${grStr}</td>
+                                <td class="text-start" style="color:#10b981; font-weight:bold;">${mdStr}</td>
                                 <td class="text-start">${u.email || '-'}</td>
                                 <td class="text-start">${u.phone || 'N/A'}</td>
                             </tr>`;
@@ -1514,7 +1525,7 @@
                     tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login first to view data)</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
                 console.error("Firebase error:", e);
             }
         };
@@ -1553,7 +1564,7 @@
                     tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login first to view data)</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
                 console.error("Firebase error:", e);
             }
         }
