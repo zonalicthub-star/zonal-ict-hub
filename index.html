@@ -144,9 +144,17 @@
 </head>
 <body>
 
-    <!-- Datalist for Searchable Schools & Teachers -->
+    <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
-    <datalist id="allTeachersList"></datalist>
+
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar">
+        <div>
+            <span>✉️ <a href="mailto:zonalicthub@gmail.com">zonalicthub@gmail.com</a></span>
+            <span style="margin-left: 15px;">📞 <a href="tel:0718581675">071 858 1675</a> | <a href="tel:0714469232">071 446 9232</a></span>
+        </div>
+        <div>📍 Wellawaya Zonal Education Office - ICT Division</div>
+    </div>
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
@@ -223,7 +231,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section -->
+            <!-- Professional Contact Section (Moved Above Footer) -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -390,7 +398,7 @@
             <div class="card" style="max-width: 550px; margin: auto;">
                 <h2>Register Teacher</h2>
                 <p style="font-size: 0.85rem; color: #d32f2f;">* Phone Number is mandatory. You will be auto-assigned a Teacher ID.</p>
-                <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" list="allTeachersList" placeholder="e.g. A.B.C. Perera"></div>
+                <div class="form-group"><label>Name with initials</label><input type="text" id="t-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>School Name</label><input type="text" id="t-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 
                 <div class="grid-form">
@@ -425,7 +433,7 @@
             <div class="card" style="max-width: 550px; margin: auto;">
                 <h2>Register ZDETT</h2>
                 <p style="font-size: 0.85rem; color: #10b981;">* Phone Number is mandatory. You will also be auto-registered as a Teacher.</p>
-                <div class="form-group"><label>Name with initials</label><input type="text" id="z-name" list="allTeachersList" placeholder="e.g. A.B.C. Perera"></div>
+                <div class="form-group"><label>Name with initials</label><input type="text" id="z-name" placeholder="e.g. A.B.C. Perera"></div>
                 <div class="form-group"><label>ZDETT ID No</label><input type="text" id="z-idno" placeholder="ZDETT-01"></div>
                 <div class="form-group"><label>School / Workplace</label><input type="text" id="z-school" list="allSchoolsList" placeholder="Search and Select School"></div>
                 
@@ -744,7 +752,7 @@
             {"division": "Buttala", "school": "Mo/Okkampitiya Janapada K.V.", "pc_active": 15, "pc_inactive": 0, "monitor_active": 17, "monitor_inactive": 0, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "L.P. Gnanawathi", "contact": "070-5863508"}, 
             {"division": "Buttala", "school": "Mo/Kukurampola K.V.", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.G. Nandasena", "contact": "0713814848"}, 
             {"division": "Buttala", "school": "Mo/Ranjan Wijerathne M.V.", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "K.H. Dilani Premarathna", "contact": "071-3379988"}, 
-            {"division": "Buttala", "school": "Mo/Piyananda K.V.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.D. Thilakarathne", "contact": "074-0056375"}, 
+            {"division": "Buttala", "school": "Mo/Piyananda K.V.", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.D. Indika Nuwan Kumara", "contact": "074-0056375"}, 
             {"division": "Buttala", "school": "Mo/Yudaganawa K.V.", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P. Senadheera", "contact": "0778054937"}, 
             {"division": "Buttala", "school": "Mo/Waguruwela M.V.", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "G.G.G. Siriwardhana", "contact": "071-2429817"}, 
             {"division": "Buttala", "school": "Mo/Helagama K.V.", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "H.K. Kapila Chandrasiri", "contact": "0718566220"}, 
@@ -763,67 +771,6 @@
             {"division": "Buttala", "school": "Mo/Dutugemunu National School", "pc_active": 63, "pc_inactive": 37, "monitor_active": 80, "monitor_inactive": 20, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 6, "laptop_inactive": 0, "arduino_active": 1, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "W.G. Premathilaka", "contact": "071-8218565"}, 
             {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Maha Vidyalaya", "pc_active": 51, "pc_inactive": 27, "monitor_active": 43, "monitor_inactive": 35, "smartboard_active": 5, "smartboard_inactive": 0, "laptop_active": 10, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber", "principal": "R.M.N. Wickramasinghe", "contact": "0705113570"}, 
             {"division": "Buttala", "school": "Mo/Pelwatta Navodya Maha Vidyalaya", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}
-        ];
-
-        // RE-ADDED: Base Teacher Records for Search & Static View
-        const rawTeacherData = [
-            {"name": "H .V.I.Madhushika", "school": "Mo/Anapallama K.V.", "email": "madhushikaishara1980@gmail.com", "phone": "0777130885"}, 
-            {"name": "M.M.I.K.K.Madurasingha", "school": "Mo/Athadutuwewa K.V.", "email": "madurasinghairesha190@gmail.com", "phone": "0701017161"}, 
-            {"name": "G.W.D.C. de Silva", "school": "Mo/Ethiliwewa M.V.", "email": "gwdedunusilva@gmail.com", "phone": "0766906938"}, 
-            {"name": "W.D Yureka", "school": "Mo/Kithulkote M.V.", "email": "wijesinhagedonyureka@gmail.com", "phone": "0719673916"}, 
-            {"name": "L.M.G.MANJULA SANJEEWANI", "school": "Mo/Kudaoya M.V.", "email": "msanjeewani722@gmail.com", "phone": "0766480391"}, 
-            {"name": "L.W.HETTIARACHCHI", "school": "Mo/Kudaoya M.V.", "email": "lwhettiarachchi@gmail.com", "phone": "0776357534"}, 
-            {"name": "W.B.M.P.M.K.Wijekoon", "school": "Mo/Kudaoya M.V.", "email": "piyumaliwijekoon98@gmail.com", "phone": "0703218681"}, 
-            {"name": "Karunarathna W. A. G. G.", "school": "Mo/Kurugama K.V.", "email": "gimhanag@gmail.com", "phone": "0719788809"}, 
-            {"name": "D.M.T.U.K.Wijesinghe", "school": "Mo/Gampangugama K.V.", "email": "bnstharanga@gmail.com", "phone": "0777944308"}, 
-            {"name": "N.S Wickramasinghe", "school": "Mo/J.M. Kumaradasa M.V.", "email": "sachethaninisansala@gmail.com", "phone": "0769171192"}, 
-            {"name": "T.K.S.D.Priyadarshani", "school": "Mo/J.M. Kumaradasa M.V.", "email": "trasdsajee@gmail.com", "phone": "0778175334"}, 
-            {"name": "HARSHANI R.M.P", "school": "Mo/D.S. Senanayake K.V.", "email": "harshi.monaragala@gmail.com", "phone": "0714385944"}, 
-            {"name": "W.P.R.K.Wicramathunga", "school": "Mo/Thelulla K.V.", "email": "kalpaniwicramathunga@gmail.com", "phone": "0774875549"}, 
-            {"name": "K.M.N. Herandika Rathnayake", "school": "Mo/Thelulla Janapada K.V.", "email": "abesinghasr@gmail.com", "phone": "0777689943"}, 
-            {"name": "Kumari M.W", "school": "Mo/Debaraara K.V.", "email": "wathsalasenadeera1@gmail.com", "phone": "0766834731"}, 
-            {"name": "A.L.SUGATHADASA", "school": "Mo/Balaharuwa K.V.", "email": "ayeshalaki@gmail.com", "phone": ""}, 
-            {"name": "K.A.D.M.NAYANAJITH", "school": "Mo/Balaharuwa K.V.", "email": "nayanajithmadhusankha@gmail.com", "phone": ""}, 
-            {"name": "K.D.H.SANCHANI", "school": "Mo/Balaharuwa K.V.", "email": "sanchanihiruni@gmail.com", "phone": ""}, 
-            {"name": "H.T.S.Kithsiri", "school": "Mo/Buduruwagala M.V.", "email": "sumudu.kithsiri@gmail.com", "phone": "0714693937"}, 
-            {"name": "W.H.G.N.Sudarshani", "school": "Mo/Buduruwagala M.V.", "email": "whgnsudarshani@gmail.com", "phone": "0713404950"}, 
-            {"name": "L.A.K.E Bandara", "school": "Mo/Malwaththawala M.M.V.", "email": "lakebandara@gmail.com", "phone": "0712342878"}, 
-            {"name": "M.P.C.M. Nishadi", "school": "Mo/Malwaththawala M.M.V.", "email": "manodyanishadi@gmail.com", "phone": "0719875180"}, 
-            {"name": "N.M.K.Sanjeewa", "school": "Mo/Malwaththawala M.M.V.", "email": "sanjeewanmk@gmail.com", "phone": ""}, 
-            {"name": "R.M.N.Lakshani", "school": "Mo/Malwaththawala M.M.V.", "email": "nomeshalakshani91@gmail.com", "phone": "0716429037"}, 
-            {"name": "V.B.C.Hansani", "school": "Mo/Malwaththawala M.M.V.", "email": "vbchansani@gmail.com", "phone": "0717599113"}, 
-            {"name": "W.I.Sandamali", "school": "Mo/Malwaththawala M.M.V.", "email": "wisandamali71@gmail.com", "phone": ""}, 
-            {"name": "Mrs.M.Fathima Zimla", "school": "Mo/Mahawelamulla Muslim K.V.", "email": "simlamowjooth@gmail.com", "phone": "0729726136"}, 
-            {"name": "K.S Nisansala", "school": "Mo/Randenivela K.V.", "email": "sauri93nisansala@gmail.com", "phone": "0712183997"}, 
-            {"name": "R.M.N.Chathuranga", "school": "Mo/Randenivela K.V.", "email": "sithum980@gmail.com", "phone": "0714170216"}, 
-            {"name": "W. L. G. D. Dilsara", "school": "Mo/Weherayaya K.V.", "email": "denethdilsara12@gmail.com", "phone": "0711460850"}, 
-            {"name": "K.M.D.S.G.Amarasekara", "school": "Mo/Weherayaya M.V.", "email": "dilkisharuka@gmail.com", "phone": "0725576636"}, 
-            {"name": "S.R.M.A.M.Madhavi", "school": "Mo/Siyambalagunay K.V.", "email": "madhavisamaradivakara@gmail.com", "phone": "0715702001"}, 
-            {"name": "Pushpakumawa W M J", "school": "Mo/Handapanagala M.V.", "email": "janithapushpakumarawm@gmail.com", "phone": "0719120618"}, 
-            {"name": "W.D.Menaka perera", "school": "Mo/Handapanagala M.V.", "email": "menakadilhani412@gmail.com", "phone": "0706007146"}, 
-            {"name": "M.Sudassa himi", "school": "Mo/Unawatuna K.V.", "email": "unawatunajuniorschool@gmail.com", "phone": "0771311387"}, 
-            {"name": "Godevitharana A.G.I.S.", "school": "Mo/Okkampitiya Janapada K.V.", "email": "agisanojee@gmail.com", "phone": "0713794018"}, 
-            {"name": "H. M. R. Bandara", "school": "Mo/Okkampitiya Janapada K.V.", "email": "rasiherath616@gmail.com", "phone": "0704882466"}, 
-            {"name": "K.H.W.M.M.U.Kumara", "school": "Mo/Okkampitiya Vijayabahu M.V.", "email": "malindaudayakumara@gmail.com", "phone": "0776519901"}, 
-            {"name": "K.W.SASHIKA PRASADI", "school": "Mo/Okkampitiya Vijayabahu M.V.", "email": "sashiprasadi1120@gmail.com", "phone": "0766536483"}, 
-            {"name": "J.A.C.M. JAYASOORIYA", "school": "Mo/Kukurampola K.V.", "email": "madu319@gmail.com", "phone": "0777892887"}, 
-            {"name": "J M Shanika Madushani", "school": "Mo/Sri Sumanajothi K.V.", "email": "ruwanikonara5@gmail.com", "phone": "0712376575"}, 
-            {"name": "GAMAGE GCS", "school": "Mo/Gonaganara K.V.", "email": "gamagechathu492@gmail.com", "phone": "0701370614"}, 
-            {"name": "A.Vinoranjani", "school": "Mo/Janasankha Model K.V.", "email": "", "phone": "0764483943"}, 
-            {"name": "K.M.R.Priyakelum", "school": "Mo/Dutugemunu Central M.V.", "email": "priyakelum@gmail.com", "phone": "0714469232"}, 
-            {"name": "P.V.T.Ayodani", "school": "Mo/Dutugemunu Central M.V.", "email": "tayodani@gmail.com", "phone": "0716590035"}, 
-            {"name": "S.A. GAYAN PRABUDDHA INDIKA SOORIYAARACHCHI", "school": "Mo/Dutugemunu Central M.V.", "email": "saindika@gmail.com", "phone": "0718200577"}, 
-            {"name": "S.S DISSANAYAKA", "school": "Mo/Dutugemunu Central M.V.", "email": "", "phone": "0713407414"}, 
-            {"name": "W.A.N.Nilanthi", "school": "Mo/Dutugemunu Central M.V.", "email": "nilulanka@gmail.com", "phone": "0712042736"}, 
-            {"name": "R.M.A.K Rathnayaka", "school": "Mo/Pelwatta Navodya M.V.", "email": "anil.rathnayaka@gmail.com", "phone": "0715890169"}, 
-            {"name": "W.M.S.Madhuwanthi", "school": "Mo/Pelwatta Navodya M.V.", "email": "sithara7104@gmail.com", "phone": "0710456366"}, 
-            {"name": "P.M.S.Kumari", "school": "Mo/Piyananda K.V.", "email": "swarna06kumari@gmail.com", "phone": "0753776710"}, 
-            {"name": "NISANSALA K.M.J.", "school": "Mo/Yudhaganawa K.V.", "email": "me.jeewani@gmail.com", "phone": "0719034096"}, 
-            {"name": "M.A.R.Pasan", "school": "Mo/Ranjan Wijerathne M.V.", "email": "arc.creation95@gmail.com", "phone": "0706993367"}, 
-            {"name": "E K D H Lakmali", "school": "Mo/Waguruwela M.V.", "email": "dulaniharshika90@gmail.com", "phone": "0705047189"}, 
-            {"name": "D.M.D.H.Dissanayaka", "school": "Mo/Sri Subodha K.V.", "email": "dhanushadissanayaka@gmail.com", "phone": "0771425957"}, 
-            {"name": "R.V.K.N.Rawathawaththa", "school": "Mo/Siddhartha M.V.", "email": "nuwanrawatawatta@gmail.com", "phone": "0711577209"}, 
-            {"name": "A.C.T. Mendis", "school": "Mo/Helagama K.V.", "email": "nuwandhika94@gmail.com", "phone": "0782877719"}
         ];
 
         window.renderSchoolTable = function(data) {
@@ -1011,15 +958,6 @@
                     let opt = document.createElement('option');
                     opt.value = s.school;
                     datalist.appendChild(opt);
-                });
-            }
-
-            const teacherDatalist = document.getElementById('allTeachersList');
-            if(teacherDatalist && typeof rawTeacherData !== 'undefined') {
-                rawTeacherData.forEach(t => {
-                    let opt = document.createElement('option');
-                    opt.value = t.name;
-                    teacherDatalist.appendChild(opt);
                 });
             }
         });
@@ -1260,32 +1198,12 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
-            // Map the imported teachers into the table first
-            rawTeacherData.forEach((t, i) => {
-                let roleBadge = '<span class="grade-b">Teacher</span>';
-                let tId = "T-S" + String(i + 1).padStart(3, '0'); // S indicates Static Load
-                tbody.innerHTML += `<tr>
-                    <td>${roleBadge}</td>
-                    <td><strong>${tId}</strong></td>
-                    <td class="text-start">${t.name}</td>
-                    <td class="text-start">${t.school}</td>
-                    <td class="text-start">-</td>
-                    <td class="text-start">-</td>
-                    <td class="text-start">${t.email}</td>
-                    <td class="text-start">${t.phone}</td>
-                    <td><button class="btn-primary" style="font-size: 0.7em; padding: 4px 8px;" onclick="alert('This teacher has not fully registered via the system yet.')">Static</button></td>
-                </tr>`;
-            });
-
             // Append actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
                     let u = child.val();
                     if (u.email === 'zonalicthub@gmail.com') return; 
-                    
-                    let exists = rawTeacherData.find(rt => rt.email.toLowerCase() === u.email.toLowerCase());
-                    if(exists) return; 
 
                     let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
                     let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
@@ -1546,23 +1464,6 @@
             let mediumFilter = document.getElementById('filter-teacher-medium');
             let selMedium = mediumFilter ? mediumFilter.value : "All";
 
-            // Load pre-loaded (static) teachers
-            rawTeacherData.forEach((t, i) => {
-                // By default show static teachers if no filter is selected (as they don't have grades/mediums saved)
-                if(selGrade !== "All" || selMedium !== "All") return; 
-
-                let tId = "T-S" + String(i + 1).padStart(3, '0'); // S for Static
-                tbody.innerHTML += `<tr>
-                    <td class="text-start"><strong>${tId}</strong></td>
-                    <td class="text-start">${t.name}</td>
-                    <td class="text-start">${t.school}</td>
-                    <td class="text-start" style="color:#0ea5e9;">-</td>
-                    <td class="text-start" style="color:#10b981;">-</td>
-                    <td class="text-start">${t.email}</td>
-                    <td class="text-start">${t.phone || 'N/A'}</td>
-                </tr>`;
-            });
-
             // Load registered users from Firebase
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
@@ -1572,10 +1473,6 @@
                 
                 usersArray.forEach((u) => {
                     if (u.email === 'zonalicthub@gmail.com') return;
-
-                    // Prevent displaying duplicate if someone registered with the same email as the raw base
-                    let exists = rawTeacherData.find(rt => rt.email.toLowerCase() === u.email.toLowerCase());
-                    if(exists) return; 
 
                     if(u.role === 'teacher' || u.role === 'zdett') {
                         let tGrades = u.grades || [];
