@@ -139,8 +139,9 @@
 </head>
 <body>
 
-    <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
+
+    <!-- Top Contact Bar is COMPLETELY REMOVED as requested -->
 
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
@@ -217,7 +218,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section (Moved Above Footer) -->
+            <!-- Professional Contact Section (Below links, above footer) -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -313,7 +314,7 @@
                 <div class="filter-section" style="border-left-color: #f39c12;">
                     <div class="filter-item">
                         <label>Filter by Grade Taught:</label>
-                        <select id="filter-teacher-grade" onchange="loadTeachers()">
+                        <select id="filter-teacher-grade" onchange="window.loadTeachers()">
                             <option value="All">All Grades</option>
                             <option value="6-9">6-9</option>
                             <option value="10-11">10-11</option>
@@ -323,7 +324,7 @@
                     </div>
                     <div class="filter-item">
                         <label>Filter by Medium:</label>
-                        <select id="filter-teacher-medium" onchange="loadTeachers()">
+                        <select id="filter-teacher-medium" onchange="window.loadTeachers()">
                             <option value="All">All Mediums</option>
                             <option value="Sinhala">Sinhala</option>
                             <option value="English">English</option>
@@ -351,6 +352,7 @@
             </div>
         </div>
 
+        <!-- ZDETT SECTION -->
         <div id="zdett" class="section">
             <div class="card">
                 <h2>ZDETT Team Members</h2>
@@ -667,11 +669,11 @@
                     <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
                         <div class="filter-item">
                             <label>School:</label>
-                            <input type="text" id="admin-inv-school" list="allSchoolsList" oninput="loadAdminInventory()" placeholder="Search School... (Leave empty for All)">
+                            <input type="text" id="admin-inv-school" list="allSchoolsList" oninput="window.loadAdminInventory()" placeholder="Search School... (Leave empty for All)">
                         </div>
                         <div class="filter-item">
                             <label>Section:</label>
-                            <input type="text" id="admin-inv-section" oninput="loadAdminInventory()" placeholder="Filter by Section...">
+                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section...">
                         </div>
                     </div>
                     
@@ -977,8 +979,8 @@
             document.getElementById(sectionId).classList.add('active');
             document.getElementById('main-nav').classList.remove('show');
             
-            if(sectionId === 'teachers') loadTeachers();
-            if(sectionId === 'zdett') loadZdettTeam();
+            if(sectionId === 'teachers') window.loadTeachers();
+            if(sectionId === 'zdett') window.loadZdettTeam();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -1138,15 +1140,15 @@
 
             if (user.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
-                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks();
+                window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 document.getElementById('zdett-tools').style.display = 'block';
-                loadMyInventory(); loadTeacherFaults(); loadTeacherMarks(); loadAdminFaults(); loadAdminInventory();
+                window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks(); window.loadAdminFaults(); window.loadAdminInventory();
             } else if (user.role === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
-                loadAdminFaults(); loadAdminInventory(); loadAdminMarks(); loadAllUsersForAdmin();
+                window.loadAdminFaults(); window.loadAdminInventory(); window.loadAdminMarks(); window.loadAllUsersForAdmin();
             }
             window.filterSchoolData();
         }
@@ -1176,7 +1178,7 @@
                 window.currentUserData.grades = newGrades; window.currentUserData.medium = newMediums;
                 setupDashboard();
                 alert("Profile updated successfully!");
-                if(window.currentUserData.role === 'teacher') { loadMyInventory(); loadTeacherFaults(); }
+                if(window.currentUserData.role === 'teacher') { window.loadMyInventory(); window.loadTeacherFaults(); }
             } catch (error) { alert("Error: " + error.message); }
         };
 
@@ -1194,6 +1196,7 @@
                         let u = child.val();
                         if (u.email === 'zonalicthub@gmail.com') return; 
                         hasUsers = true;
+                        
                         let roleBadge = u.role === 'zdett' ? '<span class="grade-a">ZDETT</span>' : '<span class="grade-b">Reg. Teacher</span>';
                         let grStr = u.grades && u.grades.length > 0 ? u.grades.join(', ') : '-';
                         let mdStr = u.medium && u.medium.length > 0 ? u.medium.join(', ') : '-';
@@ -1201,24 +1204,24 @@
                         tbody.innerHTML += `<tr style="background-color: #f0fdf4;">
                             <td>${roleBadge}</td>
                             <td><strong>${u.teacherId || '-'}</strong></td>
-                            <td class="text-start">${u.name}</td>
-                            <td class="text-start">${u.school}</td>
+                            <td class="text-start">${u.name || '-'}</td>
+                            <td class="text-start">${u.school || '-'}</td>
                             <td class="text-start">${grStr}</td>
                             <td class="text-start">${mdStr}</td>
-                            <td class="text-start">${u.email}</td>
-                            <td class="text-start">${u.phone}</td>
+                            <td class="text-start">${u.email || '-'}</td>
+                            <td class="text-start">${u.phone || '-'}</td>
                             <td><button class="btn-success" style="font-size: 0.7em; padding: 4px 8px;">Active</button></td>
                         </tr>`;
                     });
                     if(!hasUsers) {
-                        tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database yet.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database yet.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
-                console.error("Firebase read error:", e);
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login as Admin to view data)</td></tr>`;
+                console.error("Firebase Read Error:", e);
             }
         };
 
@@ -1253,13 +1256,14 @@
                 alert("Student mark added successfully!");
                 document.getElementById('mark-student').value = '';
                 document.getElementById('mark-score').value = '';
-                loadTeacherMarks();
-                if(window.currentUserData.role === 'superadmin') loadAdminMarks();
+                window.loadTeacherMarks();
+                if(window.currentUserData.role === 'superadmin') window.loadAdminMarks();
             } catch (error) { alert("Error: " + error.message); }
         };
 
         window.loadTeacherMarks = async function() {
             let tbody = document.getElementById('my-marks-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             let snapshot = await get(ref(db, 'student_marks'));
             if(snapshot.exists()) {
@@ -1283,6 +1287,7 @@
 
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-mark-school');
@@ -1328,13 +1333,14 @@
             };
             if(item.name && item.book) {
                 await set(newInvRef, item); alert("Inventory updated!");
-                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = ''); loadMyInventory();
+                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = ''); window.loadMyInventory();
             } else { alert("Book No and Equipment Name are required."); }
         };
 
-        async function loadMyInventory() {
+        window.loadMyInventory = async function() {
             let tbody = document.getElementById('my-inventory-list');
             let select = document.getElementById('fault-device');
+            if(!tbody || !select) return;
             tbody.innerHTML = ''; select.innerHTML = '<option value="">-- Select from Inventory --</option>';
             let snapshot = await get(ref(db, 'inventory'));
             if(snapshot.exists()) {
@@ -1348,10 +1354,11 @@
                     }
                 });
             }
-        }
+        };
 
-        async function loadTeacherFaults() {
+        window.loadTeacherFaults = async function() {
             let tbody = document.getElementById('my-faults-list');
+            if(!tbody) return;
             tbody.innerHTML = '';
             let snapshot = await get(ref(db, 'faults'));
             if(snapshot.exists()) {
@@ -1370,7 +1377,7 @@
                     }
                 });
             }
-        }
+        };
 
         window.reportFault = async function() {
             let deviceId = document.getElementById('fault-device').value;
@@ -1385,8 +1392,8 @@
                         device: selectedItem.name, description: desc, status: 'Pending', timestamp: Date.now()
                     });
                     alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
-                    loadTeacherFaults(); 
-                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') loadAdminFaults(); 
+                    window.loadTeacherFaults(); 
+                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') window.loadAdminFaults(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
@@ -1397,12 +1404,13 @@
                 await update(ref(db, 'faults/' + faultId), {
                     status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
                 });
-                alert("Job marked as complete!"); loadAdminFaults(); loadTeacherFaults(); 
+                alert("Job marked as complete!"); window.loadAdminFaults(); window.loadTeacherFaults(); 
             }
         };
 
         window.loadAdminFaults = async function() {
             let fBody = document.getElementById('all-faults-list');
+            if(!fBody) return;
             fBody.innerHTML = '';
             let fSnap = await get(ref(db, 'faults'));
             if(fSnap.exists()) {
@@ -1424,6 +1432,7 @@
 
         window.loadAdminInventory = async function() {
             let iBody = document.getElementById('all-inventory-list');
+            if(!iBody) return;
             iBody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-inv-school');
@@ -1473,9 +1482,10 @@
                     
                     let count = 0;
                     usersArray.forEach((u) => {
-                        if (u.email === 'zonalicthub@gmail.com') return;
+                        if (!u || u.email === 'zonalicthub@gmail.com') return;
 
-                        if(u.role === 'teacher' || u.role === 'zdett') {
+                        let roleStr = (u.role || '').toLowerCase();
+                        if(roleStr === 'teacher' || roleStr === 'zdett') {
                             let tGrades = u.grades || [];
                             let tMedium = u.medium || [];
                             
@@ -1489,11 +1499,11 @@
                             count++;
                             tbody.innerHTML += `<tr>
                                 <td class="text-start"><strong>${tId}</strong></td>
-                                <td class="text-start">${u.name}</td>
-                                <td class="text-start">${u.school}</td>
+                                <td class="text-start">${u.name || '-'}</td>
+                                <td class="text-start">${u.school || '-'}</td>
                                 <td class="text-start" style="color:#0ea5e9;">${grStr}</td>
                                 <td class="text-start" style="color:#10b981;">${mdStr}</td>
-                                <td class="text-start">${u.email}</td>
+                                <td class="text-start">${u.email || '-'}</td>
                                 <td class="text-start">${u.phone || 'N/A'}</td>
                             </tr>`;
                         }
@@ -1505,12 +1515,12 @@
                     tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login first to view data)</td></tr>`;
                 console.error("Firebase error:", e);
             }
         };
 
-        async function loadZdettTeam() {
+        window.loadZdettTeam = async function() {
             let tbody = document.getElementById('zdett-public-list');
             if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Team...</td></tr>';
@@ -1527,13 +1537,15 @@
                         if (numA !== numB) { return numA - numB; }
                         return idA.localeCompare(idB);
                     });
+                    
                     let count = 0;
                     usersArray.forEach((u) => {
-                        if (u.email === 'zonalicthub@gmail.com') return;
+                        if (!u || u.email === 'zonalicthub@gmail.com') return;
 
-                        if(u.role === 'zdett') {
+                        let roleStr = (u.role || '').toLowerCase();
+                        if(roleStr === 'zdett') {
                             count++;
-                            tbody.innerHTML += `<tr><td class="text-start">${u.name}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
                         }
                     });
                     if(count === 0) {
@@ -1543,7 +1555,7 @@
                     tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">Error loading data: Database rules may be blocking access.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please Login first to view data)</td></tr>`;
                 console.error("Firebase error:", e);
             }
         }
