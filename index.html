@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wellawaya Zonal ICT Hub</title>
+    <title>Wellawaya Zonal ICT Division</title>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -17,12 +17,6 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
         
-        /* Top Contact Bar */
-        .top-contact-bar { background-color: #0f172a; color: #cbd5e1; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; border-bottom: 2px solid #0369a1; }
-        .top-contact-bar a { color: #e0f2fe; text-decoration: none; transition: color 0.3s; letter-spacing: 0.5px; }
-        .top-contact-bar a:hover { color: #38bdf8; text-decoration: underline; }
-        @media (max-width: 600px) { .top-contact-bar { flex-direction: column; gap: 6px; text-align: center; } }
-
         /* MOE Style Header Banner */
         .header-banner { width: 100%; background-color: #001f3f; text-align: center; position: relative; }
         .header-banner img { width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block; }
@@ -126,17 +120,20 @@
         .filter-item { display: flex; flex-direction: column; min-width: 150px; flex: 1; }
         .filter-item label { font-size: 0.85rem; color: #555; font-weight: bold; margin-bottom: 5px; }
         .filter-item select, .filter-item input[type="text"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
-        .filter-item-checkbox { display: flex; align-items: center; gap: 8px; margin-top: 20px; flex-direction: row !important; }
-        .filter-item-checkbox label { margin: 0; color: #d32f2f; cursor: pointer; }
-        .filter-item-checkbox input { width: 18px; height: 18px; cursor: pointer; margin: 0; }
+        
+        /* Checkbox groups for form */
+        .cb-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; }
+        .cb-group label { font-weight: normal !important; color: #334155 !important; display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0; }
+        .cb-group input { width: 16px; height: 16px; margin: 0; }
 
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
 
-        /* Checkbox groups for form */
-        .cb-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; }
-        .cb-group label { font-weight: normal !important; color: #334155 !important; display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.9rem; }
-        .cb-group input { width: 16px; height: 16px; margin: 0; }
+        @media (max-width: 768px) {
+            .container { padding: 1rem 5px; width: 100%; }
+            .hero-banner h1 { font-size: 1.5rem; }
+            .filter-item { min-width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -219,7 +216,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section (Moved Above Footer) -->
+            <!-- Professional Contact Section -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -289,9 +286,9 @@
                                 <option value="Personal">Personal</option>
                             </select>
                         </div>
-                        <div class="filter-item filter-item-checkbox">
-                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()">
-                            <label for="inactiveFilter">Show schools with Inactive PCs/Monitors</label>
+                        <div class="filter-item filter-item-checkbox" style="display: flex; flex-direction: row !important; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()" style="width: auto;">
+                            <label for="inactiveFilter" style="margin: 0;">Show schools with Inactive PCs/Monitors</label>
                         </div>
                     </div>
                 </div>
@@ -409,7 +406,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 15px;"><label>Email Address</label><input type="email" id="t-email"></div>
+                <div class="form-group" style="margin-top: 15px;"><label>Email Address</label><input type="email" id="t-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="tel" id="t-phone" placeholder="07xxxxxxxx" required></div>
                 <div class="form-group"><label>Password</label><input type="password" id="t-pass"></div>
                 <button onclick="registerTeacher()">Register Account</button>
@@ -446,7 +443,7 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 15px;"><label>Phone Number *</label><input type="tel" id="z-phone" placeholder="07xxxxxxxx" required></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="z-email"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="z-email" placeholder="example@gmail.com"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="z-pass"></div>
                 <button onclick="registerZdett()">Register Account</button>
                 <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showSection('login')">Back to Login</a></p>
@@ -701,7 +698,6 @@
     </script>
 
     <script>
-        // Official Schools Data
         const rawSchoolData = [
             {"division": "Wellawaya", "school": "Mo/Weherayaya Maha Vidyalaya", "pc_active": 9, "pc_inactive": 3, "monitor_active": 12, "monitor_inactive": 0, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router", "principal": "D.R.S.S. Bandara", "contact": "0713574806"}, 
             {"division": "Wellawaya", "school": "Mo/Kurugama Kanishta Vidyalaya", "pc_active": 3, "pc_inactive": 2, "monitor_active": 5, "monitor_inactive": 9, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber", "principal": "D.R.A.N Bandara", "contact": "0713574806"}, 
@@ -1082,6 +1078,7 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
                 
+                // SUPER ADMIN ONLY BY SPECIFIC EMAIL
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -1186,6 +1183,7 @@
             let tbody = document.getElementById('all-users-list');
             tbody.innerHTML = '';
             
+            // Only fetch actively registered users from database
             let snapshot = await get(ref(db, 'users'));
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
