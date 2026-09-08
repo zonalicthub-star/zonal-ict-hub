@@ -217,7 +217,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section -->
+            <!-- Professional Contact Section (Below links, above footer) -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -303,35 +303,12 @@
             </div>
         </div>
 
-        <!-- TEACHERS SECTION -->
+        <!-- PUBLIC TEACHERS SECTION -->
         <div id="teachers" class="section">
             <div class="card" style="border-top: 4px solid #f39c12;">
                 <h2>Registered ICT Teachers</h2>
-                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers and auto-assigned a Teacher ID. (Sorted by Teacher ID)</p>
+                <p style="font-size: 0.9rem; color: #555;">ZDETT members are also recognized as internal ICT Teachers. (Sorted by Teacher ID)</p>
                 
-                <!-- Filters for Teachers View -->
-                <div class="filter-section" style="border-left-color: #f39c12;">
-                    <div class="filter-item">
-                        <label>Filter by Grade Taught:</label>
-                        <select id="filter-teacher-grade" onchange="window.loadTeachers()">
-                            <option value="All">All Grades</option>
-                            <option value="6-9">6-9</option>
-                            <option value="10-11">10-11</option>
-                            <option value="AL ICT">AL ICT</option>
-                            <option value="GIT">GIT</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label>Filter by Medium:</label>
-                        <select id="filter-teacher-medium" onchange="window.loadTeachers()">
-                            <option value="All">All Mediums</option>
-                            <option value="Sinhala">Sinhala</option>
-                            <option value="English">English</option>
-                            <option value="Tamil">Tamil</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="table-container">
                     <table>
                         <thead>
@@ -339,9 +316,6 @@
                                 <th>Teacher ID</th>
                                 <th>Name</th>
                                 <th>School</th>
-                                <th>Grades Taught</th>
-                                <th>Medium</th>
-                                <th>Email</th>
                                 <th>Phone</th>
                             </tr>
                         </thead>
@@ -532,7 +506,7 @@
                     </div>
                 </div>
 
-                <!-- Admin User Management -->
+                <!-- Admin User Management (FULL DETAILS) -->
                 <div class="card" style="border-left: 5px solid #d946ef; background-color: #fdf4ff;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                         <h3 style="color: #9333ea;">👑 Admin Dashboard - User Management</h3>
@@ -583,14 +557,14 @@
                         <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Name with initials"></div>
                         <div><label>Marks (0-100 or AB)</label><input type="text" id="mark-score" placeholder="e.g. 85 or AB"></div>
                         <div style="display: flex; align-items: flex-end;">
-                            <button class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
+                            <button id="btn-add-mark" class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
                         </div>
                     </div>
                     
                     <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Recently Added Marks</h4>
                     <div class="table-container" style="max-height: 300px;">
                         <table>
-                            <thead><tr><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Status</th><th>Subject Teacher</th></tr></thead>
+                            <thead><tr><th>Grade</th><th>Class</th><th>Term</th><th>Student Name</th><th>Marks</th><th>Status</th><th>Action</th></tr></thead>
                             <tbody id="my-marks-list"></tbody>
                         </table>
                     </div>
@@ -623,12 +597,12 @@
                         <input type="number" id="inv-short" placeholder="Shortfall Qty">
                         <input type="number" id="inv-surp" placeholder="Surplus Qty">
                     </div>
-                    <button onclick="addInventory()">Add to Inventory Book</button>
+                    <button id="btn-add-inv" onclick="addInventory()">Add to Inventory Book</button>
 
                     <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">My Inventory Items</h4>
                     <div class="table-container" id="my-inventory-container">
                         <table>
-                            <thead><tr><th>Section</th><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th></tr></thead>
+                            <thead><tr><th>Section</th><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th><th>Action</th></tr></thead>
                             <tbody id="my-inventory-list"></tbody>
                         </table>
                     </div>
@@ -667,11 +641,11 @@
                     <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
                         <div class="filter-item">
                             <label>School:</label>
-                            <input type="text" id="admin-inv-school" list="allSchoolsList" oninput="window.loadAdminInventory()" placeholder="Search School... (Leave empty for All)">
+                            <input type="text" id="admin-inv-school" list="allSchoolsList" oninput="loadAdminInventory()" placeholder="Search School... (Leave empty for All)">
                         </div>
                         <div class="filter-item">
                             <label>Section:</label>
-                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section...">
+                            <input type="text" id="admin-inv-section" oninput="loadAdminInventory()" placeholder="Filter by Section...">
                         </div>
                     </div>
                     
@@ -970,7 +944,7 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // SAFE ARRAY HELPER: To prevent u.grades.join is not a function errors from old/dirty data
+        // SAFE ARRAY HELPER: Prevents errors from messy legacy string data in the database
         function safeArray(data) {
             if (!data) return [];
             if (Array.isArray(data)) return data;
@@ -980,6 +954,8 @@
         }
 
         window.currentUserData = null;
+        window.currentEditMarkId = null;
+        window.currentEditInvId = null;
 
         window.showSection = function(sectionId) {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -1136,7 +1112,7 @@
             document.getElementById('edit-school').value = user.school || '';
             document.getElementById('edit-phone').value = user.phone || '';
 
-            // Set Checkboxes for Edit Profile using Safe Array Helper
+            // Safe array mapping for Checkboxes to prevent errors
             setCheckedValues('edit-t-grades', safeArray(user.grades));
             setCheckedValues('edit-t-medium', safeArray(user.medium));
 
@@ -1229,8 +1205,28 @@
                     tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database yet.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please check database rules or format)</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
                 console.error("Firebase Read Error:", e);
+            }
+        };
+
+        // Edit Marks Logic
+        window.editMark = function(id, grade, cls, term, name, marks) {
+            window.currentEditMarkId = id;
+            document.getElementById('mark-grade').value = grade;
+            document.getElementById('mark-class').value = cls;
+            document.getElementById('mark-term').value = term;
+            document.getElementById('mark-student').value = name;
+            document.getElementById('mark-score').value = marks;
+            let btn = document.getElementById('btn-add-mark');
+            if(btn) { btn.innerText = "Update Mark"; btn.className = "btn-success"; }
+        };
+
+        window.deleteMark = async function(id) {
+            if(confirm("Are you sure you want to delete this mark record?")) {
+                await set(ref(db, 'student_marks/' + id), null);
+                window.loadTeacherMarks();
+                if(window.currentUserData && window.currentUserData.role === 'superadmin') window.loadAdminMarks();
             }
         };
 
@@ -1255,18 +1251,32 @@
             }
 
             try {
-                await set(push(ref(db, 'student_marks')), {
-                    school: window.currentUserData.school,
-                    grade: grade, term: term, className: cls,
-                    studentName: sName, marks: finalScore,
-                    addedBy: window.currentUserData.name, 
-                    timestamp: Date.now()
-                });
-                alert("Student mark added successfully!");
+                if (window.currentEditMarkId) {
+                    await update(ref(db, 'student_marks/' + window.currentEditMarkId), {
+                        grade: grade, term: term, className: cls,
+                        studentName: sName, marks: finalScore,
+                        addedBy: window.currentUserData.name, 
+                        timestamp: Date.now()
+                    });
+                    alert("Student mark updated successfully!");
+                    window.currentEditMarkId = null;
+                    let btn = document.getElementById('btn-add-mark');
+                    if(btn) { btn.innerText = "Add Mark"; btn.className = "btn-purple"; }
+                } else {
+                    await set(push(ref(db, 'student_marks')), {
+                        school: window.currentUserData.school,
+                        grade: grade, term: term, className: cls,
+                        studentName: sName, marks: finalScore,
+                        addedBy: window.currentUserData.name, 
+                        timestamp: Date.now()
+                    });
+                    alert("Student mark added successfully!");
+                }
+                
                 document.getElementById('mark-student').value = '';
                 document.getElementById('mark-score').value = '';
                 window.loadTeacherMarks();
-                if(window.currentUserData.role === 'superadmin') window.loadAdminMarks();
+                if(window.currentUserData && window.currentUserData.role === 'superadmin') window.loadAdminMarks();
             } catch (error) { alert("Error: " + error.message); }
         };
 
@@ -1279,6 +1289,7 @@
                 let marksArr = [];
                 snapshot.forEach(child => {
                     let m = child.val();
+                    m.id = child.key;
                     if(m.school === window.currentUserData.school) marksArr.push(m);
                 });
                 marksArr.sort((a,b) => b.timestamp - a.timestamp); 
@@ -1288,7 +1299,10 @@
                         <td class="text-start">${m.grade}</td><td class="text-start">${m.className}</td><td class="text-start">${m.term}</td>
                         <td class="text-start">${m.studentName}</td><td class="text-start"><strong>${m.marks}</strong></td>
                         <td class="text-start"><span class="${gradeObj.class}">${gradeObj.grade}</span></td>
-                        <td class="text-start">${m.addedBy}</td>
+                        <td class="text-start">
+                            <button class="btn-primary" style="font-size:0.75rem; padding:4px 8px; margin-right:5px; margin-bottom:5px;" onclick="editMark('${m.id}', '${m.grade}', '${m.className}', '${m.term}', '${m.studentName}', '${m.marks}')">✏️</button>
+                            <button class="btn-danger" style="font-size:0.75rem; padding:4px 8px;" onclick="deleteMark('${m.id}')">🗑️</button>
+                        </td>
                     </tr>`;
                 });
             }
@@ -1330,19 +1344,56 @@
             }
         };
 
+        // Edit Inventory Logic
+        window.editInv = function(id, sec, bk, pg, col, nm, av, sh, su) {
+            window.currentEditInvId = id;
+            document.getElementById('inv-section').value = (sec !== 'undefined' && sec !== 'null') ? sec : '';
+            document.getElementById('inv-book').value = (bk !== 'undefined' && bk !== 'null') ? bk : '';
+            document.getElementById('inv-page').value = (pg !== 'undefined' && pg !== 'null') ? pg : '';
+            document.getElementById('inv-col').value = (col !== 'undefined' && col !== 'null') ? col : '';
+            document.getElementById('inv-name').value = (nm !== 'undefined' && nm !== 'null') ? nm : '';
+            document.getElementById('inv-avail').value = (av !== 'undefined' && av !== 'null') ? av : '';
+            document.getElementById('inv-short').value = (sh !== 'undefined' && sh !== 'null') ? sh : '';
+            document.getElementById('inv-surp').value = (su !== 'undefined' && su !== 'null') ? su : '';
+            
+            let btn = document.getElementById('btn-add-inv');
+            if(btn) { btn.innerText = "Update Inventory"; btn.className = "btn-success"; }
+            window.scrollTo({ top: document.getElementById('inv-section').offsetTop - 50, behavior: 'smooth' });
+        };
+
+        window.deleteInv = async function(id) {
+            if(confirm("Are you sure you want to delete this inventory item?")) {
+                await set(ref(db, 'inventory/' + id), null);
+                window.loadMyInventory();
+            }
+        };
+
         window.addInventory = async function() {
-            let newInvRef = push(ref(db, 'inventory'));
             let item = {
-                id: newInvRef.key, school: window.currentUserData.school,
+                school: window.currentUserData.school,
                 section: document.getElementById('inv-section').value,
                 book: document.getElementById('inv-book').value, page: document.getElementById('inv-page').value,
                 col: document.getElementById('inv-col').value, name: document.getElementById('inv-name').value,
                 avail: document.getElementById('inv-avail').value, short: document.getElementById('inv-short').value,
                 surp: document.getElementById('inv-surp').value, timestamp: Date.now()
             };
+
             if(item.name && item.book) {
-                await set(newInvRef, item); alert("Inventory updated!");
-                document.querySelectorAll('#teacher-tools input').forEach(inpt => inpt.value = ''); window.loadMyInventory();
+                if(window.currentEditInvId) {
+                    item.id = window.currentEditInvId;
+                    await update(ref(db, 'inventory/' + window.currentEditInvId), item);
+                    alert("Inventory updated successfully!");
+                    window.currentEditInvId = null;
+                    let btn = document.getElementById('btn-add-inv');
+                    if(btn) { btn.innerText = "Add to Inventory Book"; btn.className = ""; }
+                } else {
+                    let newInvRef = push(ref(db, 'inventory'));
+                    item.id = newInvRef.key;
+                    await set(newInvRef, item); 
+                    alert("Inventory added successfully!");
+                }
+                document.querySelectorAll('#teacher-tools input[id^="inv-"]').forEach(inpt => inpt.value = ''); 
+                window.loadMyInventory();
             } else { alert("Book No and Equipment Name are required."); }
         };
 
@@ -1357,7 +1408,14 @@
                     let i = childSnap.val();
                     if(i.school === window.currentUserData.school) {
                         let secStr = i.section || '-';
-                        tbody.innerHTML += `<tr><td class="text-start">${secStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td></tr>`;
+                        tbody.innerHTML += `<tr>
+                            <td class="text-start">${secStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td>
+                            <td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td>
+                            <td class="text-start">
+                                <button class="btn-primary" style="font-size:0.75rem; padding:4px 8px; margin-right:5px; margin-bottom:5px;" onclick="editInv('${i.id}', '${i.section}', '${i.book}', '${i.page}', '${i.col}', '${i.name}', '${i.avail}', '${i.short}', '${i.surp}')">✏️</button>
+                                <button class="btn-danger" style="font-size:0.75rem; padding:4px 8px;" onclick="deleteInv('${i.id}')">🗑️</button>
+                            </td>
+                        </tr>`;
                         let selectDesc = i.section ? `${i.name} (${i.section}, Bk: ${i.book}, Pg: ${i.page})` : `${i.name} (Bk: ${i.book}, Pg: ${i.page})`;
                         select.innerHTML += `<option value="${i.id}">${selectDesc}</option>`;
                     }
@@ -1473,14 +1531,8 @@
         window.loadTeachers = async function() {
             let tbody = document.getElementById('teacher-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="7" class="text-center">Loading Teachers...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Teachers...</td></tr>';
             
-            let gradeFilter = document.getElementById('filter-teacher-grade');
-            let selGrade = gradeFilter ? gradeFilter.value : "All";
-            
-            let mediumFilter = document.getElementById('filter-teacher-medium');
-            let selMedium = mediumFilter ? mediumFilter.value : "All";
-
             try {
                 let snapshot = await get(ref(db, 'users'));
                 tbody.innerHTML = '';
@@ -1495,37 +1547,26 @@
 
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'teacher' || roleStr === 'zdett') {
-                            
-                            let tGrades = safeArray(u.grades);
-                            let tMedium = safeArray(u.medium);
-                            
-                            if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
-                            if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
-
                             let tId = u.teacherId ? u.teacherId : "T-0000";
-                            let grStr = tGrades.length > 0 ? tGrades.join(', ') : '-';
-                            let mdStr = tMedium.length > 0 ? tMedium.join(', ') : '-';
-                            
                             count++;
+                            
+                            // PUBLIC VIEW - Only shows Basic info (ID, Name, School, Phone)
                             tbody.innerHTML += `<tr style="background-color: #fdfdfd;">
                                 <td class="text-start"><strong>${tId}</strong></td>
                                 <td class="text-start">${u.name || '-'}</td>
                                 <td class="text-start">${u.school || '-'}</td>
-                                <td class="text-start" style="color:#0ea5e9; font-weight:bold;">${grStr}</td>
-                                <td class="text-start" style="color:#10b981; font-weight:bold;">${mdStr}</td>
-                                <td class="text-start">${u.email || '-'}</td>
                                 <td class="text-start">${u.phone || 'N/A'}</td>
                             </tr>`;
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found matching the criteria.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
                 console.error("Firebase error:", e);
             }
         };
