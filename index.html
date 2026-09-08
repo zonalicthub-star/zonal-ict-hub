@@ -16,7 +16,7 @@
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f9f9; color: #2c3e50; }
-
+        
         /* MOE Style Header Banner */
         .header-banner { width: 100%; background-color: #001f3f; text-align: center; position: relative; }
         .header-banner img { width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block; }
@@ -139,6 +139,9 @@
 </head>
 <body>
 
+    <!-- Datalist for Searchable Schools -->
+    <datalist id="allSchoolsList"></datalist>
+
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
     </div>
@@ -199,9 +202,8 @@
                 </div>
             </div>
 
-            <!-- Decreased Font Size Topic -->
             <div style="text-align: center; margin-top: 3.5rem; margin-bottom: -1rem;">
-                <h3 style="color: #004080; font-size: 1.15rem;">🔗 Important Educational Portals</h3>
+                <h3 style="color: #004080; font-size: 1.5rem;">🔗 Important Educational Portals</h3>
             </div>
             
             <div class="essential-links">
@@ -219,7 +221,7 @@
                 </a>
             </div>
 
-            <!-- Professional Contact Section (Below links, above footer) -->
+            <!-- Professional Contact Section -->
             <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 40px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
@@ -250,11 +252,11 @@
             </div>
         </div>
 
-        <!-- SCHOOLS SECTION (INTERNET FACILITIES) -->
+        <!-- SCHOOLS SECTION -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
-                <h2>Wellawaya Zonal Schools - Internet Facilities</h2>
-                <p style="font-size: 0.95rem; color: #555;">Overview of Internet connectivity status across all schools in the zone.</p>
+                <h2>Wellawaya Zonal Schools</h2>
+                <p style="font-size: 0.95rem; color: #555;">Detailed IT resources are visible only to the ZDETT Team and Administrators.</p>
                 
                 <div class="filter-section">
                     <div class="filter-item">
@@ -267,27 +269,32 @@
                     </div>
                     
                     <div class="filter-item">
-                        <label>Search School Name:</label>
+                        <label>Search School by Census No or Name:</label>
                         <input type="text" id="schoolSearch" placeholder="Search..." onkeyup="window.filterSchoolData()">
                     </div>
 
-                    <div class="filter-item">
-                        <label>Internet Availability:</label>
-                        <select id="internetFilter" onchange="window.filterSchoolData()">
-                            <option value="All">All</option>
-                            <option value="Yes">Connected</option>
-                            <option value="No">Not Connected</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-item">
-                        <label>Connection Type:</label>
-                        <select id="connTypeFilter" onchange="window.filterSchoolData()">
-                            <option value="All">All Types</option>
-                            <option value="Fiber">Fiber</option>
-                            <option value="Router">Router</option>
-                            <option value="Personal">Personal</option>
-                        </select>
+                    <div id="adv-filters" style="display: none; flex-wrap: wrap; gap: 15px; flex: 1;">
+                        <div class="filter-item">
+                            <label>Internet Availability:</label>
+                            <select id="internetFilter" onchange="window.filterSchoolData()">
+                                <option value="All">All</option>
+                                <option value="Yes">Available</option>
+                                <option value="No">Not Available</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Connection Type:</label>
+                            <select id="connTypeFilter" onchange="window.filterSchoolData()">
+                                <option value="All">All Types</option>
+                                <option value="Fiber">Fiber</option>
+                                <option value="Router">Router</option>
+                                <option value="Personal">Personal</option>
+                            </select>
+                        </div>
+                        <div class="filter-item filter-item-checkbox" style="display: flex; flex-direction: row !important; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="inactiveFilter" onchange="window.filterSchoolData()" style="width: auto;">
+                            <label for="inactiveFilter" style="margin: 0;">Show schools with Inactive PCs</label>
+                        </div>
                     </div>
                 </div>
 
@@ -692,65 +699,65 @@
     </script>
 
     <script>
-        // Internet Facilities Data Mapped from the XLSX Document
+        // Generated exactly from your provided Excel data
         const rawSchoolData = [
-            {"division": "Wellawaya", "school": "Mo/Kithulkote M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Malwaththawela M.M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Kurugama K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/J.M. Kumaradasa M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Yalabowa Primary School", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Buduruwagala Primary School", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Buduruwagala M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Weherayaya M.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Siyambalagunay K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Handapanagala M.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Randenivela K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Thelulla K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Maharagama K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Athadutuwewa K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/D.S. Senanayake K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Chandawimala Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Ethiliwewa M.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Weherayaya K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Gampangugama K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Saddhatissa Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Balaharuwa K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Thelulla Janapada K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Yauvanakumarapura K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Debaraara K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Anapallama K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Mahawelamulla Muslim K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Morahelagama Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Malwaththawela Primary School", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Wellawaya", "school": "Mo/Kudaoya M.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Wellawaya", "school": "Mo/Kudaoya Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Unawatuna K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu M.M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Siddhartha M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Ranjan Wijerathne M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Piyananda K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Waguruwela M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Helagama K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Primary School", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Niyadella K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Viharamahadevi K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Sri Sumanajothi K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Sri Subodha K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Munasinghe Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Okkampitiya Janapada K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Kukurampola K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Yudhaganawa K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Gonaganara K.V.", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Janasankha Model K.V.", "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"division": "Buttala", "school": "Mo/Kumaragama Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Dutugemunu Model Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Mahasengama Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Dambeyaya Primary School", "internet": "❌ No", "internet_type": "-"}, 
-            {"division": "Buttala", "school": "Mo/Pelwatta Primary School", "internet": "❌ No", "internet_type": "-"}
+            {"census_no": "22148", "division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M.N. Wickramasinghe", "contact": "0705113570"}, 
+            {"census_no": "22149", "division": "Buttala", "school": "Mo/Dutugemunu M.M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M. Wanigabadu", "contact": "0714811114"}, 
+            {"census_no": "22150", "division": "Buttala", "school": "Mo/Siddhartha M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.M.N.P. Ananda", "contact": "0710635724"}, 
+            {"census_no": "22151", "division": "Buttala", "school": "Mo/Dutugemunu Model Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.M.A.K. Dissanayake", "contact": "0704528455"}, 
+            {"census_no": "22153", "division": "Buttala", "school": "Mo/Okkampitiya Janapada K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "L.P. Gnanawathi", "contact": "0705863508"}, 
+            {"census_no": "22154", "division": "Buttala", "school": "Mo/Kukurampola K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.G. Nandasena", "contact": "0713814848"}, 
+            {"census_no": "22157", "division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}, 
+            {"census_no": "22158", "division": "Buttala", "school": "Mo/Piyananda K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D. Indika Nuwan Kumara", "contact": "0740056375"}, 
+            {"census_no": "22159", "division": "Buttala", "school": "Mo/Yudhaganawa K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.G.R. Sajeewani", "contact": "0716810720"}, 
+            {"census_no": "22160", "division": "Buttala", "school": "Mo/Waguruwela M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "G.G.G. Siriwardhana", "contact": "0712429817"}, 
+            {"census_no": "22166", "division": "Buttala", "school": "Mo/Helagama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.K. Kapila Chandrasiri", "contact": "0718566220"}, 
+            {"census_no": "22168", "division": "Buttala", "school": "Mo/Gonaganara K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.J. Pathiranage", "contact": "0710623505"}, 
+            {"census_no": "22169", "division": "Buttala", "school": "Mo/Janasankha Model K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.J.S.S. Jayalath", "contact": "0705863508"}, 
+            {"census_no": "22170", "division": "Buttala", "school": "Mo/Unawatuna K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.M.S.T. Wimalasena", "contact": "0706046433"}, 
+            {"census_no": "22174", "division": "Buttala", "school": "Mo/Munasinghe Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M. Sisira Kumara", "contact": "0725265720"}, 
+            {"census_no": "22175", "division": "Buttala", "school": "Mo/Ranjan Wijerathne M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.H. Dilani Premarathna", "contact": "0713379988"}, 
+            {"census_no": "22176", "division": "Buttala", "school": "Mo/Niyadella K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.R.N. Wijesooriya", "contact": "0718034722"}, 
+            {"census_no": "22178", "division": "Buttala", "school": "Mo/Kumaragama Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.H.S.I. Kumari", "contact": "0710117228"}, 
+            {"census_no": "22180", "division": "Buttala", "school": "Mo/Mahasengama Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.P.Y.N. Prasad Sampath", "contact": "0711586199"}, 
+            {"census_no": "22181", "division": "Buttala", "school": "Mo/Viharamahadevi K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.M. Weerasinghe", "contact": "0701446601"}, 
+            {"census_no": "22229", "division": "Buttala", "school": "Mo/Dambeyaya Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A. Nandapala Gunawardhana", "contact": "0715276656"}, 
+            {"census_no": "22230", "division": "Buttala", "school": "Mo/Sri Sumanajothi K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.D. Prasanna Indika Wijenayake", "contact": "0704528535"}, 
+            {"census_no": "22248", "division": "Buttala", "school": "Mo/Sri Subodha K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "E.M.N.T. Ekanayake", "contact": "0712266640"}, 
+            {"census_no": "22278", "division": "Buttala", "school": "Mo/Pelwatta Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.S. Kumarasena", "contact": "0724501372"}, 
+            {"census_no": "22279", "division": "Buttala", "school": "Mo/Dutugemunu Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M. Ajith Hemantha", "contact": "0703415195"}, 
+            {"census_no": "22285", "division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "V.M. Sujith Rohana", "contact": "0718127440"}, 
+            {"census_no": "22146", "division": "Wellawaya", "school": "Mo/Malwaththawela M.M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.W. Nayana Mangala", "contact": "0713903074"}, 
+            {"census_no": "22147", "division": "Wellawaya", "school": "Mo/Weherayaya M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.M.D.C. Karunasekara", "contact": "0714931550"}, 
+            {"census_no": "22152", "division": "Wellawaya", "school": "Mo/Ethiliwewa M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "B.T. Mallikarachchi", "contact": "0713484200"}, 
+            {"census_no": "22155", "division": "Wellawaya", "school": "Mo/Kurugama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.R.A.N. Bandara", "contact": "0713574806"}, 
+            {"census_no": "22156", "division": "Wellawaya", "school": "Mo/Buduruwagala M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.M.U.B. Herath", "contact": "0763631863"}, 
+            {"census_no": "22161", "division": "Wellawaya", "school": "Mo/J.M. Kumaradasa M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.P.D. Senarathna", "contact": "0765524959"}, 
+            {"census_no": "22162", "division": "Wellawaya", "school": "Mo/Weherayaya K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D.D. Nishanthi", "contact": "0702973082"}, 
+            {"census_no": "22163", "division": "Wellawaya", "school": "Mo/Siyambalagunay K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.W. Ravindra", "contact": "0715165951"}, 
+            {"census_no": "22164", "division": "Wellawaya", "school": "Mo/Handapanagala M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.M.U.S. Bandara", "contact": "0718218580"}, 
+            {"census_no": "22167", "division": "Wellawaya", "school": "Mo/Randenivela K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "R.D. Piyasena", "contact": "0776401283"}, 
+            {"census_no": "22172", "division": "Wellawaya", "school": "Mo/Gampangugama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.V.A.S. Madurawela", "contact": "0707745572"}, 
+            {"census_no": "22177", "division": "Wellawaya", "school": "Mo/Saddhatissa Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "J.M.R. Menike", "contact": "0716206506"}, 
+            {"census_no": "22190", "division": "Wellawaya", "school": "Mo/Kudaoya M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "P.A. Kusumawathi", "contact": "0718127789"}, 
+            {"census_no": "22191", "division": "Wellawaya", "school": "Mo/Balaharuwa K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "D.H. Ajith Senadhira", "contact": "0768506061"}, 
+            {"census_no": "22196", "division": "Wellawaya", "school": "Mo/Thelulla K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "G. Jayasundara", "contact": "0743303400"}, 
+            {"census_no": "22197", "division": "Wellawaya", "school": "Mo/Thelulla Janapada K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.M. Gunasena", "contact": "0778914747"}, 
+            {"census_no": "22208", "division": "Wellawaya", "school": "Mo/Kithulkote M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.G.K. Wasana Sanjeewa", "contact": "0718134680"}, 
+            {"census_no": "22224", "division": "Wellawaya", "school": "Mo/Yauvanakumarapura K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.A.W.P. Samarasinghe", "contact": "0711879335"}, 
+            {"census_no": "22225", "division": "Wellawaya", "school": "Mo/Maharagama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "K.G.D. Kumara", "contact": "0715659033"}, 
+            {"census_no": "22226", "division": "Wellawaya", "school": "Mo/Debaraara K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.H.P. Dharmappriya", "contact": "0712184308"}, 
+            {"census_no": "22227", "division": "Wellawaya", "school": "Mo/Yalabowa Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.P.N.A. Dharmadasa", "contact": "0719715115"}, 
+            {"census_no": "22228", "division": "Wellawaya", "school": "Mo/Anapallama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.M.D.P.K. Wijesooriya", "contact": "0704883032"}, 
+            {"census_no": "22231", "division": "Wellawaya", "school": "Mo/Mahawelamulla Muslim K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M. Musammil", "contact": "0717678939"}, 
+            {"census_no": "22246", "division": "Wellawaya", "school": "Mo/Wandinahelayaya Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "P.D.S.K. Wijerathna", "contact": "0718430254"}, 
+            {"census_no": "22247", "division": "Wellawaya", "school": "Mo/Athadutuwewa K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.G. Nishantha Kumara", "contact": "0718218565"}, 
+            {"census_no": "22263", "division": "Wellawaya", "school": "Mo/D.S. Senanayake K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "M.K.N. Premathilaka", "contact": "0714418530"}, 
+            {"census_no": "22264", "division": "Wellawaya", "school": "Mo/Morahelagama Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "T.K.D. Madumali", "contact": "0702974700"}, 
+            {"census_no": "22275", "division": "Wellawaya", "school": "Mo/Malwaththawela Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "I.N. Samarasinghe", "contact": "0788285577"}, 
+            {"census_no": "22293", "division": "Wellawaya", "school": "Mo/Chandawimala Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.G. Sarath", "contact": "0718218575"}, 
+            {"census_no": "22294", "division": "Wellawaya", "school": "Mo/Buduruwagala Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.A. Kumara", "contact": "0718009701"}, 
+            {"census_no": "22304", "division": "Wellawaya", "school": "Mo/Kudaoya Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.S. Dayarathna", "contact": "0766070413"}
         ];
 
         // Maps old school names in existing DB to new standard ones
@@ -760,33 +767,79 @@
         };
 
         window.renderSchoolTable = function(data) {
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
             
-            thead.innerHTML = `
-                <tr>
-                    <th style="background:#e9ecef; width: 50px;" class="text-center">#</th>
-                    <th>Division</th>
-                    <th class="text-start">School Name</th>
-                    <th class="bg-light-blue text-center">Internet Connection</th>
-                    <th class="bg-light-blue text-center">Connection Type</th>
-                </tr>
-            `;
+            if (isZdett) {
+                thead.innerHTML = `
+                    <tr>
+                        <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
+                        <th rowspan="2">Division</th>
+                        <th rowspan="2">Census No</th>
+                        <th rowspan="2" class="text-start">School Name</th>
+                        <th colspan="2" class="bg-light-blue">System Units</th>
+                        <th colspan="2" class="bg-light-blue">Monitors</th>
+                        <th rowspan="2" style="color:#007bff;">Active Laptops</th>
+                        <th rowspan="2" style="color:#e67e22;">Smart Board</th>
+                        <th rowspan="2" style="color:#9b59b6;">Arduino</th>
+                        <th rowspan="2" class="bg-light-blue">Internet Connection</th>
+                    </tr>
+                    <tr>
+                        <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                        <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                        <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Active</th>
+                        <th style="color:#dc3545; font-size:0.8em; background:#f8f9fa;">Inactive</th>
+                    </tr>
+                `;
+                document.getElementById('adv-filters').style.display = 'flex';
+            } else {
+                thead.innerHTML = `
+                    <tr>
+                        <th style="background:#e9ecef; width: 50px;">#</th>
+                        <th>Division</th>
+                        <th>Census No</th>
+                        <th class="text-start">School Name</th>
+                        <th>Principal Name</th>
+                        <th>Contact No</th>
+                    </tr>
+                `;
+                document.getElementById('adv-filters').style.display = 'none';
+            }
 
             tbody.innerHTML = '';
             data.forEach((row, index) => {
                 const tr = document.createElement('tr');
-                
-                let internetBadge = row.internet === "✅ Yes" ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
-                let typeBadge = row.internet_type !== "-" ? `<span class="internet-type">${row.internet_type}</span>` : '-';
-                
-                tr.innerHTML = `
-                    <td class="fw-bold text-secondary text-center">${index + 1}</td>
-                    <td>${row.division}</td>
-                    <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
-                    <td class="bg-light-blue text-center">${internetBadge}</td>
-                    <td class="bg-light-blue text-center">${typeBadge}</td>
-                `;
+                if (isZdett) {
+                    if(row.pc_inactive > 0 || row.monitor_inactive > 0) tr.style.backgroundColor = "#fff5f5";
+                    const hasSmartBoard = ((row.smartboard_active||0) + (row.smartboard_inactive||0)) > 0 ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const hasArduino = ((row.arduino_active||0) + (row.arduino_inactive||0)) > 0 ? '<span class="badge-yes">✅ Yes</span>' : '<span class="badge-no">❌ No</span>';
+                    const internetStatus = row.internet === "✅ Yes" ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` : '<span class="badge-no">❌ No</span>';
+                    
+                    tr.innerHTML = `
+                        <td class="fw-bold text-secondary">${index + 1}</td>
+                        <td>${row.division}</td>
+                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
+                        <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
+                        <td class="text-success fw-bold bg-light-blue">${row.monitor_active}</td>
+                        <td class="text-danger fw-bold bg-light-blue">${row.monitor_inactive}</td>
+                        <td class="text-primary fw-bold">${row.laptop_active}</td>
+                        <td>${hasSmartBoard}</td>
+                        <td>${hasArduino}</td>
+                        <td class="bg-light-blue">${internetStatus}</td>
+                    `;
+                } else {
+                    tr.innerHTML = `
+                        <td class="fw-bold text-secondary">${index + 1}</td>
+                        <td>${row.division}</td>
+                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
+                        <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
+                        <td class="text-start">${row.principal || '-'}</td>
+                        <td class="text-start">${row.contact || '-'}</td>
+                    `;
+                }
                 tbody.appendChild(tr);
             });
         }
@@ -796,9 +849,15 @@
             
             const divFilter = document.getElementById('divisionFilter').value;
             const searchStr = (searchInput ? searchInput.value : "").toLowerCase();
+            const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
             
-            let internetFilter = document.getElementById('internetFilter') ? document.getElementById('internetFilter').value : "All";
-            let connTypeFilter = document.getElementById('connTypeFilter') ? document.getElementById('connTypeFilter').value : "All";
+            let internetFilter = "All"; let connTypeFilter = "All"; let showInactiveOnly = false;
+
+            if (isZdett && document.getElementById('internetFilter')) {
+                internetFilter = document.getElementById('internetFilter').value;
+                connTypeFilter = document.getElementById('connTypeFilter').value;
+                showInactiveOnly = document.getElementById('inactiveFilter').checked;
+            }
             
             const filtered = rawSchoolData.filter(row => {
                 const matchDiv = (divFilter === "All" || row.division === divFilter);
@@ -808,9 +867,10 @@
                 let matchConnType = true;
                 if (connTypeFilter !== "All") matchConnType = (row.internet_type && row.internet_type.includes(connTypeFilter));
                 
-                const matchSearch = row.school.toLowerCase().includes(searchStr);
+                const matchSearch = row.school.toLowerCase().includes(searchStr) || String(row.census_no).includes(searchStr);
+                const matchInactive = showInactiveOnly ? (row.pc_inactive > 0 || row.monitor_inactive > 0) : true;
                 
-                return matchDiv && matchInternet && matchConnType && matchSearch;
+                return matchDiv && matchInternet && matchConnType && matchSearch && matchInactive;
             });
             window.renderSchoolTable(filtered);
         }
@@ -890,6 +950,22 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
+            
+            // Populate Dropdown inputs correctly with Census No
+            const schoolSelectT = document.getElementById('t-school-select');
+            const schoolSelectZ = document.getElementById('z-school-select');
+            const schoolSelectE = document.getElementById('edit-school-select');
+            const adminMarkSch = document.getElementById('admin-mark-school');
+            const adminInvSch = document.getElementById('admin-inv-school');
+            
+            rawSchoolData.forEach(s => {
+                let optHtml = `<option value="${s.census_no}">${s.census_no} - ${s.school}</option>`;
+                if(schoolSelectT) schoolSelectT.innerHTML += optHtml;
+                if(schoolSelectZ) schoolSelectZ.innerHTML += optHtml;
+                if(schoolSelectE) schoolSelectE.innerHTML += optHtml;
+                if(adminMarkSch) adminMarkSch.innerHTML += optHtml;
+                if(adminInvSch) adminInvSch.innerHTML += optHtml;
+            });
         });
     </script>
 
@@ -932,7 +1008,6 @@
             document.getElementById(sectionId).classList.add('active');
             document.getElementById('main-nav').classList.remove('show');
             
-            if(sectionId === 'schools') { document.getElementById('adv-filters').style.display = 'flex'; window.filterSchoolData(); }
             if(sectionId === 'teachers') window.loadTeachers();
             if(sectionId === 'zdett') window.loadZdettTeam();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1147,6 +1222,7 @@
                 document.getElementById('superadmin-tools').style.display = 'block';
                 window.loadAdminFaults(); window.loadAdminInventory(); window.loadAdminMarks(); window.loadAllUsersForAdmin();
             }
+            window.filterSchoolData();
         }
 
         window.updateProfile = async function() {
@@ -1201,8 +1277,8 @@
                     
                     // Sort numerically by Teacher ID ending (e.g. T-0044)
                     usersArray.sort((a, b) => {
-                        let numA = parseInt((a.teacherId || "0").replace(/\D/g, '')) || 0;
-                        let numB = parseInt((b.teacherId || "0").replace(/\D/g, '')) || 0;
+                        let numA = parseInt((a.teacherId || "0").replace(/\\D/g, '')) || 0;
+                        let numB = parseInt((b.teacherId || "0").replace(/\\D/g, '')) || 0;
                         return numA - numB;
                     });
 
