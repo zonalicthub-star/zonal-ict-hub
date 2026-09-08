@@ -139,6 +139,8 @@
 </head>
 <body>
 
+    <datalist id="allSchoolsList"></datalist>
+
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
     </div>
@@ -688,7 +690,6 @@
     </script>
 
     <script>
-        // Generated exactly from your provided Excel data
         const rawSchoolData = [
             {"census_no": "22148", "division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M.N. Wickramasinghe", "contact": "0705113570"}, 
             {"census_no": "22149", "division": "Buttala", "school": "Mo/Dutugemunu M.M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M. Wanigabadu", "contact": "0714811114"}, 
@@ -698,7 +699,7 @@
             {"census_no": "22154", "division": "Buttala", "school": "Mo/Kukurampola K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.G. Nandasena", "contact": "0713814848"}, 
             {"census_no": "22157", "division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "G.H.W.N. Chaminda", "contact": "0703343679"}, 
             {"census_no": "22158", "division": "Buttala", "school": "Mo/Piyananda K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.D. Indika Nuwan Kumara", "contact": "0740056375"}, 
-            {"census_no": "22159", "division": "Buttala", "school": "Mo/Yudaganawa K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.G.R. Sajeewani", "contact": "0716810720"}, 
+            {"census_no": "22159", "division": "Buttala", "school": "Mo/Yudhaganawa K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.G.R. Sajeewani", "contact": "0716810720"}, 
             {"census_no": "22160", "division": "Buttala", "school": "Mo/Waguruwela M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "G.G.G. Siriwardhana", "contact": "0712429817"}, 
             {"census_no": "22166", "division": "Buttala", "school": "Mo/Helagama K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "H.K. Kapila Chandrasiri", "contact": "0718566220"}, 
             {"census_no": "22168", "division": "Buttala", "school": "Mo/Gonaganara K.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "A.J. Pathiranage", "contact": "0710623505"}, 
@@ -758,8 +759,8 @@
                 thead.innerHTML = `
                     <tr>
                         <th rowspan="2" style="background:#e9ecef; width: 50px;">#</th>
-                        <th rowspan="2">Census No</th>
                         <th rowspan="2">Division</th>
+                        <th rowspan="2">Census No</th>
                         <th rowspan="2" class="text-start">School Name</th>
                         <th colspan="2" class="bg-light-blue">System Units</th>
                         <th colspan="2" class="bg-light-blue">Monitors</th>
@@ -780,8 +781,8 @@
                 thead.innerHTML = `
                     <tr>
                         <th style="background:#e9ecef; width: 50px;">#</th>
-                        <th>Census No</th>
                         <th>Division</th>
+                        <th>Census No</th>
                         <th class="text-start">School Name</th>
                         <th>Principal Name</th>
                         <th>Contact No</th>
@@ -801,8 +802,8 @@
                     
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
-                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
                         <td>${row.division}</td>
+                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
                         <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                         <td class="text-success fw-bold bg-light-blue">${row.pc_active}</td>
                         <td class="text-danger fw-bold bg-light-blue">${row.pc_inactive}</td>
@@ -816,8 +817,8 @@
                 } else {
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary">${index + 1}</td>
-                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
                         <td>${row.division}</td>
+                        <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
                         <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                         <td class="text-start">${row.principal || '-'}</td>
                         <td class="text-start">${row.contact || '-'}</td>
@@ -1659,7 +1660,7 @@
         window.loadZdettTeam = async function() {
             let tbody = document.getElementById('zdett-public-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Team...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Team...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -1680,17 +1681,17 @@
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'zdett') {
                             count++;
-                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start" style="color: #e67e22; font-weight: bold;">${u.censusNo || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
                 console.error("Firebase error:", e);
             }
         }
