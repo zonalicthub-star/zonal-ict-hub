@@ -63,7 +63,7 @@
         .hero-banner h1 { margin-top: 0; font-size: 2rem; font-weight: 800; color: #004080; }
         .hero-banner p { font-size: 1.1rem; color: #555; max-width: 800px; margin: auto; line-height: 1.6; }
         
-        .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 3rem; }
+        .essential-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 1rem; }
         .link-card { background: white; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; color: #2c3e50; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 1px solid #e0e0e0; }
         .link-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15); border-color: #0066cc; color: #0066cc; }
         
@@ -139,6 +139,7 @@
 </head>
 <body>
 
+    <!-- Datalist for Searchable Schools -->
     <datalist id="allSchoolsList"></datalist>
 
     <div class="header-banner">
@@ -201,6 +202,10 @@
                 </div>
             </div>
 
+            <div style="text-align: center; margin-top: 3.5rem; margin-bottom: -1rem;">
+                <h3 style="color: #004080; font-size: 1.5rem;">🔗 Important Educational Portals</h3>
+            </div>
+            
             <div class="essential-links">
                 <a href="https://www.e-thaksalawa.moe.gov.lk/" target="_blank" class="link-card">
                     <span>📚 e-Thaksalawa</span>
@@ -217,7 +222,7 @@
             </div>
 
             <!-- Professional Contact Section -->
-            <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 30px; margin-bottom: 10px;">
+            <div class="card" style="text-align: center; border-top: 4px solid #0ea5e9; background: #f8fafc; margin-top: 40px; margin-bottom: 10px;">
                 <h3 style="margin-top: 0; color: #0f172a;">📞 Contact Zonal ICT Division</h3>
                 <p style="color: #475569; font-size: 1.05rem;">For technical support, system access issues, and general inquiries.</p>
                 <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 15px;">
@@ -491,8 +496,10 @@
                     <p style="font-size: 0.9rem; color: #555;">Filter and analyze student marks submitted by teachers across the zone.</p>
                     <div class="filter-section" style="border-left-color: #8b5cf6;">
                         <div class="filter-item">
-                            <label>School Census No:</label>
-                            <input type="text" id="admin-mark-school" placeholder="Search by Census No... (Leave empty for All)" oninput="window.loadAdminMarks()">
+                            <label>School:</label>
+                            <select id="admin-mark-school" onchange="window.loadAdminMarks()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
+                                <option value="All">All Schools</option>
+                            </select>
                         </div>
                         <div class="filter-item">
                             <label>Grade:</label>
@@ -657,8 +664,10 @@
                     
                     <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
                         <div class="filter-item">
-                            <label>School Census No:</label>
-                            <input type="text" id="admin-inv-school" placeholder="Search by Census No... (Leave empty for All)" oninput="window.loadAdminInventory()">
+                            <label>School:</label>
+                            <select id="admin-inv-school" onchange="window.loadAdminInventory()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
+                                <option value="All">All Schools</option>
+                            </select>
                         </div>
                         <div class="filter-item">
                             <label>Section:</label>
@@ -690,6 +699,7 @@
     </script>
 
     <script>
+        // Generated exactly from your provided Excel data
         const rawSchoolData = [
             {"census_no": "22148", "division": "Buttala", "school": "Mo/Okkampitiya Vijayabahu M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M.N. Wickramasinghe", "contact": "0705113570"}, 
             {"census_no": "22149", "division": "Buttala", "school": "Mo/Dutugemunu M.M.V.", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "S.M. Wanigabadu", "contact": "0714811114"}, 
@@ -749,6 +759,12 @@
             {"census_no": "22294", "division": "Wellawaya", "school": "Mo/Buduruwagala Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "W.A.A. Kumara", "contact": "0718009701"}, 
             {"census_no": "22304", "division": "Wellawaya", "school": "Mo/Kudaoya Primary School", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-", "principal": "Y.S. Dayarathna", "contact": "0766070413"}
         ];
+
+        // Maps old school names in existing DB to new standard ones
+        const schoolCorrectionMap = {
+            "Mo/Malwaththawala M.M.V.": { name: "Mo/Malwaththawela M.M.V.", census: "22146" },
+            "Mo/Dutugemunu Central M.V.": { name: "Mo/Dutugemunu M.M.V.", census: "22149" }
+        };
 
         window.renderSchoolTable = function(data) {
             const isZdett = window.currentUserData && (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'admin' || window.currentUserData.role === 'superadmin');
@@ -851,10 +867,9 @@
                 let matchConnType = true;
                 if (connTypeFilter !== "All") matchConnType = (row.internet_type && row.internet_type.includes(connTypeFilter));
                 
-                // Allow searching by both Name and Census Number
                 const matchSearch = row.school.toLowerCase().includes(searchStr) || String(row.census_no).includes(searchStr);
-                
                 const matchInactive = showInactiveOnly ? (row.pc_inactive > 0 || row.monitor_inactive > 0) : true;
+                
                 return matchDiv && matchInternet && matchConnType && matchSearch && matchInactive;
             });
             window.renderSchoolTable(filtered);
@@ -940,15 +955,17 @@
             const schoolSelectT = document.getElementById('t-school-select');
             const schoolSelectZ = document.getElementById('z-school-select');
             const schoolSelectE = document.getElementById('edit-school-select');
+            const adminMarkSch = document.getElementById('admin-mark-school');
+            const adminInvSch = document.getElementById('admin-inv-school');
             
-            if(schoolSelectT || schoolSelectZ) {
-                rawSchoolData.forEach(s => {
-                    let optHtml = `<option value="${s.census_no}">${s.census_no} - ${s.school}</option>`;
-                    if(schoolSelectT) schoolSelectT.innerHTML += optHtml;
-                    if(schoolSelectZ) schoolSelectZ.innerHTML += optHtml;
-                    if(schoolSelectE) schoolSelectE.innerHTML += optHtml;
-                });
-            }
+            rawSchoolData.forEach(s => {
+                let optHtml = `<option value="${s.census_no}">${s.census_no} - ${s.school}</option>`;
+                if(schoolSelectT) schoolSelectT.innerHTML += optHtml;
+                if(schoolSelectZ) schoolSelectZ.innerHTML += optHtml;
+                if(schoolSelectE) schoolSelectE.innerHTML += optHtml;
+                if(adminMarkSch) adminMarkSch.innerHTML += optHtml;
+                if(adminInvSch) adminInvSch.innerHTML += optHtml;
+            });
         });
     </script>
 
@@ -1253,8 +1270,19 @@
                 tbody.innerHTML = '';
                 if(snapshot.exists()) {
                     let hasUsers = false;
+                    let usersArray = [];
                     snapshot.forEach(child => {
-                        let u = child.val();
+                        usersArray.push(child.val());
+                    });
+                    
+                    // Sort numerically by Teacher ID ending (e.g. T-0044)
+                    usersArray.sort((a, b) => {
+                        let numA = parseInt((a.teacherId || "0").replace(/\\D/g, '')) || 0;
+                        let numB = parseInt((b.teacherId || "0").replace(/\\D/g, '')) || 0;
+                        return numA - numB;
+                    });
+
+                    usersArray.forEach(u => {
                         if (!u || u.email === 'zonalicthub@gmail.com') return; 
                         hasUsers = true;
                         
@@ -1333,7 +1361,8 @@
                     await update(ref(db, 'student_marks/' + window.currentEditMarkId), {
                         grade: grade, term: term, className: cls,
                         studentName: sName, marks: finalScore,
-                        addedBy: window.currentUserData.name, 
+                        addedBy: window.currentUserData.name,
+                        school_census: window.currentUserData.censusNo || '-',
                         timestamp: Date.now()
                     });
                     alert("Student mark updated successfully!");
@@ -1369,7 +1398,16 @@
                 snapshot.forEach(child => {
                     let m = child.val();
                     m.id = child.key;
-                    if(m.school === window.currentUserData.school) marksArr.push(m);
+                    
+                    let mSchool = m.school;
+                    if (schoolCorrectionMap[mSchool]) {
+                        mSchool = schoolCorrectionMap[mSchool].name;
+                    }
+                    
+                    // Allow to view old names and correctly updated names
+                    if(mSchool === window.currentUserData.school || m.school === window.currentUserData.school) {
+                        marksArr.push(m);
+                    }
                 });
                 marksArr.sort((a,b) => b.timestamp - a.timestamp); 
                 marksArr.forEach(m => {
@@ -1393,8 +1431,7 @@
             tbody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-mark-school');
-            let schFilter = schFilterElement ? schFilterElement.value.trim() : "All";
-            if (schFilter === '' || schFilter.toLowerCase() === 'all') schFilter = 'All';
+            let schFilter = schFilterElement ? schFilterElement.value : "All";
 
             let gradeFilter = document.getElementById('admin-mark-grade').value;
             let rangeFilter = document.getElementById('admin-mark-range').value;
@@ -1405,9 +1442,24 @@
                     let m = childSnap.val();
                     let gradeObj = getMarkGradeObj(m.marks);
                     
-                    let combinedSchoolStr = (m.school_census && m.school_census !== '-') ? `${m.school_census} - ${m.school}` : m.school;
+                    let mSchool = m.school;
+                    let mCensus = m.school_census || '-';
+                    
+                    // Apply correction logic for older entries automatically
+                    if (schoolCorrectionMap[mSchool]) {
+                        mSchool = schoolCorrectionMap[mSchool].name;
+                        mCensus = schoolCorrectionMap[m.school].census;
+                    }
 
-                    let passSch = (schFilter === 'All' || combinedSchoolStr.includes(schFilter));
+                    let combinedSchoolStr = (mCensus && mCensus !== '-') ? `${mCensus} - ${mSchool}` : mSchool;
+
+                    let passSch = false;
+                    if (schFilter === 'All') {
+                        passSch = true;
+                    } else {
+                        passSch = (mCensus === schFilter);
+                    }
+                    
                     let passGr = (gradeFilter === 'All' || m.grade == gradeFilter);
                     let passRg = (rangeFilter === 'All' || gradeObj.grade === rangeFilter);
                     
@@ -1586,8 +1638,7 @@
             iBody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-inv-school');
-            let schFilter = schFilterElement ? schFilterElement.value.trim() : "All";
-            if (schFilter === '' || schFilter.toLowerCase() === 'all') schFilter = 'All';
+            let schFilter = schFilterElement ? schFilterElement.value : "All";
 
             let secFilterElement = document.getElementById('admin-inv-section');
             let secFilter = secFilterElement ? secFilterElement.value.trim().toLowerCase() : "";
@@ -1598,12 +1649,17 @@
                     let i = childSnap.val();
                     let sectionStr = i.section || '-';
                     
-                    let combinedSchoolStr = (i.school_census && i.school_census !== '-') ? `${i.school_census} - ${i.school}` : i.school;
+                    let passSch = false;
+                    if (schFilter === 'All') {
+                        passSch = true;
+                    } else {
+                        passSch = (i.school_census === schFilter);
+                    }
                     
-                    let passSch = (schFilter === 'All' || combinedSchoolStr.includes(schFilter));
                     let passSec = (secFilter === '' || sectionStr.toLowerCase().includes(secFilter));
                     
                     if(passSch && passSec) {
+                        let combinedSchoolStr = (i.school_census && i.school_census !== '-') ? `${i.school_census} - ${i.school}` : i.school;
                         iBody.innerHTML += `<tr>
                             <td class="text-start"><strong>${combinedSchoolStr}</strong></td><td class="text-start">${sectionStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.col}</td>
                             <td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td>
@@ -1632,7 +1688,20 @@
 
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'teacher' || roleStr === 'zdett') {
+                            
+                            let tGrades = safeArray(u.grades);
+                            let tMedium = safeArray(u.medium);
+                            
+                            let gradeFilter = document.getElementById('filter-teacher-grade');
+                            let selGrade = gradeFilter ? gradeFilter.value : "All";
+                            let mediumFilter = document.getElementById('filter-teacher-medium');
+                            let selMedium = mediumFilter ? mediumFilter.value : "All";
+                            
+                            if(selGrade !== "All" && !tGrades.includes(selGrade)) return;
+                            if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
+
                             let tId = u.teacherId ? u.teacherId : "T-0000";
+                            
                             count++;
                             
                             // PUBLIC VIEW - Only shows Basic info
@@ -1645,13 +1714,13 @@
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found matching the criteria.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
                 }
             } catch(e) {
-                // FALLBACK ONLY IF DATABASE READ FAILS (Security rule hit)
+                // FALLBACK ONLY IF DATABASE READ FAILS
                 tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
                 console.error("Firebase error:", e);
             }
@@ -1660,7 +1729,7 @@
         window.loadZdettTeam = async function() {
             let tbody = document.getElementById('zdett-public-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Team...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Team...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -1681,17 +1750,17 @@
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'zdett') {
                             count++;
-                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start" style="color: #e67e22; font-weight: bold;">${u.censusNo || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
                 console.error("Firebase error:", e);
             }
         }
