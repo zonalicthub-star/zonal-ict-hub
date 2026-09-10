@@ -203,8 +203,8 @@
                 </div>
             </div>
 
-            <!-- Decreased Font Size Topic -->
-            <div style="text-align: center; margin-top: 3.5rem; margin-bottom: -1rem;">
+            <!-- Increased Space Topic -->
+            <div style="text-align: center; margin-top: 3.5rem; margin-bottom: 1.5rem;">
                 <h3 style="color: #004080; font-size: 1.15rem;">🔗 Important Educational Portals</h3>
             </div>
             
@@ -492,6 +492,18 @@
             <!-- SUPER ADMIN TOOLS SECTION -->
             <div id="superadmin-tools" style="display: none;">
                 
+                <!-- School Lab Descriptions (Admin View) -->
+                <div class="card" style="border-left: 5px solid #3b82f6;">
+                    <h3>🏫 School Lab Descriptions (Admin View)</h3>
+                    <p style="font-size: 0.9rem; color: #555;">ගුරුවරුන් විසින් එවන ලද පාසල් පරිගණකාගාර පිළිබඳ විස්තර මෙහි දැක්වේ.</p>
+                    <div class="table-container" style="max-height: 400px;">
+                        <table>
+                            <thead><tr><th>Date & Time</th><th>School</th><th>Lab Description</th><th>Submitted By</th></tr></thead>
+                            <tbody id="admin-lab-desc-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="card" style="border-left: 5px solid #8b5cf6;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                         <h3>📊 Zonal Marks Analyzer (Super Admin)</h3>
@@ -576,13 +588,8 @@
                         <div>
                             <label>Class</label>
                             <select id="mark-class">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                                <option value="F">F</option>
-                                <option value="G">G</option>
+                                <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                                <option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
                             </select>
                         </div>
                         <div>
@@ -650,6 +657,14 @@
                     <div class="form-group"><label>Select Equipment:</label><select id="fault-device"><option value="">-- Select from Inventory --</option></select></div>
                     <div class="form-group"><textarea id="fault-desc" rows="3" placeholder="Nature of the Fault..."></textarea></div>
                     <button class="btn-danger" onclick="reportFault()">Submit Fault Report</button>
+                </div>
+
+                <!-- Lab Status / Description Report to Admin -->
+                <div class="card" style="border-left: 5px solid #3b82f6; margin-top: 20px;">
+                    <h3>📝 Lab Status / Description Report</h3>
+                    <p style="font-size: 0.9rem; color: #555;">ඔබගේ පාසලේ පරිගණකාගාරය පිළිබඳව හෝ එහි පවතින වෙනත් අවශ්‍යතා පිළිබඳ කෙටි විස්තරයක් Admin වෙත යවන්න.</p>
+                    <div class="form-group"><textarea id="lab-desc-input" rows="4" placeholder="Enter lab description here..."></textarea></div>
+                    <button class="btn-primary" onclick="submitLabDescription()">Submit Description to Admin</button>
                 </div>
             </div>
 
@@ -819,9 +834,8 @@
             {"census_no": "22304", "division": "Wellawaya", "school": "Mo/Kudaoya Primary School", "principal": "Y.S. Dayarathna", "contact": "0766070413", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}
         ];
 
-        // Maps old school names in existing DB to new standard ones
         const schoolCorrectionMap = {
-            "Mo/Malwaththawala M.M.V.": { name: "Mo/Malwaththawela M.M.V.", census: "22146" },
+            "Mo/Malwaththawela M.M.V.": { name: "Mo/Malwaththawela M.M.V.", census: "22146" },
             "Mo/Dutugemunu Central M.V.": { name: "Mo/Dutugemunu M.M.V.", census: "22149" }
         };
 
@@ -833,7 +847,6 @@
             let actionTh = isSuperAdmin ? `<th class="text-center">Action</th>` : '';
             
             if (isSuperAdmin) {
-                // SUPER ADMIN VIEW: Hardware Data with Edit Option
                 document.getElementById('school-view-desc').innerText = "Detailed IT resources. Super Admin can edit hardware availability.";
                 document.getElementById('adv-filters').style.display = 'flex';
                 
@@ -861,7 +874,6 @@
                 tbody.innerHTML = '';
                 data.forEach((row, index) => {
                     const tr = document.createElement('tr');
-                    
                     if(row.pc_inactive > 0 || row.monitor_inactive > 0) tr.style.backgroundColor = "#fff5f5";
                     
                     const internetStatus = row.internet === "✅ Yes" ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` : '<span class="badge-no">❌ No</span>';
@@ -884,7 +896,6 @@
                     tbody.appendChild(tr);
                 });
             } else {
-                // PUBLIC & OTHER USERS VIEW: Basic Directory
                 document.getElementById('school-view-desc').innerText = "Directory of all schools within the Wellawaya Education Zone.";
                 document.getElementById('adv-filters').style.display = 'none';
                 
@@ -917,7 +928,6 @@
 
         window.filterSchoolData = function() {
             let searchInput = document.getElementById('schoolSearch');
-            
             const divFilter = document.getElementById('divisionFilter').value;
             const searchStr = (searchInput ? searchInput.value : "").toLowerCase();
             const isSuperAdmin = window.currentUserData && window.currentUserData.role === 'superadmin';
@@ -952,7 +962,6 @@
             if(school) {
                 document.getElementById('editSchoolDetails').innerText = `${school.census_no} - ${school.school}`;
                 
-                // Hardware Fields
                 document.getElementById('es-pc-a').value = school.pc_active;
                 document.getElementById('es-pc-i').value = school.pc_inactive;
                 document.getElementById('es-mon-a').value = school.monitor_active;
@@ -964,10 +973,8 @@
                 document.getElementById('es-ard-a').value = school.arduino_active;
                 document.getElementById('es-ard-i').value = school.arduino_inactive;
                 
-                // Internet Fields
                 document.getElementById('editSchoolInternet').value = school.internet;
                 
-                // Connection type handling
                 let connType = school.internet_type;
                 if(connType.includes('Fiber')) document.getElementById('editSchoolConnType').value = 'Fiber';
                 else if(connType.includes('Router')) document.getElementById('editSchoolConnType').value = 'Router';
@@ -1011,16 +1018,12 @@
             alert("School Hardware & Internet details updated in current view.");
         }
 
-        // Print Functions
         window.printAdminMarks = function() {
             let printContents = document.getElementById('admin-marks-container').innerHTML;
-            
             let schSelect = document.getElementById('admin-mark-school');
             let schoolName = schSelect && schSelect.value !== "All" ? schSelect.options[schSelect.selectedIndex].text : "All Schools";
-            
             let termSelect = document.getElementById('admin-mark-term');
             let termName = termSelect && termSelect.value !== "All" ? termSelect.value : "All Terms";
-            
             let gradeSelect = document.getElementById('admin-mark-grade');
             let gradeName = gradeSelect && gradeSelect.value !== "All" ? "Grade " + gradeSelect.value : "All Grades";
 
@@ -1070,7 +1073,6 @@
             let dateStr = new Date().toLocaleDateString();
             let schSelect = document.getElementById('admin-inv-school');
             let schoolName = schSelect && schSelect.value !== "All" ? schSelect.options[schSelect.selectedIndex].text : "All Schools";
-            
             let secInput = document.getElementById('admin-inv-section');
             let sectionName = secInput && secInput.value.trim() !== "" ? secInput.value.trim() : "All Sections";
 
@@ -1106,7 +1108,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             window.renderSchoolTable(rawSchoolData);
             
-            // Populate Dropdown inputs correctly with Census No
             const schoolSelectT = document.getElementById('t-school-select');
             const schoolSelectZ = document.getElementById('z-school-select');
             const schoolSelectE = document.getElementById('edit-school-select');
@@ -1145,7 +1146,6 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // SAFE ARRAY HELPER
         function safeArray(data) {
             if (!data) return [];
             if (Array.isArray(data)) return data;
@@ -1217,7 +1217,6 @@
             let phone = document.getElementById('t-phone').value;
             let pass = document.getElementById('t-pass').value;
 
-            // Updated Dropdown Logic
             let schoolSelect = document.getElementById('t-school-select');
             let census = schoolSelect.value;
             let schoolNameFull = schoolSelect.options[schoolSelect.selectedIndex]?.text;
@@ -1231,7 +1230,6 @@
             }
 
             try {
-                // DUPLICATE PHONE CHECK
                 let usersSnap = await get(ref(db, 'users'));
                 let isDuplicate = false;
                 if(usersSnap.exists()) {
@@ -1261,7 +1259,6 @@
             let email = document.getElementById('z-email').value;
             let pass = document.getElementById('z-pass').value;
 
-            // Updated Dropdown Logic
             let schoolSelect = document.getElementById('z-school-select');
             let census = schoolSelect.value;
             let schoolNameFull = schoolSelect.options[schoolSelect.selectedIndex]?.text;
@@ -1275,7 +1272,6 @@
             }
 
             try {
-                // DUPLICATE PHONE CHECK
                 let usersSnap = await get(ref(db, 'users'));
                 let isDuplicate = false;
                 if(usersSnap.exists()) {
@@ -1305,7 +1301,6 @@
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
                 
-                // SUPER ADMIN ONLY BY SPECIFIC EMAIL
                 if (userCred.user.email === 'zonalicthub@gmail.com') {
                     window.currentUserData = {
                         name: 'System Super Admin',
@@ -1353,12 +1348,10 @@
             document.getElementById('edit-name').value = user.name || '';
             document.getElementById('edit-phone').value = user.phone || '';
             
-            // Set Dropdown Select correctly
             if(user.censusNo) {
                 document.getElementById('edit-school-select').value = user.censusNo;
             }
 
-            // Safe array mapping for Checkboxes to prevent errors
             setCheckedValues('edit-t-grades', safeArray(user.grades));
             setCheckedValues('edit-t-medium', safeArray(user.medium));
 
@@ -1376,7 +1369,7 @@
             } else if (user.role === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
-                window.loadAdminFaults(); window.loadAdminInventory(); window.loadAdminMarks(); window.loadAllUsersForAdmin();
+                window.loadAdminFaults(); window.loadAdminInventory(); window.loadAdminMarks(); window.loadAllUsersForAdmin(); window.loadAdminLabDescriptions();
             }
             window.filterSchoolData();
         }
@@ -1431,7 +1424,6 @@
                         usersArray.push(child.val());
                     });
                     
-                    // Sort numerically by Teacher ID ending (e.g. T-0044)
                     usersArray.sort((a, b) => {
                         let numA = parseInt((a.teacherId || "0").replace(/\D/g, '')) || 0;
                         let numB = parseInt((b.teacherId || "0").replace(/\D/g, '')) || 0;
@@ -1468,8 +1460,7 @@
                     tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found in database yet.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message} <br> (Please check database rules or format)</td></tr>`;
-                console.error("Firebase Read Error:", e);
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center" style="color:red; font-weight:bold;">⚠️ Error loading data: ${e.message}</td></tr>`;
             }
         };
 
@@ -1560,7 +1551,6 @@
                         mSchool = schoolCorrectionMap[mSchool].name;
                     }
                     
-                    // Allow to view old names and correctly updated names
                     if(mSchool === window.currentUserData.school || m.school === window.currentUserData.school) {
                         marksArr.push(m);
                     }
@@ -1602,7 +1592,6 @@
                     let mSchool = m.school;
                     let mCensus = m.school_census || '-';
                     
-                    // Apply correction logic for older entries automatically
                     if (schoolCorrectionMap[mSchool]) {
                         mSchool = schoolCorrectionMap[mSchool].name;
                         mCensus = schoolCorrectionMap[m.school].census;
@@ -1761,10 +1750,64 @@
         window.markJobComplete = async function(faultId) {
             let actionNote = prompt("Enter the repair report / message for the school:");
             if(actionNote !== null) { 
-                await update(ref(db, 'faults/' + faultId), {
-                    status: 'Completed', completedBy: window.currentUserData.name, actionTaken: actionNote || "Issue resolved.", completedAt: Date.now()
+                let handledByNames = prompt("අලුත්වැඩියාව සිදුකළ සියලු දෙනාගේ නම් ඇතුලත් කරන්න (කොමා යොදා වෙන් කරන්න):", window.currentUserData.name);
+                
+                if (handledByNames !== null) {
+                    await update(ref(db, 'faults/' + faultId), {
+                        status: 'Completed', 
+                        completedBy: handledByNames, 
+                        actionTaken: actionNote || "Issue resolved.", 
+                        completedAt: Date.now()
+                    });
+                    alert("Job marked as complete!"); 
+                    window.loadAdminFaults(); 
+                    window.loadTeacherFaults(); 
+                }
+            }
+        };
+
+        window.submitLabDescription = async function() {
+            let desc = document.getElementById('lab-desc-input').value.trim();
+            if(!desc) { alert("Please enter a description before submitting."); return; }
+            
+            let combinedSchoolStr = (window.currentUserData.censusNo) ? `${window.currentUserData.censusNo} - ${window.currentUserData.school}` : window.currentUserData.school;
+            
+            try {
+                await set(push(ref(db, 'lab_descriptions')), {
+                    school: combinedSchoolStr,
+                    description: desc,
+                    submittedBy: window.currentUserData.name,
+                    timestamp: Date.now()
                 });
-                alert("Job marked as complete!"); window.loadAdminFaults(); window.loadTeacherFaults(); 
+                alert("Lab description submitted to Admin successfully!");
+                document.getElementById('lab-desc-input').value = '';
+            } catch (error) {
+                alert("Error submitting description: " + error.message);
+            }
+        };
+
+        window.loadAdminLabDescriptions = async function() {
+            let tbody = document.getElementById('admin-lab-desc-list');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            
+            let snap = await get(ref(db, 'lab_descriptions'));
+            if(snap.exists()) {
+                let descArr = [];
+                snap.forEach(child => descArr.push(child.val()));
+                descArr.sort((a,b) => b.timestamp - a.timestamp);
+                
+                descArr.forEach(d => {
+                    let dtStr = formatDateTime(d.timestamp);
+                    tbody.innerHTML += `<tr>
+                        <td class="text-start" style="font-size: 0.85em; color: #666;">${dtStr}</td>
+                        <td class="text-start"><strong>${d.school}</strong></td>
+                        <td class="text-start">${d.description}</td>
+                        <td class="text-start">${d.submittedBy}</td>
+                    </tr>`;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No lab descriptions submitted yet.</td></tr>';
             }
         };
 
@@ -1846,7 +1889,6 @@
 
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'teacher' || roleStr === 'zdett') {
-                            
                             let tGrades = safeArray(u.grades);
                             let tMedium = safeArray(u.medium);
                             
@@ -1859,10 +1901,8 @@
                             if(selMedium !== "All" && !tMedium.includes(selMedium)) return;
 
                             let tId = u.teacherId ? u.teacherId : "T-0000";
-                            
                             count++;
                             
-                            // PUBLIC VIEW - Only shows Basic info
                             tbody.innerHTML += `<tr style="background-color: #fdfdfd;">
                                 <td class="text-start"><strong>${tId}</strong></td>
                                 <td class="text-start">${u.name || '-'}</td>
@@ -1878,9 +1918,7 @@
                     tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
                 }
             } catch(e) {
-                // FALLBACK ONLY IF DATABASE READ FAILS
                 tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
-                console.error("Firebase error:", e);
             }
         };
 
@@ -1918,8 +1956,7 @@
                     tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
-                console.error("Firebase error:", e);
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied.</td></tr>`;
             }
         }
     </script>
