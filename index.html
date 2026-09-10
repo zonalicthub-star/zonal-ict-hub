@@ -205,7 +205,7 @@
 
             <!-- Decreased Font Size Topic -->
             <div style="text-align: center; margin-top: 3.5rem; margin-bottom: -1rem;">
-                <h3 style="color: #004080; font-size: 1.15rem;">🔗 Important Educational Portals</h3><br>
+                <h3 style="color: #004080; font-size: 1.15rem;">🔗 Important Educational Portals</h3>
             </div>
             
             <div class="essential-links">
@@ -254,10 +254,12 @@
             </div>
         </div>
 
-        <!-- SCHOOLS SECTION -->
+        <!-- SCHOOLS SECTION (INTERNET & HARDWARE) -->
         <div id="schools" class="section">
             <div class="card" style="border-top: 4px solid #2ecc71;">
-                <h2>Wellawaya Zonal Schools</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <h2>Wellawaya Zonal Schools</h2>
+                </div>
                 <p style="font-size: 0.95rem; color: #555;" id="school-view-desc">Directory of all schools within the Wellawaya Education Zone.</p>
                 
                 <div class="filter-section">
@@ -376,7 +378,7 @@
                 
                 <div class="grid-form">
                     <div>
-                        <label style="font-size: 0.85rem; font-weight: bold;">Grades of Teaching</label>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Grades Taught</label>
                         <div class="cb-group" id="reg-t-grades">
                             <label><input type="checkbox" value="6-9"> 6-9</label>
                             <label><input type="checkbox" value="10-11"> 10-11</label>
@@ -385,7 +387,7 @@
                         </div>
                     </div>
                     <div>
-                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Teaching</label>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Instruction</label>
                         <div class="cb-group" id="reg-t-medium">
                             <label><input type="checkbox" value="Sinhala"> Sinhala</label>
                             <label><input type="checkbox" value="English"> English</label>
@@ -418,7 +420,7 @@
                 
                 <div class="grid-form">
                     <div>
-                        <label style="font-size: 0.85rem; font-weight: bold;">Grades of Teaching</label>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Grades Taught</label>
                         <div class="cb-group" id="reg-z-grades">
                             <label><input type="checkbox" value="6-9"> 6-9</label>
                             <label><input type="checkbox" value="10-11"> 10-11</label>
@@ -427,7 +429,7 @@
                         </div>
                     </div>
                     <div>
-                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Teaching</label>
+                        <label style="font-size: 0.85rem; font-weight: bold;">Medium of Instruction</label>
                         <div class="cb-group" id="reg-z-medium">
                             <label><input type="checkbox" value="Sinhala"> Sinhala</label>
                             <label><input type="checkbox" value="English"> English</label>
@@ -475,7 +477,7 @@
                         </div>
                     </div>
                     <div>
-                        <label style="font-size: 0.85rem; font-weight: bold; color: #666;">Medium of Teaching</label>
+                        <label style="font-size: 0.85rem; font-weight: bold; color: #666;">Medium of Instruction</label>
                         <div class="cb-group" id="edit-t-medium">
                             <label><input type="checkbox" value="Sinhala"> Sinhala</label>
                             <label><input type="checkbox" value="English"> English</label>
@@ -509,6 +511,15 @@
                                 <option value="All">All Grades</option>
                                 <option value="10">Grade 10</option>
                                 <option value="11">Grade 11</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Term:</label>
+                            <select id="admin-mark-term" onchange="window.loadAdminMarks()">
+                                <option value="All">All Terms</option>
+                                <option value="Term 1">Term 1</option>
+                                <option value="Term 2">Term 2</option>
+                                <option value="Term 3">Term 3</option>
                             </select>
                         </div>
                         <div class="filter-item">
@@ -673,7 +684,7 @@
                         </div>
                         <div class="filter-item">
                             <label>Section:</label>
-                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section...">
+                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section (e.g. Main Lab)...">
                         </div>
                     </div>
                     
@@ -757,13 +768,13 @@
             {"census_no": "22154", "division": "Buttala", "school": "Mo/Kukurampola K.V.", "principal": "Y.G. Nandasena", "contact": "0713814848", "pc_active": 8, "pc_inactive": 7, "monitor_active": 10, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22157", "division": "Buttala", "school": "Mo/Pelwatta Navodya M.V.", "principal": "G.H.W.N. Chaminda", "contact": "0703343679", "pc_active": 42, "pc_inactive": 25, "monitor_active": 37, "monitor_inactive": 30, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 1, "arduino_active": 10, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
             {"census_no": "22158", "division": "Buttala", "school": "Mo/Piyananda K.V.", "principal": "W.D. Indika Nuwan Kumara", "contact": "0740056375", "pc_active": 2, "pc_inactive": 6, "monitor_active": 2, "monitor_inactive": 6, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
-            {"census_no": "22159", "division": "Buttala", "school": "Mo/Yudhaganawa K.V.", "principal": "A.G.R. Sajeewani", "contact": "0716810720", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"census_no": "22159", "division": "Buttala", "school": "Mo/Yudhaganawa K.V.", "principal": "A.G.R. Sajeewani", "contact": "0716810720", "pc_active": 6, "pc_inactive": 4, "monitor_active": 8, "monitor_inactive": 2, "smartboard_active": 2, "smartboard_inactive": 0, "laptop_active": 11, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22160", "division": "Buttala", "school": "Mo/Waguruwela M.V.", "principal": "G.G.G. Siriwardhana", "contact": "0712429817", "pc_active": 4, "pc_inactive": 5, "monitor_active": 4, "monitor_inactive": 7, "smartboard_active": 4, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
             {"census_no": "22166", "division": "Buttala", "school": "Mo/Helagama K.V.", "principal": "H.K. Kapila Chandrasiri", "contact": "0718566220", "pc_active": 6, "pc_inactive": 3, "monitor_active": 6, "monitor_inactive": 3, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 2, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Fiber"}, 
             {"census_no": "22168", "division": "Buttala", "school": "Mo/Gonaganara K.V.", "principal": "A.J. Pathiranage", "contact": "0710623505", "pc_active": 6, "pc_inactive": 13, "monitor_active": 14, "monitor_inactive": 5, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22169", "division": "Buttala", "school": "Mo/Janasankha Model K.V.", "principal": "A.J.S.S. Jayalath", "contact": "0705863508", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22170", "division": "Buttala", "school": "Mo/Unawatuna K.V.", "principal": "K.M.S.T. Wimalasena", "contact": "0706046433", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
-            {"census_no": "22174", "division": "Buttala", "school": "Mo/Munasinghe Primary School", "principal": "H.M. Sisira Kumara", "contact": "0725265720", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
+            {"census_no": "22174", "division": "Buttala", "school": "Mo/Munasinghe Primary School", "principal": "H.M. Sisira Kumara", "contact": "0725265720", "pc_active": 0, "pc_inactive": 2, "monitor_active": 0, "monitor_inactive": 2, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22175", "division": "Buttala", "school": "Mo/Ranjan Wijerathne M.V.", "principal": "K.H. Dilani Premarathna", "contact": "0713379988", "pc_active": 17, "pc_inactive": 11, "monitor_active": 26, "monitor_inactive": 2, "smartboard_active": 3, "smartboard_inactive": 0, "laptop_active": 1, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "✅ Yes", "internet_type": "Router, Fiber"}, 
             {"census_no": "22176", "division": "Buttala", "school": "Mo/Niyadella K.V.", "principal": "W.A.R.N. Wijesooriya", "contact": "0718034722", "pc_active": 4, "pc_inactive": 4, "monitor_active": 4, "monitor_inactive": 4, "smartboard_active": 1, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
             {"census_no": "22178", "division": "Buttala", "school": "Mo/Kumaragama Primary School", "principal": "M.H.S.I. Kumari", "contact": "0710117228", "pc_active": 0, "pc_inactive": 0, "monitor_active": 0, "monitor_inactive": 0, "smartboard_active": 0, "smartboard_inactive": 0, "laptop_active": 0, "laptop_inactive": 0, "arduino_active": 0, "arduino_inactive": 0, "internet": "❌ No", "internet_type": "-"}, 
@@ -819,6 +830,8 @@
             const thead = document.getElementById('schools-table-head');
             const tbody = document.getElementById('schools-table-body');
             
+            let actionTh = isSuperAdmin ? `<th class="text-center">Action</th>` : '';
+            
             if (isSuperAdmin) {
                 // SUPER ADMIN VIEW: Hardware Data with Edit Option
                 document.getElementById('school-view-desc').innerText = "Detailed IT resources. Super Admin can edit hardware availability.";
@@ -835,7 +848,7 @@
                         <th rowspan="2" class="text-center" style="color:#007bff;">Laptops (A)</th>
                         <th rowspan="2" class="text-center" style="color:#e67e22;">SmartBoard (A)</th>
                         <th rowspan="2" class="bg-light-blue text-center">Internet Connection</th>
-                        <th rowspan="2" class="text-center">Action</th>
+                        ${actionTh}
                     </tr>
                     <tr>
                         <th style="color:#28a745; font-size:0.8em; background:#f8f9fa;">Act</th>
@@ -852,6 +865,7 @@
                     if(row.pc_inactive > 0 || row.monitor_inactive > 0) tr.style.backgroundColor = "#fff5f5";
                     
                     const internetStatus = row.internet === "✅ Yes" ? `<span class="badge-yes">✅ Yes</span><br><span class="internet-type">${row.internet_type}</span>` : '<span class="badge-no">❌ No</span>';
+                    let actionTd = `<td class="text-center"><button class="btn-primary" style="font-size:0.75rem; padding:4px 8px;" onclick="openSchoolEditModal('${row.census_no}')">✏️ Edit</button></td>`;
                     
                     tr.innerHTML = `
                         <td class="fw-bold text-secondary text-center">${index + 1}</td>
@@ -865,7 +879,7 @@
                         <td class="text-primary fw-bold text-center">${row.laptop_active}</td>
                         <td class="text-center" style="color:#e67e22; font-weight:bold;">${row.smartboard_active}</td>
                         <td class="bg-light-blue text-center">${internetStatus}</td>
-                        <td class="text-center"><button class="btn-primary" style="font-size:0.75rem; padding:4px 8px;" onclick="openSchoolEditModal('${row.census_no}')">✏️ Edit</button></td>
+                        ${actionTd}
                     `;
                     tbody.appendChild(tr);
                 });
@@ -877,6 +891,7 @@
                 thead.innerHTML = `
                     <tr>
                         <th style="background:#e9ecef; width: 50px;">#</th>
+                        <th>Division</th>
                         <th>Census No</th>
                         <th class="text-start">School Name</th>
                         <th>Principal Name</th>
@@ -888,7 +903,8 @@
                 data.forEach((row, index) => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td class="fw-bold text-secondary">${index + 1}</td>
+                        <td class="fw-bold text-secondary text-center">${index + 1}</td>
+                        <td>${row.division}</td>
                         <td style="color: #e67e22; font-weight: bold;">${row.census_no || '-'}</td>
                         <td class="text-start fw-bold" style="color: #34495e;">${row.school}</td>
                         <td class="text-start">${row.principal || '-'}</td>
@@ -998,11 +1014,22 @@
         // Print Functions
         window.printAdminMarks = function() {
             let printContents = document.getElementById('admin-marks-container').innerHTML;
+            
+            let schSelect = document.getElementById('admin-mark-school');
+            let schoolName = schSelect && schSelect.value !== "All" ? schSelect.options[schSelect.selectedIndex].text : "All Schools";
+            
+            let termSelect = document.getElementById('admin-mark-term');
+            let termName = termSelect && termSelect.value !== "All" ? termSelect.value : "All Terms";
+            
+            let gradeSelect = document.getElementById('admin-mark-grade');
+            let gradeName = gradeSelect && gradeSelect.value !== "All" ? "Grade " + gradeSelect.value : "All Grades";
+
             let printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html><head><title>Zonal Marks Report</title>');
-            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2{text-align:center;}</style>');
+            printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
             printWindow.document.write('</head><body>');
             printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Marks Report</h2>');
+            printWindow.document.write(`<h4>School: ${schoolName} | ${gradeName} | Term: ${termName}</h4><br>`);
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -1041,13 +1068,20 @@
 
         window.printAdminInventory = function() {
             let dateStr = new Date().toLocaleDateString();
+            let schSelect = document.getElementById('admin-inv-school');
+            let schoolName = schSelect && schSelect.value !== "All" ? schSelect.options[schSelect.selectedIndex].text : "All Schools";
+            
+            let secInput = document.getElementById('admin-inv-section');
+            let sectionName = secInput && secInput.value.trim() !== "" ? secInput.value.trim() : "All Sections";
+
             let printContents = document.getElementById('admin-inventory-container').innerHTML;
             let printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html><head><title>Zonal Master Inventory Report</title>');
             printWindow.document.write('<style>body{font-family:sans-serif;} table {width: 100%; border-collapse: collapse;} th, td {border: 1px solid #ccc; padding: 8px; text-align: left;} th{background-color:#f4f4f4;} h2, h4{text-align:center; margin: 5px 0;}</style>');
             printWindow.document.write('</head><body>');
             printWindow.document.write('<h2>Wellawaya Zonal ICT Division - Master Inventory</h2>');
-            printWindow.document.write('<h4>Date: ' + dateStr + '</h4><br>');
+            printWindow.document.write(`<h4>School: ${schoolName} | Section: ${sectionName}</h4>`);
+            printWindow.document.write(`<h4>Date: ${dateStr}</h4><br>`);
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -1556,6 +1590,7 @@
             let schFilter = schFilterElement ? schFilterElement.value : "All";
 
             let gradeFilter = document.getElementById('admin-mark-grade').value;
+            let termFilter = document.getElementById('admin-mark-term') ? document.getElementById('admin-mark-term').value : "All";
             let rangeFilter = document.getElementById('admin-mark-range').value;
             
             let snapshot = await get(ref(db, 'student_marks'));
@@ -1583,9 +1618,10 @@
                     }
                     
                     let passGr = (gradeFilter === 'All' || m.grade == gradeFilter);
+                    let passTerm = (termFilter === 'All' || m.term === termFilter);
                     let passRg = (rangeFilter === 'All' || gradeObj.grade === rangeFilter);
                     
-                    if(passSch && passGr && passRg) {
+                    if(passSch && passGr && passTerm && passRg) {
                         tbody.innerHTML += `<tr>
                             <td class="text-start" style="font-size:0.85em;"><strong>${combinedSchoolStr}</strong></td>
                             <td class="text-start">${m.grade}</td><td class="text-start">${m.className}</td><td class="text-start">${m.term}</td>
