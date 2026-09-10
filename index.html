@@ -495,7 +495,7 @@
                 <!-- School Lab Descriptions (Admin View) -->
                 <div class="card" style="border-left: 5px solid #3b82f6;">
                     <h3>🏫 School Lab Descriptions (Admin View)</h3>
-                    <p style="font-size: 0.9rem; color: #555;">ගුරුවරුන් විසින් එවන ලද පාසල් පරිගණකාගාර පිළිබඳ විස්තර මෙහි දැක්වේ.</p>
+                    <p style="font-size: 0.9rem; color: #555;">School computer lab descriptions submitted by teachers are displayed here.</p>
                     <div class="table-container" style="max-height: 400px;">
                         <table>
                             <thead><tr><th>Date & Time</th><th>School</th><th>Lab Description</th><th>Submitted By</th></tr></thead>
@@ -662,7 +662,7 @@
                 <!-- Lab Status / Description Report to Admin -->
                 <div class="card" style="border-left: 5px solid #3b82f6; margin-top: 20px;">
                     <h3>📝 Lab Status / Description Report</h3>
-                    <p style="font-size: 0.9rem; color: #555;">ඔබගේ පාසලේ පරිගණකාගාරය පිළිබඳව හෝ එහි පවතින වෙනත් අවශ්‍යතා පිළිබඳ කෙටි විස්තරයක් Admin වෙත යවන්න.</p>
+                    <p style="font-size: 0.9rem; color: #555;">Send a brief description about your school's computer lab or any other related requirements to the Admin.</p>
                     <div class="form-group"><textarea id="lab-desc-input" rows="4" placeholder="Enter lab description here..."></textarea></div>
                     <button class="btn-primary" onclick="submitLabDescription()">Submit Description to Admin</button>
                 </div>
@@ -1364,8 +1364,8 @@
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
-                document.getElementById('zdett-tools').style.display = 'block';
-                window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks(); window.loadAdminFaults(); window.loadAdminInventory();
+                // Admin tools hid from standard ZDETT members as requested
+                window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (user.role === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
@@ -1750,7 +1750,7 @@
         window.markJobComplete = async function(faultId) {
             let actionNote = prompt("Enter the repair report / message for the school:");
             if(actionNote !== null) { 
-                let handledByNames = prompt("අලුත්වැඩියාව සිදුකළ සියලු දෙනාගේ නම් ඇතුලත් කරන්න (කොමා යොදා වෙන් කරන්න):", window.currentUserData.name);
+                let handledByNames = prompt("Enter the names of all individuals who handled the repair (separate by commas):", window.currentUserData.name);
                 
                 if (handledByNames !== null) {
                     await update(ref(db, 'faults/' + faultId), {
