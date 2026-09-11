@@ -56,7 +56,6 @@
         /* General Styles */
         .container { padding: 2rem 1%; width: 98%; max-width: 1800px; margin: auto; min-height: 60vh; }
         .section { display: none; }
-        /* Removed standard fadeInUp for active sections as we use advanced animations for #home */
         .section.active { display: block; animation: fadeInUp 0.5s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -133,6 +132,9 @@
         th { color: #334155; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;}
         tr:hover { background-color: #f8fafc; }
 
+        /* Ensure long messages do not get cut off horizontally */
+        .text-wrap { white-space: normal !important; min-width: 250px; line-height: 1.5; }
+        
         .text-start { text-align: left !important; }
         .text-center { text-align: center !important; }
         .bg-light-blue { background-color: #f1f8ff !important; }
@@ -165,7 +167,7 @@
         footer { text-align: center; padding: 20px; background: #1e293b; color: #94a3b8; margin-top: 40px; font-size: 0.9rem; }
         footer a { color: #38bdf8; text-decoration: none; }
 
-        /* Edit Modal for Super Admin */
+        /* Modals */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
         .modal-content { background-color: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
 
@@ -190,7 +192,7 @@
             <ul>
                 <li><a onclick="showSection('home')">Home</a></li>
                 <li><a onclick="showSection('about')">About Us</a></li>
-                <li><a onclick="showSection('schools')">Schools</a></li>
+                <li><a onclick="showSection('schools')">Schools Data</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
                 
@@ -606,6 +608,48 @@
                         </table>
                     </div>
                 </div>
+                
+                <div class="card" style="border-left: 5px solid #ef4444;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printFaultReports()">🖨️ Print Fault Reports</button>
+                    </div>
+                    <div class="table-container" id="admin-faults-container">
+                        <table>
+                            <thead><tr><th>Date & Time</th><th>School (Census No)</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Handled By</th><th>Action</th></tr></thead>
+                            <tbody id="all-faults-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 5px solid #10b981;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>Zonal Master Inventory (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
+                    </div>
+                    
+                    <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
+                        <div class="filter-item">
+                            <label>School:</label>
+                            <select id="admin-inv-school" onchange="window.loadAdminInventory()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
+                                <option value="All">All Schools</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Section:</label>
+                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section (e.g. Main Lab)...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-container" id="admin-inventory-container">
+                        <table>
+                            <thead>
+                                <tr><th>School (Census No)</th><th>Section</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
+                            </thead>
+                            <tbody id="all-inventory-list"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- TEACHER TOOLS SECTION -->
@@ -697,57 +741,18 @@
                 <div class="card" style="border-left: 5px solid #3b82f6; margin-top: 20px;">
                     <h3>📝 Lab Status / Description Report</h3>
                     <p style="font-size: 0.9rem; color: #555;">Send a brief description about your school's computer lab or any other related requirements to the Admin.</p>
+                    
+                    <div class="form-group" id="lab-desc-school-group" style="display: none;">
+                        <label>Select School (For ZDETT):</label>
+                        <select id="lab-desc-school-select" class="form-control" style="width: 100%; padding: 12px; border-radius: 8px;">
+                            <option value="">-- Submit for my own school --</option>
+                        </select>
+                    </div>
+
                     <div class="form-group"><textarea id="lab-desc-input" rows="4" placeholder="Enter lab description here..."></textarea></div>
                     <button class="btn-primary" onclick="submitLabDescription()">Submit Description to Admin</button>
                 </div>
             </div>
-
-            <!-- ZDETT / ADMIN TOOLS SECTION -->
-            <div id="zdett-tools" style="display: none;">
-                
-                <div class="card" style="border-left: 5px solid #ef4444;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
-                        <button class="btn-primary mb-2" onclick="printFaultReports()">🖨️ Print Fault Reports</button>
-                    </div>
-                    <div class="table-container" id="admin-faults-container">
-                        <table>
-                            <thead><tr><th>Date & Time</th><th>School (Census No)</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Handled By</th><th>Action</th></tr></thead>
-                            <tbody id="all-faults-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card" style="border-left: 5px solid #10b981;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3>Zonal Master Inventory (Admin Tool)</h3>
-                        <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
-                    </div>
-                    
-                    <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
-                        <div class="filter-item">
-                            <label>School:</label>
-                            <select id="admin-inv-school" onchange="window.loadAdminInventory()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
-                                <option value="All">All Schools</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label>Section:</label>
-                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section (e.g. Main Lab)...">
-                        </div>
-                    </div>
-                    
-                    <div class="table-container" id="admin-inventory-container">
-                        <table>
-                            <thead>
-                                <tr><th>School (Census No)</th><th>Section</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
-                            </thead>
-                            <tbody id="all-inventory-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -793,6 +798,29 @@
             <div style="display: flex; justify-content: space-between; margin-top: 20px;">
                 <button class="btn-primary" onclick="saveSchoolEdit()">Save Details</button>
                 <button class="btn-danger" onclick="closeSchoolEditModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Complete Modal -->
+    <div id="jobCompleteModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #10b981; margin-top:0;">Mark Job as Completed</h3>
+            <p style="font-size: 0.9rem; color: #555;">Enter the details of the repair below.</p>
+            <input type="hidden" id="jc-fault-id">
+            
+            <div class="form-group">
+                <label style="font-weight:bold;">Repair Report / Message for the school</label>
+                <textarea id="jc-report" rows="3" placeholder="e.g. Replaced the power supply unit..."></textarea>
+            </div>
+            <div class="form-group">
+                <label style="font-weight:bold;">Handled By (Names)</label>
+                <input type="text" id="jc-handlers" placeholder="e.g. A.B. Perera, K.M. Silva">
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <button class="btn-success" onclick="saveJobComplete()">Save & Complete</button>
+                <button class="btn-danger" onclick="closeJobCompleteModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -1147,6 +1175,7 @@
             const schoolSelectE = document.getElementById('edit-school-select');
             const adminMarkSch = document.getElementById('admin-mark-school');
             const adminInvSch = document.getElementById('admin-inv-school');
+            const labDescSch = document.getElementById('lab-desc-school-select');
             
             rawSchoolData.forEach(s => {
                 let optHtml = `<option value="${s.census_no}">${s.census_no} - ${s.school}</option>`;
@@ -1155,6 +1184,7 @@
                 if(schoolSelectE) schoolSelectE.innerHTML += optHtml;
                 if(adminMarkSch) adminMarkSch.innerHTML += optHtml;
                 if(adminInvSch) adminInvSch.innerHTML += optHtml;
+                if(labDescSch) labDescSch.innerHTML += optHtml;
             });
         });
     </script>
@@ -1392,17 +1422,21 @@
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
             document.getElementById('superadmin-tools').style.display = 'none';
+            
+            let ldSchoolGroup = document.getElementById('lab-desc-school-group');
 
             if (user.role === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
+                if(ldSchoolGroup) ldSchoolGroup.style.display = 'none';
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (user.role === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
-                // Admin tools hidden from ZDETT members (Only Super Admin sees them)
+                if(ldSchoolGroup) ldSchoolGroup.style.display = 'block';
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (user.role === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
+                if(ldSchoolGroup) ldSchoolGroup.style.display = 'block';
                 window.loadAdminFaults(); window.loadAdminInventory(); window.loadAdminMarks(); window.loadAllUsersForAdmin(); window.loadAdminLabDescriptions();
             }
             window.filterSchoolData();
@@ -1750,9 +1784,9 @@
                         let dtStr = formatDateTime(f.timestamp);
                         tbody.innerHTML += `<tr>
                             <td class="text-start" style="font-size: 0.85em; color: #666;">${dtStr}</td>
-                            <td class="text-start">${f.device}</td><td class="text-start">${f.description}</td>
+                            <td class="text-start">${f.device}</td><td class="text-start text-wrap">${f.description}</td>
                             <td class="text-start" style="color: ${statusColor}; font-weight: bold;">${f.status}</td>
-                            <td class="text-start" style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
+                            <td class="text-start text-wrap" style="font-size: 0.9em;"><i>${f.actionTaken || 'Pending...'}</i></td>
                             <td class="text-start"><strong>${f.completedBy || '-'}</strong></td>
                         </tr>`;
                     }
@@ -1781,22 +1815,37 @@
             } else { alert("Select a device and describe the fault."); }
         };
 
-        window.markJobComplete = async function(faultId) {
-            let actionNote = prompt("Enter the repair report / message for the school:");
-            if(actionNote !== null) { 
-                let handledByNames = prompt("Enter the names of all individuals who handled the repair (separate by commas):", window.currentUserData.name);
-                
-                if (handledByNames !== null) {
-                    await update(ref(db, 'faults/' + faultId), {
-                        status: 'Completed', 
-                        completedBy: handledByNames, 
-                        actionTaken: actionNote || "Issue resolved.", 
-                        completedAt: Date.now()
-                    });
-                    alert("Job marked as complete!"); 
-                    window.loadAdminFaults(); 
-                    window.loadTeacherFaults(); 
-                }
+        // NEW JOB COMPLETE MODAL LOGIC
+        window.markJobComplete = function(faultId) {
+            document.getElementById('jc-fault-id').value = faultId;
+            document.getElementById('jc-report').value = '';
+            let defaultName = window.currentUserData ? window.currentUserData.name : '';
+            document.getElementById('jc-handlers').value = defaultName;
+            document.getElementById('jobCompleteModal').style.display = 'flex';
+        };
+
+        window.closeJobCompleteModal = function() {
+            document.getElementById('jobCompleteModal').style.display = 'none';
+        };
+
+        window.saveJobComplete = async function() {
+            let faultId = document.getElementById('jc-fault-id').value;
+            let actionNote = document.getElementById('jc-report').value.trim() || "Issue resolved.";
+            let handledByNames = document.getElementById('jc-handlers').value.trim() || (window.currentUserData ? window.currentUserData.name : '');
+            
+            try {
+                await update(ref(db, 'faults/' + faultId), {
+                    status: 'Completed', 
+                    completedBy: handledByNames, 
+                    actionTaken: actionNote, 
+                    completedAt: Date.now()
+                });
+                alert("Job marked as complete!"); 
+                window.closeJobCompleteModal();
+                window.loadAdminFaults(); 
+                window.loadTeacherFaults(); 
+            } catch (error) {
+                alert("Error updating job: " + error.message);
             }
         };
 
@@ -1804,7 +1853,20 @@
             let desc = document.getElementById('lab-desc-input').value.trim();
             if(!desc) { alert("Please enter a description before submitting."); return; }
             
-            let combinedSchoolStr = (window.currentUserData.censusNo) ? `${window.currentUserData.censusNo} - ${window.currentUserData.school}` : window.currentUserData.school;
+            let combinedSchoolStr = "";
+            
+            // Allow ZDETT or Super Admin to select from the dropdown
+            if (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') {
+                let sel = document.getElementById('lab-desc-school-select');
+                if (sel && sel.value !== "") {
+                    combinedSchoolStr = sel.options[sel.selectedIndex].text;
+                } else {
+                    combinedSchoolStr = (window.currentUserData.censusNo) ? `${window.currentUserData.censusNo} - ${window.currentUserData.school}` : window.currentUserData.school;
+                }
+            } else {
+                // Regular Teacher gets their own school
+                combinedSchoolStr = (window.currentUserData.censusNo) ? `${window.currentUserData.censusNo} - ${window.currentUserData.school}` : window.currentUserData.school;
+            }
             
             try {
                 await set(push(ref(db, 'lab_descriptions')), {
@@ -1815,6 +1877,8 @@
                 });
                 alert("Lab description submitted to Admin successfully!");
                 document.getElementById('lab-desc-input').value = '';
+                let sel = document.getElementById('lab-desc-school-select');
+                if (sel) sel.value = "";
             } catch (error) {
                 alert("Error submitting description: " + error.message);
             }
@@ -1836,7 +1900,7 @@
                     tbody.innerHTML += `<tr>
                         <td class="text-start" style="font-size: 0.85em; color: #666;">${dtStr}</td>
                         <td class="text-start"><strong>${d.school}</strong></td>
-                        <td class="text-start">${d.description}</td>
+                        <td class="text-start text-wrap" style="background-color: #f8fafc; padding: 15px; border-radius: 8px;">${d.description}</td>
                         <td class="text-start">${d.submittedBy}</td>
                     </tr>`;
                 });
@@ -1858,7 +1922,7 @@
                     fBody.innerHTML += `<tr>
                         <td class="text-start" style="font-size: 0.85em; color: #666;">${dtStr}</td>
                         <td class="text-start"><strong>${f.school}</strong></td><td class="text-start" style="font-size: 0.8em; color: #555;">${f.itemInfo}</td>
-                        <td class="text-start">${f.device}</td><td class="text-start">${f.description}</td>
+                        <td class="text-start">${f.device}</td><td class="text-start text-wrap">${f.description}</td>
                         <td class="text-start" style="color: ${f.status === 'Pending' ? '#ef4444' : '#10b981'}; font-weight: bold;">${f.status}</td>
                         <td class="text-start"><strong>${f.completedBy || '-'}</strong></td>
                         <td class="text-start">${actionHtml}</td>
