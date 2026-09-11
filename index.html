@@ -608,48 +608,6 @@
                         </table>
                     </div>
                 </div>
-                
-                <div class="card" style="border-left: 5px solid #ef4444;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
-                        <button class="btn-primary mb-2" onclick="printFaultReports()">🖨️ Print Fault Reports</button>
-                    </div>
-                    <div class="table-container" id="admin-faults-container">
-                        <table>
-                            <thead><tr><th>Date & Time</th><th>School (Census No)</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Handled By</th><th>Action</th></tr></thead>
-                            <tbody id="all-faults-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card" style="border-left: 5px solid #10b981;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                        <h3>Zonal Master Inventory (Admin Tool)</h3>
-                        <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
-                    </div>
-                    
-                    <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
-                        <div class="filter-item">
-                            <label>School:</label>
-                            <select id="admin-inv-school" onchange="window.loadAdminInventory()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
-                                <option value="All">All Schools</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label>Section:</label>
-                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section (e.g. Main Lab)...">
-                        </div>
-                    </div>
-                    
-                    <div class="table-container" id="admin-inventory-container">
-                        <table>
-                            <thead>
-                                <tr><th>School (Census No)</th><th>Section</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
-                            </thead>
-                            <tbody id="all-inventory-list"></tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
 
             <!-- TEACHER TOOLS SECTION -->
@@ -753,6 +711,53 @@
                     <button class="btn-primary" onclick="submitLabDescription()">Submit Description to Admin</button>
                 </div>
             </div>
+
+            <!-- ZDETT / ADMIN TOOLS SECTION -->
+            <div id="zdett-tools" style="display: none;">
+                
+                <div class="card" style="border-left: 5px solid #ef4444;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>ZDETT Jobs & Fault Reports (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printFaultReports()">🖨️ Print Fault Reports</button>
+                    </div>
+                    <div class="table-container" id="admin-faults-container">
+                        <table>
+                            <thead><tr><th>Date & Time</th><th>School (Census No)</th><th>Info</th><th>Equipment</th><th>Fault</th><th>Status</th><th>Handled By</th><th>Action</th></tr></thead>
+                            <tbody id="all-faults-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 5px solid #10b981;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <h3>Zonal Master Inventory (Admin Tool)</h3>
+                        <button class="btn-primary mb-2" onclick="printAdminInventory()">🖨️ Print Master Inventory</button>
+                    </div>
+                    
+                    <div class="filter-section" style="border-left-color: #10b981; margin-top: 15px;">
+                        <div class="filter-item">
+                            <label>School:</label>
+                            <select id="admin-inv-school" onchange="window.loadAdminInventory()" style="width: 100%; padding: 8px 12px; border-radius: 5px;">
+                                <option value="All">All Schools</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Section:</label>
+                            <input type="text" id="admin-inv-section" oninput="window.loadAdminInventory()" placeholder="Filter by Section (e.g. Main Lab)...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-container" id="admin-inventory-container">
+                        <table>
+                            <thead>
+                                <tr><th>School (Census No)</th><th>Section</th><th>Book</th><th>Pg</th><th>Col</th><th>Item</th><th>Avail</th><th>Short</th><th>Surp</th></tr>
+                            </thead>
+                            <tbody id="all-inventory-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -1364,9 +1369,19 @@
             
             try {
                 let userCred = await signInWithEmailAndPassword(auth, emailInput, pass);
-                
-                if (userCred.user.email === 'zonalicthub@gmail.com') {
-                    window.currentUserData = {
+                let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
+                let dbUser = snapshot.exists() ? snapshot.val() : null;
+
+                // Case-insensitive check to ensure Super Admin login is robust
+                let isSuperAdmin = false;
+                if (userCred.user.email && userCred.user.email.toLowerCase() === 'zonalicthub@gmail.com') {
+                    isSuperAdmin = true;
+                } else if (dbUser && dbUser.role && dbUser.role.toLowerCase() === 'superadmin') {
+                    isSuperAdmin = true;
+                }
+
+                if (isSuperAdmin) {
+                    window.currentUserData = dbUser || {
                         name: 'System Super Admin',
                         school: 'Zonal Education Office - Wellawaya',
                         email: userCred.user.email,
@@ -1374,24 +1389,23 @@
                         role: 'superadmin',
                         teacherId: 'ADMIN-01'
                     };
-                    document.getElementById('nav-login').style.display = 'none';
-                    document.getElementById('nav-dashboard').style.display = 'block';
-                    document.getElementById('nav-logout').style.display = 'block';
-                    setupDashboard();
-                    window.showSection('dashboard');
-                    return; 
+                    window.currentUserData.role = 'superadmin'; // Force uniform role name
+                } else if (dbUser) {
+                    window.currentUserData = dbUser;
+                } else {
+                    alert("Error: User record not found in the database. Please register first.");
+                    await signOut(auth);
+                    return;
                 }
 
-                let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
-                if(snapshot.exists()) {
-                    window.currentUserData = snapshot.val();
-                    document.getElementById('nav-login').style.display = 'none';
-                    document.getElementById('nav-dashboard').style.display = 'block';
-                    document.getElementById('nav-logout').style.display = 'block';
-                    setupDashboard();
-                    window.showSection('dashboard');
-                }
-            } catch (error) { alert("Login Failed: " + error.message); }
+                document.getElementById('nav-login').style.display = 'none';
+                document.getElementById('nav-dashboard').style.display = 'block';
+                document.getElementById('nav-logout').style.display = 'block';
+                setupDashboard();
+                window.showSection('dashboard');
+            } catch (error) { 
+                alert("Login Failed: " + error.message); 
+            }
         };
 
         window.logoutUser = async function() {
@@ -1407,33 +1421,39 @@
         function setupDashboard() {
             let user = window.currentUserData;
             let idText = user.teacherId ? ` | ID: ${user.teacherId}` : '';
-            document.getElementById('welcome-msg').innerText = `Welcome ${user.name} (${user.school}${idText})`;
+            document.getElementById('welcome-msg').innerText = `Welcome ${user.name || 'User'} (${user.school || 'System'}${idText})`;
             
             document.getElementById('edit-name').value = user.name || '';
             document.getElementById('edit-phone').value = user.phone || '';
             
             if(user.censusNo) {
                 document.getElementById('edit-school-select').value = user.censusNo;
+            } else {
+                document.getElementById('edit-school-select').value = '';
             }
 
             setCheckedValues('edit-t-grades', safeArray(user.grades));
             setCheckedValues('edit-t-medium', safeArray(user.medium));
 
+            // Hide all tool blocks completely before applying logic
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
             document.getElementById('superadmin-tools').style.display = 'none';
             
             let ldSchoolGroup = document.getElementById('lab-desc-school-group');
+            if(ldSchoolGroup) ldSchoolGroup.style.display = 'none';
 
-            if (user.role === 'teacher') {
+            let uRole = (user.role || '').toLowerCase();
+
+            if (uRole === 'teacher') {
                 document.getElementById('teacher-tools').style.display = 'block';
-                if(ldSchoolGroup) ldSchoolGroup.style.display = 'none';
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
-            } else if (user.role === 'zdett') {
+            } else if (uRole === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 if(ldSchoolGroup) ldSchoolGroup.style.display = 'block';
+                // Admin tools hidden from ZDETT members (Only Super Admin sees them)
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
-            } else if (user.role === 'superadmin') {
+            } else if (uRole === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
                 document.getElementById('superadmin-tools').style.display = 'block';
                 if(ldSchoolGroup) ldSchoolGroup.style.display = 'block';
@@ -1547,7 +1567,8 @@
             if(confirm("Are you sure you want to delete this mark record?")) {
                 await set(ref(db, 'student_marks/' + id), null);
                 window.loadTeacherMarks();
-                if(window.currentUserData && window.currentUserData.role === 'superadmin') window.loadAdminMarks();
+                let uRole = (window.currentUserData.role || '').toLowerCase();
+                if(uRole === 'superadmin') window.loadAdminMarks();
             }
         };
 
@@ -1599,7 +1620,8 @@
                 document.getElementById('mark-student').value = '';
                 document.getElementById('mark-score').value = '';
                 window.loadTeacherMarks();
-                if(window.currentUserData && window.currentUserData.role === 'superadmin') window.loadAdminMarks();
+                let uRole = (window.currentUserData.role || '').toLowerCase();
+                if(uRole === 'superadmin') window.loadAdminMarks();
             } catch (error) { alert("Error: " + error.message); }
         };
 
@@ -1810,7 +1832,8 @@
                     });
                     alert("Fault report submitted!"); document.getElementById('fault-desc').value = '';
                     window.loadTeacherFaults(); 
-                    if(window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') window.loadAdminFaults(); 
+                    let uRole = (window.currentUserData.role || '').toLowerCase();
+                    if(uRole === 'zdett' || uRole === 'superadmin') window.loadAdminFaults(); 
                 }
             } else { alert("Select a device and describe the fault."); }
         };
@@ -1854,9 +1877,10 @@
             if(!desc) { alert("Please enter a description before submitting."); return; }
             
             let combinedSchoolStr = "";
+            let uRole = (window.currentUserData.role || '').toLowerCase();
             
             // Allow ZDETT or Super Admin to select from the dropdown
-            if (window.currentUserData.role === 'zdett' || window.currentUserData.role === 'superadmin') {
+            if (uRole === 'zdett' || uRole === 'superadmin') {
                 let sel = document.getElementById('lab-desc-school-select');
                 if (sel && sel.value !== "") {
                     combinedSchoolStr = sel.options[sel.selectedIndex].text;
