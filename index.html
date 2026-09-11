@@ -682,7 +682,7 @@
                     <h4 class="mt-4" style="border-bottom: 1px solid #eee; padding-bottom: 5px;">My Inventory Items</h4>
                     <div class="table-container" id="my-inventory-container">
                         <table>
-                            <thead><tr><th>Section</th><th>Book No.</th><th>Page No.</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Section</th><th>Book No.</th><th>Page No.</th><th>Col/Row</th><th>Equipment Name</th><th>Available</th><th>Shortfall</th><th>Surplus</th><th>Action</th></tr></thead>
                             <tbody id="my-inventory-list"></tbody>
                         </table>
                     </div>
@@ -1372,7 +1372,6 @@
                 let snapshot = await get(child(ref(db), `users/${userCred.user.uid}`));
                 let dbUser = snapshot.exists() ? snapshot.val() : null;
 
-                // Case-insensitive check to ensure Super Admin login is robust
                 let isSuperAdmin = false;
                 if (userCred.user.email && userCred.user.email.toLowerCase() === 'zonalicthub@gmail.com') {
                     isSuperAdmin = true;
@@ -1389,7 +1388,7 @@
                         role: 'superadmin',
                         teacherId: 'ADMIN-01'
                     };
-                    window.currentUserData.role = 'superadmin'; // Force uniform role name
+                    window.currentUserData.role = 'superadmin';
                 } else if (dbUser) {
                     window.currentUserData = dbUser;
                 } else {
@@ -1435,7 +1434,6 @@
             setCheckedValues('edit-t-grades', safeArray(user.grades));
             setCheckedValues('edit-t-medium', safeArray(user.medium));
 
-            // Hide all tool blocks completely before applying logic
             document.getElementById('teacher-tools').style.display = 'none';
             document.getElementById('zdett-tools').style.display = 'none';
             document.getElementById('superadmin-tools').style.display = 'none';
@@ -1451,7 +1449,6 @@
             } else if (uRole === 'zdett') {
                 document.getElementById('teacher-tools').style.display = 'block';
                 if(ldSchoolGroup) ldSchoolGroup.style.display = 'block';
-                // Admin tools hidden from ZDETT members (Only Super Admin sees them)
                 window.loadMyInventory(); window.loadTeacherFaults(); window.loadTeacherMarks();
             } else if (uRole === 'superadmin') {
                 document.getElementById('zdett-tools').style.display = 'block';
@@ -1779,7 +1776,7 @@
                     if(i.school === window.currentUserData.school) {
                         let secStr = i.section || '-';
                         tbody.innerHTML += `<tr>
-                            <td class="text-start">${secStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td>
+                            <td class="text-start">${secStr}</td><td class="text-start">${i.book}</td><td class="text-start">${i.page}</td><td class="text-start">${i.col || '-'}</td>
                             <td class="text-start">${i.name}</td><td class="text-start">${i.avail}</td><td class="text-start">${i.short}</td><td class="text-start">${i.surp}</td>
                             <td class="text-start">
                                 <button class="btn-primary" style="font-size:0.75rem; padding:4px 8px; margin-right:5px; margin-bottom:5px;" onclick="editInv('${childSnap.key}', '${i.section}', '${i.book}', '${i.page}', '${i.col}', '${i.name}', '${i.avail}', '${i.short}', '${i.surp}')">✏️</button>
