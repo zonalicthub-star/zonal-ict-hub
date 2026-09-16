@@ -625,6 +625,7 @@
                         <div>
                             <label>Class</label>
                             <select id="mark-class">
+                                <option value="-">- (No Class)</option>
                                 <option value="A">A</option><option value="B">B</option><option value="C">C</option>
                                 <option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
                             </select>
@@ -1520,6 +1521,7 @@
         window.loadAllUsersForAdmin = async function() {
             let tbody = document.getElementById('all-users-list');
             if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="9" class="text-center">Loading Data...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
