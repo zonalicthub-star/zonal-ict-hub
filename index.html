@@ -357,6 +357,7 @@
                     <table>
                         <thead>
                             <tr>
+                                <th style="width: 50px;">#</th>
                                 <th>Teacher ID</th>
                                 <th>Name</th>
                                 <th>School</th>
@@ -377,7 +378,13 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr>
+                            <tr>
+                                <th style="width: 50px;">#</th>
+                                <th>Name</th>
+                                <th>ZDETT ID No</th>
+                                <th>School</th>
+                                <th>Phone</th>
+                            </tr>
                         </thead>
                         <tbody id="zdett-public-list"></tbody>
                     </table>
@@ -1388,7 +1395,7 @@
                         role: 'superadmin',
                         teacherId: 'ADMIN-01'
                     };
-                    window.currentUserData.role = 'superadmin';
+                    window.currentUserData.role = 'superadmin'; 
                 } else if (dbUser) {
                     window.currentUserData = dbUser;
                 } else {
@@ -1992,7 +1999,7 @@
         window.loadTeachers = async function() {
             let tbody = document.getElementById('teacher-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Teachers...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Teachers...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -2023,6 +2030,7 @@
                             count++;
                             
                             tbody.innerHTML += `<tr style="background-color: #fdfdfd;">
+                                <td class="text-center fw-bold text-secondary">${count}</td>
                                 <td class="text-start"><strong>${tId}</strong></td>
                                 <td class="text-start">${u.name || '-'}</td>
                                 <td class="text-start">${u.school || '-'}</td>
@@ -2031,20 +2039,20 @@
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found matching the criteria.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found matching the criteria.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No registered teachers found. Please register.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied: Database Rules prevent reading public list.</td></tr>`;
             }
         };
 
         window.loadZdettTeam = async function() {
             let tbody = document.getElementById('zdett-public-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading Team...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Team...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -2065,17 +2073,23 @@
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'zdett') {
                             count++;
-                            tbody.innerHTML += `<tr><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
+                            tbody.innerHTML += `<tr>
+                                <td class="text-center fw-bold text-secondary">${count}</td>
+                                <td class="text-start">${u.name || '-'}</td>
+                                <td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td>
+                                <td class="text-start">${u.school || '-'}</td>
+                                <td class="text-start">${u.phone || 'N/A'}</td>
+                            </tr>`;
                         }
                     });
                     if(count === 0) {
-                        tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members registered yet.</td></tr>';
                     }
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="color:#e67e22; font-weight:bold;">No ZDETT members found.</td></tr>';
                 }
             } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="color:red; font-weight:bold;">⚠️ Access Denied.</td></tr>`;
             }
         }
     </script>
