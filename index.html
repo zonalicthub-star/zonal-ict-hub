@@ -378,13 +378,7 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr>
-                                <th style="width: 50px;">#</th>
-                                <th>Name</th>
-                                <th>ZDETT ID No</th>
-                                <th>School</th>
-                                <th>Phone</th>
-                            </tr>
+                            <tr><th style="width: 50px;">#</th><th>Name</th><th>ZDETT ID No</th><th>School</th><th>Phone</th></tr>
                         </thead>
                         <tbody id="zdett-public-list"></tbody>
                     </table>
@@ -840,6 +834,28 @@
     <footer>
         <p>&copy; 2026 Wellawaya Zonal Education Office - ICT Division</p>
     </footer>
+
+    <!-- Anti-Debugging Script -->
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.onkeydown = function(e) {
+            // Prevent F12
+            if (e.keyCode == 123) {
+                return false;
+            }
+            // Prevent Ctrl+Shift+I / J / C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+                return false;
+            }
+            // Prevent Ctrl+U (View Source)
+            if (e.ctrlKey && (e.keyCode == 85)) {
+                return false;
+            }
+        };
+    </script>
 
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
@@ -1395,7 +1411,7 @@
                         role: 'superadmin',
                         teacherId: 'ADMIN-01'
                     };
-                    window.currentUserData.role = 'superadmin'; 
+                    window.currentUserData.role = 'superadmin';
                 } else if (dbUser) {
                     window.currentUserData = dbUser;
                 } else {
@@ -1504,7 +1520,6 @@
         window.loadAllUsersForAdmin = async function() {
             let tbody = document.getElementById('all-users-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="9" class="text-center">Loading Data...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -1632,8 +1647,9 @@
         window.loadTeacherMarks = async function() {
             let tbody = document.getElementById('my-marks-list');
             if(!tbody) return;
-            tbody.innerHTML = '';
+            
             let snapshot = await get(ref(db, 'student_marks'));
+            tbody.innerHTML = '';
             if(snapshot.exists()) {
                 let marksArr = [];
                 snapshot.forEach(child => {
@@ -1668,7 +1684,6 @@
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
             if(!tbody) return;
-            tbody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-mark-school');
             let schFilter = schFilterElement ? schFilterElement.value : "All";
@@ -1678,6 +1693,7 @@
             let rangeFilter = document.getElementById('admin-mark-range').value;
             
             let snapshot = await get(ref(db, 'student_marks'));
+            tbody.innerHTML = '';
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let m = childSnap.val();
@@ -1775,8 +1791,9 @@
             let tbody = document.getElementById('my-inventory-list');
             let select = document.getElementById('fault-device');
             if(!tbody || !select) return;
-            tbody.innerHTML = ''; select.innerHTML = '<option value="">-- Select from Inventory --</option>';
+            
             let snapshot = await get(ref(db, 'inventory'));
+            tbody.innerHTML = ''; select.innerHTML = '<option value="">-- Select from Inventory --</option>';
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let i = childSnap.val();
@@ -1800,8 +1817,8 @@
         window.loadTeacherFaults = async function() {
             let tbody = document.getElementById('my-faults-list');
             if(!tbody) return;
-            tbody.innerHTML = '';
             let snapshot = await get(ref(db, 'faults'));
+            tbody.innerHTML = '';
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let f = childSnap.val();
@@ -1915,9 +1932,9 @@
         window.loadAdminLabDescriptions = async function() {
             let tbody = document.getElementById('admin-lab-desc-list');
             if(!tbody) return;
-            tbody.innerHTML = '';
             
             let snap = await get(ref(db, 'lab_descriptions'));
+            tbody.innerHTML = '';
             if(snap.exists()) {
                 let descArr = [];
                 snap.forEach(child => descArr.push(child.val()));
@@ -1940,8 +1957,8 @@
         window.loadAdminFaults = async function() {
             let fBody = document.getElementById('all-faults-list');
             if(!fBody) return;
-            fBody.innerHTML = '';
             let fSnap = await get(ref(db, 'faults'));
+            fBody.innerHTML = '';
             if(fSnap.exists()) {
                 fSnap.forEach((childSnap) => {
                     let f = childSnap.val();
@@ -1962,7 +1979,6 @@
         window.loadAdminInventory = async function() {
             let iBody = document.getElementById('all-inventory-list');
             if(!iBody) return;
-            iBody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-inv-school');
             let schFilter = schFilterElement ? schFilterElement.value : "All";
@@ -1971,6 +1987,7 @@
             let secFilter = secFilterElement ? secFilterElement.value.trim().toLowerCase() : "";
 
             let iSnap = await get(ref(db, 'inventory'));
+            iBody.innerHTML = '';
             if(iSnap.exists()) {
                 iSnap.forEach((childSnap) => {
                     let i = childSnap.val();
@@ -1999,7 +2016,6 @@
         window.loadTeachers = async function() {
             let tbody = document.getElementById('teacher-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Teachers...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -2030,7 +2046,7 @@
                             count++;
                             
                             tbody.innerHTML += `<tr style="background-color: #fdfdfd;">
-                                <td class="text-center fw-bold text-secondary">${count}</td>
+                                <td class="text-start fw-bold text-secondary">${count}</td>
                                 <td class="text-start"><strong>${tId}</strong></td>
                                 <td class="text-start">${u.name || '-'}</td>
                                 <td class="text-start">${u.school || '-'}</td>
@@ -2052,7 +2068,6 @@
         window.loadZdettTeam = async function() {
             let tbody = document.getElementById('zdett-public-list');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading Team...</td></tr>';
             
             try {
                 let snapshot = await get(ref(db, 'users'));
@@ -2073,13 +2088,7 @@
                         let roleStr = (u.role || '').toLowerCase();
                         if(roleStr === 'zdett') {
                             count++;
-                            tbody.innerHTML += `<tr>
-                                <td class="text-center fw-bold text-secondary">${count}</td>
-                                <td class="text-start">${u.name || '-'}</td>
-                                <td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td>
-                                <td class="text-start">${u.school || '-'}</td>
-                                <td class="text-start">${u.phone || 'N/A'}</td>
-                            </tr>`;
+                            tbody.innerHTML += `<tr><td class="text-start fw-bold text-secondary">${count}</td><td class="text-start">${u.name || '-'}</td><td class="text-start"><strong>${u.idNo || 'N/A'}</strong></td><td class="text-start">${u.school || '-'}</td><td class="text-start">${u.phone || 'N/A'}</td></tr>`;
                         }
                     });
                     if(count === 0) {
