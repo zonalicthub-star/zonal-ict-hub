@@ -636,7 +636,11 @@
                         </div>
                     </div>
                     <div class="grid-form">
-                        <div><label>Student Name</label><input type="text" id="mark-student" placeholder="Name with initials"></div>
+                        <div>
+                            <label>Student Name</label>
+                            <input type="text" id="mark-student" placeholder="Name with initials" list="student-names-list">
+                            <datalist id="student-names-list"></datalist>
+                        </div>
                         <div><label>Marks (0-100 or AB)</label><input type="text" id="mark-score" placeholder="e.g. 85 or AB"></div>
                         <div style="display: flex; align-items: flex-end;">
                             <button id="btn-add-mark" class="btn-purple" onclick="addStudentMark()" style="width: 100%;">Add Mark</button>
@@ -1648,10 +1652,13 @@
 
         window.loadTeacherMarks = async function() {
             let tbody = document.getElementById('my-marks-list');
+            let datalist = document.getElementById('student-names-list');
             if(!tbody) return;
             
             let snapshot = await get(ref(db, 'student_marks'));
             tbody.innerHTML = '';
+            let uniqueNames = new Set();
+
             if(snapshot.exists()) {
                 let marksArr = [];
                 snapshot.forEach(child => {
@@ -1665,8 +1672,20 @@
                     
                     if(mSchool === window.currentUserData.school || m.school === window.currentUserData.school) {
                         marksArr.push(m);
+                        if (m.studentName) uniqueNames.add(m.studentName);
                     }
                 });
+                
+                // Populate Datalist
+                if (datalist) {
+                    datalist.innerHTML = '';
+                    uniqueNames.forEach(name => {
+                        let opt = document.createElement('option');
+                        opt.value = name;
+                        datalist.appendChild(opt);
+                    });
+                }
+
                 marksArr.sort((a,b) => b.timestamp - a.timestamp); 
                 marksArr.forEach(m => {
                     let gradeObj = getMarkGradeObj(m.marks);
@@ -1686,6 +1705,7 @@
         window.loadAdminMarks = async function() {
             let tbody = document.getElementById('admin-marks-list');
             if(!tbody) return;
+            tbody.innerHTML = '';
             
             let schFilterElement = document.getElementById('admin-mark-school');
             let schFilter = schFilterElement ? schFilterElement.value : "All";
@@ -1695,7 +1715,6 @@
             let rangeFilter = document.getElementById('admin-mark-range').value;
             
             let snapshot = await get(ref(db, 'student_marks'));
-            tbody.innerHTML = '';
             if(snapshot.exists()) {
                 snapshot.forEach((childSnap) => {
                     let m = childSnap.val();
