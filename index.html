@@ -180,59 +180,7 @@
 </head>
 <body>
 
-    <div style="max-width: 500px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif;">
-  <h3 style="text-align: center; color: #0056b3;">අඩු සාධන මට්ටමක් ඇති දරුවන්ගේ දත්ත ලබා දීම</h3>
-  
-  <form id="ictDataForm">
-    <div style="margin-bottom: 15px;">
-      <label for="schoolName" style="display: block; margin-bottom: 5px; font-weight: bold;">පාසලේ නම:</label>
-      <input type="text" id="schoolName" name="schoolName" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
-
-    <div style="margin-bottom: 15px;">
-      <label for="studentCount" style="display: block; margin-bottom: 5px; font-weight: bold;">ICT විෂය සඳහා ලකුණු 40 ට අඩු සිසුන් ගණන:</label>
-      <input type="number" id="studentCount" name="studentCount" min="0" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
-
-    <button type="submit" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">දත්ත යවන්න (Submit)</button>
-  </form>
-
-  <p id="successMessage" style="display: none; color: green; text-align: center; margin-top: 15px; font-weight: bold;">දත්ත සාර්ථකව පද්ධතියට ඇතුලත් කරන ලදී!</p>
-</div>
-
-<script>
-  document.getElementById('ictDataForm').addEventListener('submit', function(e) {
-    e.preventDefault(); 
     
-    // පියවර 3 දී ඔබ Copy කරගත් Web App URL එක මෙතනට Paste කරන්න
-    var scriptURL = 'https://script.google.com/macros/s/AKfycbwM2TCb01IO3f3n1Ptf1sfPlKLZmgOVRf7AsJxQRyph2KT_yiJQtzJjYY1BkJGlbfTb/exec'; 
-    
-    var formData = new FormData(this);
-    var submitButton = this.querySelector('button[type="submit"]');
-    
-    submitButton.innerText = "දත්ත යවමින් පවතී...";
-    submitButton.disabled = true;
-
-    fetch(scriptURL, { method: 'POST', body: formData })
-      .then(response => {
-        document.getElementById('successMessage').style.display = 'block';
-        document.getElementById('ictDataForm').reset();
-        submitButton.innerText = "දත්ත යවන්න (Submit)";
-        submitButton.disabled = false;
-        
-        setTimeout(() => { 
-          document.getElementById('successMessage').style.display = 'none'; 
-        }, 5000);
-      })
-      .catch(error => {
-        console.error('Error!', error.message);
-        alert("දත්ත යැවීමේදී දෝෂයක් මතු විය. කරුණාකර නැවත උත්සහ කරන්න.");
-        submitButton.innerText = "දත්ත යවන්න (Submit)";
-        submitButton.disabled = false;
-      });
-  });
-</script>
-
     <div class="header-banner">
         <img src="header.jpg" alt="Zonal ICT Division Banner">
     </div>
