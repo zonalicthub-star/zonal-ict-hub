@@ -196,6 +196,8 @@
                 <li><a onclick="showSection('schools')">Schools Data</a></li>
                 <li><a onclick="showSection('teachers')">Teachers</a></li>
                 <li><a onclick="showSection('zdett')">ZDETT</a></li>
+                <!-- අලුතින් එක් කරන ලද Seminar Data Link එක -->
+                <li><a onclick="showSection('seminar-data')" style="color: #f39c12; font-weight: bold;">Seminar Data</a></li>
                 
                 <li id="nav-install" style="display: none;"><a id="installAppBtn" style="background-color: #10b981; cursor: pointer;">⬇️ Install App</a></li>
                 
@@ -384,6 +386,32 @@
                         <tbody id="zdett-public-list"></tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- අලුතින් එක් කරන ලද SEMINAR DATA SECTION -->
+        <div id="seminar-data" class="section">
+            <div class="card" style="border-top: 4px solid #e67e22; max-width: 600px; margin: auto;">
+                <h2 style="text-align: center; color: #d35400;">අඩු සාධන මට්ටමක් ඇති දරුවන්ගේ දත්ත</h2>
+                <p style="font-size: 0.95rem; color: #555; text-align: center; margin-bottom: 20px;">කලාප අධ්‍යාපන කාර්යාලය - වැල්ලවාය විසින් සංවිධානය කරන සම්මන්ත්‍රණය සඳහා ICT විෂයට ලකුණු 40ට අඩු සිසුන්ගේ දත්ත ඇතුලත් කරන්න.</p>
+                
+                <form id="ictDataForm">
+                    <div class="form-group">
+                        <label for="schoolName" style="font-weight: bold; color: #333;">පාසලේ නම (School Name):</label>
+                        <select id="schoolName" name="schoolName" required style="width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #cfd9e0; background: #fdfdfd;">
+                            <option value="">-- Select Your School --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentCount" style="font-weight: bold; color: #333;">ලකුණු 40 ට අඩු සිසුන් ගණන:</label>
+                        <input type="number" id="studentCount" name="studentCount" min="0" required placeholder="සිසුන් ගණන ඇතුලත් කරන්න" style="width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #cfd9e0; background: #fdfdfd;">
+                    </div>
+
+                    <button type="submit" style="width: 100%; margin-top: 15px; font-size: 1.1rem; padding: 12px; background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">දත්ත යවන්න (Submit)</button>
+                </form>
+
+                <p id="successMessage" style="display: none; color: #10b981; text-align: center; margin-top: 15px; font-weight: bold; font-size: 1rem;">දත්ත සාර්ථකව පද්ධතියට ඇතුලත් කරන ලදී!</p>
             </div>
         </div>
 
@@ -866,6 +894,16 @@
     <script>
         function toggleMobileMenu() { document.getElementById('main-nav').classList.toggle('show'); }
         function showNews(message) { alert("📰 News Detail:\n\n" + message); }
+        window.showSection = function(sectionId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('main-nav').classList.remove('show');
+            
+            if(sectionId === 'schools') window.filterSchoolData();
+            if(sectionId === 'teachers') window.loadTeachers();
+            if(sectionId === 'zdett') window.loadZdettTeam();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
     </script>
 
     <script>
@@ -1210,15 +1248,17 @@
             const adminMarkSch = document.getElementById('admin-mark-school');
             const adminInvSch = document.getElementById('admin-inv-school');
             const labDescSch = document.getElementById('lab-desc-school-select');
+            const seminarSchSelect = document.getElementById('schoolName');
             
             rawSchoolData.forEach(s => {
-                let optHtml = `<option value="${s.census_no}">${s.census_no} - ${s.school}</option>`;
+                let optHtml = `<option value="${s.school}">${s.census_no} - ${s.school}</option>`;
                 if(schoolSelectT) schoolSelectT.innerHTML += optHtml;
                 if(schoolSelectZ) schoolSelectZ.innerHTML += optHtml;
                 if(schoolSelectE) schoolSelectE.innerHTML += optHtml;
                 if(adminMarkSch) adminMarkSch.innerHTML += optHtml;
                 if(adminInvSch) adminInvSch.innerHTML += optHtml;
                 if(labDescSch) labDescSch.innerHTML += optHtml;
+                if(seminarSchSelect) seminarSchSelect.innerHTML += optHtml;
             });
         });
     </script>
@@ -1255,17 +1295,6 @@
         window.currentUserData = null;
         window.currentEditMarkId = null;
         window.currentEditInvId = null;
-
-        window.showSection = function(sectionId) {
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            document.getElementById('main-nav').classList.remove('show');
-            
-            if(sectionId === 'schools') window.filterSchoolData();
-            if(sectionId === 'teachers') window.loadTeachers();
-            if(sectionId === 'zdett') window.loadZdettTeam();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
 
         function getCheckedValues(containerId) {
             let container = document.getElementById(containerId);
@@ -2125,6 +2154,36 @@
         }
     </script>
     
+    <!-- Google Sheet Submit Script -->
+    <script>
+      document.getElementById('ictDataForm')?.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        var scriptURL = 'https://script.google.com/macros/s/AKfycbwM2TCb01IO3f3n1Ptf1sfPlKLZmgOVRf7AsJxQRyph2KT_yiJQtzJjYY1BkJGlbfTb/exec'; 
+        var formData = new FormData(this);
+        var submitButton = this.querySelector('button[type="submit"]');
+        submitButton.innerText = "දත්ත යවමින් පවතී...";
+        submitButton.style.opacity = "0.7";
+        submitButton.disabled = true;
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+          .then(response => {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('ictDataForm').reset();
+            submitButton.innerText = "දත්ත යවන්න (Submit)";
+            submitButton.style.opacity = "1";
+            submitButton.disabled = false;
+            setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 5000);
+          })
+          .catch(error => {
+            console.error('Error!', error.message);
+            alert("දත්ත යැවීමේදී දෝෂයක් මතු විය. කරුණාකර නැවත උත්සහ කරන්න.");
+            submitButton.innerText = "දත්ත යවන්න (Submit)";
+            submitButton.style.opacity = "1";
+            submitButton.disabled = false;
+          });
+      });
+    </script>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); });
