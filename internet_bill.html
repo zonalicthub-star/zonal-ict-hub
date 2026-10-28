@@ -19,6 +19,9 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         .header {
             background-color: var(--primary-dark);
@@ -36,6 +39,9 @@
             font-size: 16px;
             font-weight: 400;
             color: #ccfbf1;
+        }
+        .main-wrapper {
+            flex: 1;
         }
         .container {
             max-width: 900px;
@@ -214,6 +220,17 @@
             font-size: 16px; font-weight: bold; width: 100%; transition: 0.3s;
         }
         .popup-btn:hover { background: var(--primary-dark); }
+        
+        /* Footer Styles */
+        .site-footer {
+            text-align: center;
+            padding: 20px 10px;
+            background-color: white;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
 
         @media screen and (max-width: 768px) {
             .tabs { flex-direction: column; }
@@ -235,54 +252,61 @@
     <h2>වැල්ලවාය අධ්‍යාපන කලාපය</h2>
 </div>
 
-<div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('schoolView', this)">පාසල් සඳහා (School Update)</button>
-        <button class="tab-btn" onclick="switchTab('zoneView', this)">කලාප කාර්යාලය සඳහා (Zone Download)</button>
-    </div>
-
-    <div id="schoolView" class="tab-content active">
-        <div class="search-box">
-            <input type="text" list="schoolsList" id="censusNo" placeholder="පාසල් සංගණන අංකය ඇතුළත් කරන්න (Census No)...">
-            <datalist id="schoolsList"></datalist>
-            <button class="btn" onclick="searchSchool()">සොයන්න / එක් කරන්න</button>
-        </div>
-        
-        <div id="newSchoolMsg" class="notice-msg msg-info">මෙම අංකයෙන් නව පාසලක් පද්ධතියට එක් කළ හැක.</div>
-
-        <div id="formSection" style="display:none;">
-            <h3 id="schoolNameDisplay"></h3>
-            <form id="dataForm" class="form-grid"></form>
-            <!-- Update Button -->
-            <button id="updateBtn" class="btn btn-submit" type="button" onclick="updateData()">තොරතුරු යාවත්කාලීන (Update) කරන්න</button>
-        </div>
-    </div>
-
-    <div id="zoneView" class="tab-content">
-        <div id="loginSection" class="zone-login">
-            <h3>කලාප කාර්යාලයේ දත්ත පද්ධතිය</h3>
-            <p>දත්ත ලබා ගැනීම සඳහා මුරපදය ඇතුළත් කරන්න</p>
-            <input type="password" id="zonePassword" placeholder="මුරපදය (Password)...">
-            <button class="btn" onclick="loginZone()">ඇතුල් වන්න</button>
-            <p id="loginError" style="color:red; display:none; margin-top:10px;">මුරපදය වැරදියි!</p>
+<div class="main-wrapper">
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('schoolView', this)">පාසල් සඳහා (School Update)</button>
+            <button class="tab-btn" onclick="switchTab('zoneView', this)">කලාප කාර්යාලය සඳහා (Zone Download)</button>
         </div>
 
-        <div id="dashboardSection" class="zone-dashboard">
-            <div class="stat-card">
-                <h3>මුළු පාසල් ගණන (පද්ධතියේ ඇති)</h3>
-                <p id="totalSchoolsDisplay">0</p>
+        <div id="schoolView" class="tab-content active">
+            <div class="search-box">
+                <input type="text" list="schoolsList" id="censusNo" placeholder="පාසල් සංගණන අංකය ඇතුළත් කරන්න (Census No)...">
+                <datalist id="schoolsList"></datalist>
+                <button class="btn" onclick="searchSchool()">සොයන්න / එක් කරන්න</button>
             </div>
-            <!-- Backup All Data Button -->
-            <button id="backupBtn" class="btn btn-submit btn-backup" onclick="backupAllData()" style="width:100%; padding:15px; margin-bottom: 10px;">
-                දැනට ඇති සියලුම දත්ත Google Sheet එකට Backup කරන්න
-            </button>
             
-            <button class="btn btn-submit" onclick="downloadMasterExcel()" style="width:100%; padding:15px;">
-                Download Master Excel Sheet
-            </button>
+            <div id="newSchoolMsg" class="notice-msg msg-info">මෙම අංකයෙන් නව පාසලක් පද්ධතියට එක් කළ හැක.</div>
+
+            <div id="formSection" style="display:none;">
+                <h3 id="schoolNameDisplay"></h3>
+                <form id="dataForm" class="form-grid"></form>
+                <!-- Update Button -->
+                <button id="updateBtn" class="btn btn-submit" type="button" onclick="updateData()">තොරතුරු යාවත්කාලීන (Update) කරන්න</button>
+            </div>
+        </div>
+
+        <div id="zoneView" class="tab-content">
+            <div id="loginSection" class="zone-login">
+                <h3>කලාප කාර්යාලයේ දත්ත පද්ධතිය</h3>
+                <p>දත්ත ලබා ගැනීම සඳහා මුරපදය ඇතුළත් කරන්න</p>
+                <input type="password" id="zonePassword" placeholder="මුරපදය (Password)...">
+                <button class="btn" onclick="loginZone()">ඇතුල් වන්න</button>
+                <p id="loginError" style="color:red; display:none; margin-top:10px;">මුරපදය වැරදියි!</p>
+            </div>
+
+            <div id="dashboardSection" class="zone-dashboard">
+                <div class="stat-card">
+                    <h3>මුළු පාසල් ගණන (පද්ධතියේ ඇති)</h3>
+                    <p id="totalSchoolsDisplay">0</p>
+                </div>
+                <!-- Backup All Data Button -->
+                <button id="backupBtn" class="btn btn-submit btn-backup" onclick="backupAllData()" style="width:100%; padding:15px; margin-bottom: 10px;">
+                    දැනට ඇති සියලුම දත්ත Google Sheet එකට Backup කරන්න
+                </button>
+                
+                <button class="btn btn-submit" onclick="downloadMasterExcel()" style="width:100%; padding:15px;">
+                    Download Master Excel Sheet
+                </button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    &copy; 2026 Wellawaya Zonal Education Office - ICT Division
+</footer>
 
 <!-- Custom Popup UI -->
 <div id="customPopup" class="custom-popup">
