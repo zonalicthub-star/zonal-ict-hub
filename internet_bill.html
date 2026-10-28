@@ -1,352 +1,431 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>අන්තර්ජාල බිල්පත් පියවීම 2026 - වැල්ලවාය අධ්‍යාපන කලාපය</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0d9488;
+            --primary-dark: #0f766e;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+        .header {
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header h2 {
+            margin: 5px 0 0 0;
+            font-size: 16px;
+            font-weight: 400;
+            color: #ccfbf1;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .tabs {
+            display: flex;
+            background-color: #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background-color: white;
+            color: var(--primary-dark);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        .tab-btn:hover:not(.active) {
+            background-color: #e2e8f0;
+        }
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .btn {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        #errorMsg {
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .readonly-field {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: #059669;
+            margin-top: 20px;
+        }
+        .btn-submit:hover {
+            background-color: #047857;
+        }
+        .btn-backup {
+            background-color: #0284c7;
+        }
+        .btn-backup:hover {
+            background-color: #0369a1;
+        }
+        #schoolNameDisplay {
+            text-align: center;
+            color: var(--primary-dark);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        .zone-login {
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .zone-login input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .zone-dashboard {
+            display: none;
+            text-align: center;
+        }
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .stat-card h3 { margin: 0; color: #64748b; }
+        .stat-card p { font-size: 32px; font-weight: bold; color: var(--primary-dark); margin: 10px 0 0 0; }
 
-    <!DOCTYPE html>
-    <html lang="si">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>අන්තර්ජාල බිල්පත් පියවීම 2026 - වැල්ලවාය අධ්‍යාපන කලාපය</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-        <style>
-            :root {
-                --primary-color: #0d9488;
-                --primary-dark: #0f766e;
-                --bg-color: #f8fafc;
-                --text-main: #1e293b;
-                --border-color: #e2e8f0;
-            }
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: var(--bg-color);
-                color: var(--text-main);
-            }
-            .header {
-                background-color: var(--primary-dark);
-                color: white;
-                text-align: center;
-                padding: 20px 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-            .header h1 {
-                margin: 0;
-                font-size: 24px;
-            }
-            .header h2 {
-                margin: 5px 0 0 0;
-                font-size: 16px;
-                font-weight: 400;
-                color: #ccfbf1;
-            }
-            .container {
-                max-width: 900px;
-                margin: 20px auto;
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-                overflow: hidden;
-            }
-            .tabs {
-                display: flex;
-                background-color: #f1f5f9;
-                border-bottom: 1px solid var(--border-color);
-            }
-            .tab-btn {
-                flex: 1;
-                padding: 15px;
-                text-align: center;
-                cursor: pointer;
-                font-size: 16px;
-                font-weight: 600;
-                border: none;
-                background: none;
-                color: #64748b;
-                transition: all 0.3s;
-            }
-            .tab-btn.active {
-                background-color: white;
-                color: var(--primary-dark);
-                border-bottom: 3px solid var(--primary-color);
-            }
-            .tab-btn:hover:not(.active) {
-                background-color: #e2e8f0;
-            }
-            .tab-content {
-                display: none;
-                padding: 30px;
-            }
-            .tab-content.active {
-                display: block;
-            }
-            .search-box {
-                display: flex;
-                gap: 10px;
-                margin-bottom: 20px;
-                position: relative;
-            }
-            .search-box input {
-                flex: 1;
-                padding: 12px;
-                border: 2px solid var(--border-color);
-                border-radius: 6px;
-                font-size: 16px;
-            }
-            .btn {
-                padding: 12px 25px;
-                background-color: var(--primary-color);
-                color: white;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 16px;
-                font-weight: bold;
-                transition: background 0.3s;
-            }
-            .btn:hover {
-                background-color: var(--primary-dark);
-            }
-            #errorMsg {
-                color: #dc2626;
-                background: #fee2e2;
-                padding: 10px;
-                border-radius: 5px;
-                display: none;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            .form-grid {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: 600;
-                color: #475569;
-                font-size: 14px;
-            }
-            .form-group input, .form-group textarea {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid var(--border-color);
-                border-radius: 5px;
-                font-size: 15px;
-                box-sizing: border-box;
-            }
-            .readonly-field {
-                background-color: #f1f5f9;
-                color: #64748b;
-            }
-            .btn-submit {
-                width: 100%;
-                background-color: #059669;
-                margin-top: 20px;
-            }
-            .btn-submit:hover {
-                background-color: #047857;
-            }
-            #schoolNameDisplay {
-                text-align: center;
-                color: var(--primary-dark);
-                padding-bottom: 10px;
-                border-bottom: 2px solid var(--border-color);
-                margin-bottom: 20px;
-            }
-            .zone-login {
-                text-align: center;
-                max-width: 400px;
-                margin: 0 auto;
-            }
-            .zone-login input {
-                width: 100%;
-                padding: 12px;
-                margin: 15px 0;
-                border: 1px solid var(--border-color);
-                border-radius: 6px;
-                box-sizing: border-box;
-            }
-            .zone-dashboard {
-                display: none;
-                text-align: center;
-            }
-            .stat-card {
-                background: #f8fafc;
-                border: 1px solid var(--border-color);
-                padding: 20px;
-                border-radius: 8px;
-                margin-bottom: 20px;
-            }
-            .stat-card h3 { margin: 0; color: #64748b; }
-            .stat-card p { font-size: 32px; font-weight: bold; color: var(--primary-dark); margin: 10px 0 0 0; }
-        </style>
-    </head>
-    <body>
+        @media screen and (max-width: 768px) {
+            .tabs { flex-direction: column; }
+            .tab-btn { border-bottom: 1px solid var(--border-color); }
+            .tab-btn.active { border-bottom: 3px solid var(--primary-color); border-left: 3px solid var(--primary-color); }
+            .search-box { flex-direction: column; }
+            .btn { width: 100%; }
+            .container { margin: 10px; border-radius: 5px; }
+            .tab-content { padding: 15px; }
+            .header h1 { font-size: 20px; }
+            .header h2 { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
 
-    <div class="header">
-        <h1>අන්තර්ජාල බිල්පත් පියවීම 2026</h1>
-        <h2>වැල්ලවාය අධ්‍යාපන කලාපය</h2>
+<div class="header">
+    <h1>අන්තර්ජාල බිල්පත් පියවීම 2026</h1>
+    <h2>වැල්ලවාය අධ්‍යාපන කලාපය</h2>
+</div>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('schoolView', this)">පාසල් සඳහා (School Update)</button>
+        <button class="tab-btn" onclick="switchTab('zoneView', this)">කලාප කාර්යාලය සඳහා (Zone Download)</button>
     </div>
 
-    <div class="container">
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('schoolView', this)">පාසල් සඳහා (School Update)</button>
-            <button class="tab-btn" onclick="switchTab('zoneView', this)">කලාප කාර්යාලය සඳහා (Zone Download)</button>
+    <div id="schoolView" class="tab-content active">
+        <div class="search-box">
+            <input type="text" list="schoolsList" id="censusNo" placeholder="පාසල් සංගණන අංකය ඇතුළත් කරන්න (Census No)...">
+            <datalist id="schoolsList"></datalist>
+            <button class="btn" onclick="searchSchool()">සොයන්න</button>
+        </div>
+        
+        <div id="errorMsg">මෙම සංගණන අංකය සඳහා පාසලක් හමුවූයේ නැත. කරුණාකර නිවැරදි අංකය ලබා දෙන්න.</div>
+
+        <div id="formSection" style="display:none;">
+            <h3 id="schoolNameDisplay"></h3>
+            <form id="dataForm" class="form-grid"></form>
+            <!-- Update Button -->
+            <button id="updateBtn" class="btn btn-submit" type="button" onclick="updateData()">තොරතුරු යාවත්කාලීන (Update) කරන්න</button>
+        </div>
+    </div>
+
+    <div id="zoneView" class="tab-content">
+        <div id="loginSection" class="zone-login">
+            <h3>කලාප කාර්යාලයේ දත්ත පද්ධතිය</h3>
+            <p>දත්ත ලබා ගැනීම සඳහා මුරපදය ඇතුළත් කරන්න</p>
+            <input type="password" id="zonePassword" placeholder="මුරපදය (Password)...">
+            <button class="btn" onclick="loginZone()">ඇතුල් වන්න</button>
+            <p id="loginError" style="color:red; display:none; margin-top:10px;">මුරපදය වැරදියි!</p>
         </div>
 
-        <div id="schoolView" class="tab-content active">
-            <div class="search-box">
-                <input type="text" list="schoolsList" id="censusNo" placeholder="පාසල් සංගණන අංකය ඇතුළත් කරන්න (Census No)...">
-                <datalist id="schoolsList">
-                    <!-- Options injected via JS -->
-                </datalist>
-                <button class="btn" onclick="searchSchool()">සොයන්න</button>
+        <div id="dashboardSection" class="zone-dashboard">
+            <div class="stat-card">
+                <h3>මුළු පාසල් ගණන (පද්ධතියේ ඇති)</h3>
+                <p id="totalSchoolsDisplay">0</p>
             </div>
+            <!-- Backup All Data Button -->
+            <button id="backupBtn" class="btn btn-submit btn-backup" onclick="backupAllData()" style="width:100%; padding:15px; margin-bottom: 10px;">
+                දැනට ඇති සියලුම දත්ත Google Sheet එකට Backup කරන්න
+            </button>
             
-            <div id="errorMsg">මෙම සංගණන අංකය සඳහා පාසලක් හමුවූයේ නැත. කරුණාකර නිවැරදි අංකය ලබා දෙන්න.</div>
-
-            <div id="formSection" style="display:none;">
-                <h3 id="schoolNameDisplay"></h3>
-                <form id="dataForm" class="form-grid">
-                </form>
-                <button class="btn btn-submit" onclick="submitData()">තොරතුරු තහවුරු කර Submit කරන්න</button>
-            </div>
-        </div>
-
-        <div id="zoneView" class="tab-content">
-            <div id="loginSection" class="zone-login">
-                <h3>කලාප කාර්යාලයේ දත්ත පද්ධතිය</h3>
-                <p>දත්ත ලබා ගැනීම සඳහා මුරපදය ඇතුළත් කරන්න</p>
-                <input type="password" id="zonePassword" placeholder="මුරපදය (Password)...">
-                <button class="btn" onclick="loginZone()">ඇතුල් වන්න</button>
-                <p id="loginError" style="color:red; display:none; margin-top:10px;">මුරපදය වැරදියි!</p>
-            </div>
-
-            <div id="dashboardSection" class="zone-dashboard">
-                <div class="stat-card">
-                    <h3>මුළු පාසල් ගණන (පද්ධතියේ ඇති)</h3>
-                    <p id="totalSchoolsDisplay">0</p>
-                </div>
-                <button class="btn btn-submit" onclick="downloadMasterExcel()" style="width:auto; padding:15px 40px;">
-                    Download Master Excel Sheet
-                </button>
-                <p style="margin-top:20px; color:#64748b; font-size:14px;">
-                    සටහන: Live Database එකකට සම්බන්ධ කර නොමැති විට මෙහි අන්තර්ගත වන්නේ මූලික දත්ත පමණි.
-                </p>
-            </div>
+            <button class="btn btn-submit" onclick="downloadMasterExcel()" style="width:100%; padding:15px;">
+                Download Master Excel Sheet
+            </button>
         </div>
     </div>
+</div>
 
-    <script>
-        var rawData = [{"Province": "Uva", "Education Zone (Fill in the Block Letters)": "Wellawaya", "Name of the School": "MO/MAHAARAGAMA K. V.", "School Census No": "22225", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-01-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "650", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "0", "If not received, the reason is": "other", "if 'Other' Please explain it": "සබදතා නොතිබීම ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/D.S.SENANAYAKA K.V ", "School Census No": "22263", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Coverage problems ", "Connection Type": "Other", "Date of Internet Connection Provided": "2026-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "No", "If not received, the reason is": "other", "if 'Other' Please explain it": "No internet connection ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/BUDURUWAGALA M.V", "School Census No": "22156", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber, ADSL", "Date of Internet Connection Provided": "2022-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "6000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "60000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Amount recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / KURUGAMA K.V.", "School Census No": "22155", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-08-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "42000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/RANDENIWELA K V", "School Census No": "22167", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "800", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "9600", "If not received, the reason is": "other", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/ GONAGANARA JUNIOR SCHOOL", "School Census No": "22168", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "can't connect to any wifi network", "Connection Type": "4G", "Date of Internet Connection Provided": "2025-05-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "18000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/OKKAMPITIYA JANAPADA VIDYALAYA", "School Census No": "22153", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-10-26", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "7500/-", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800/-", "If not received, the reason is": "other", "if 'Other' Please explain it": "NOT RELEVANT", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/WAGURUVELA MAHA VIDUHALA ", "School Census No": "22160", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-03-22", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.05", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / PIYANANDA K.V.", "School Census No": "22158", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2025-10-07", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.01", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "Not provided by the Zonal Office (කලාප කාර්යාලය මගින් ලබා දී නොතිබුණි)", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "13238.74"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/JM KUMARADASA MV", "School Census No": "22161", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-01-01", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4400", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "52000", "If not received, the reason is": "other", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KITHULKOTE M.V.", "School Census No": "22208", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2025-07-17", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5133.84", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/SIDDHARTHA M.V.", "School Census No": "22150", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "අන්තර්ජාල පහසුකම් ඇත", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-11-23", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "7989.4", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "එක් සබඳතාවයක අන්තර්ජාල ගාස්තුව පියවීම සඳහා මුදල් ලැබී ඇත", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "12287.72"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/PELWATTE NAVODYA M.V", "School Census No": "22157", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": " ", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2022-12-30", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5747.53", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": " Received ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": " WELLAWAYA ", "Name of the School": "MO/ ANAPALLAMA K.V.", "School Census No": "22228", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2020-12-31", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4734.35 RS.", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "54000.00 RS.", "If not received, the reason is": "other", "if 'Other' Please explain it": "_", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "_"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/JANASANKHA MODEL SCHOOL", "School Census No": "22169", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Other", "Date of Internet Connection Provided": "2025-10-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1700", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "No", "If not received, the reason is": "other", "if 'Other' Please explain it": "We ourselves got internet connection in our own way ,because We need to use it for the affairs of school.", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/JANASANKHA MODEL SCHOOL", "School Census No": "22169", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "Other", "Date of Internet Connection Provided": "2025-10-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1700", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "other", "if 'Other' Please explain it": "We ourselves got internet connection in our own way, because we need to use it for the affairs of school", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/GAMPANGUWA K.V.", "School Census No": "22172", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NOT INTERNET CONNECTION ", "Connection Type": "Other", "Date of Internet Connection Provided": "1900-01-02", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "NO", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "PRIVATE ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/ MALWATTAWELA CENTRAL COLLEGE ", "School Census No": "22146", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Not relevant", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-03-07", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "Rs.5186/=", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "Rs 65000/=", "If not received, the reason is": "other", "if 'Other' Please explain it": "Not relevant ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "Not relevanl"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/WAGURUVELA MAHA VIDUHALA", "School Census No": "22160", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-03-22", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.05", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/VIJAYABAHU M.V.", "School Census No": "22148", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-01-01", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "3272.47", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61078.9", "If not received, the reason is": "other", "if 'Other' Please explain it": "මුදල් ලැබී ඇත", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "15449"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/HELAGAMA K.V ", "School Census No": "22166", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "_", "Connection Type": "4G", "Date of Internet Connection Provided": "2025-03-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "2500", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "_", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "_", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAVAYE ", "Name of the School": "MO/YUDAGANAWA K.V", "School Census No": "22159", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Line disconnected ", "Connection Type": "Other", "Date of Internet Connection Provided": "2023-01-13", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "0", "If not received, the reason is": "Not provided by the Zonal Office (කලාප කාර්යාලය මගින් ලබා දී නොතිබුණි)", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/VIHARAMAHADEVI K. V", "School Census No": "22181", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "4G", "Date of Internet Connection Provided": "2023-07-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "535", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "7200", "If not received, the reason is": "other", "if 'Other' Please explain it": "Received", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / KURUGAMA K.V.", "School Census No": "22155", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-08-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "42000", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/ETHILIWEWA M.V", "School Census No": "22152", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "YES", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-03-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.01", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "Y", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/WEHERAYAYA M.V.", "School Census No": "22147", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2020-03-03", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "Rs. 2223.00", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "Rs. 30000/=", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "-"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/GA/SRI SUMANAJOTHI K.V", "School Census No": "22230", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-02-15", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1593.98", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "other", "if 'Other' Please explain it": "At that time no internet connection", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/SIYAMBALAGUNAYA K.V ", "School Census No": "22163", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2021-12-23", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "-", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KUDAOYA M.V.", "School Census No": "22190", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "NaT", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1852.34", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KUDAOYA M.V", "School Census No": "22190", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "NaT", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}];
-        var columns = ["Province", "Education Zone (Fill in the Block Letters)", "Name of the School", "School Census No", "Availability of Internet Facility", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.", "Connection Type", "Date of Internet Connection Provided", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල", "If not received, the reason is", "if 'Other' Please explain it", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)"];
-        var currentIndex = -1;
+<script>
+    var rawData = [{"Province": "Uva", "Education Zone (Fill in the Block Letters)": "Wellawaya", "Name of the School": "MO/MAHAARAGAMA K. V.", "School Census No": "22225", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-01-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "650", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "0", "If not received, the reason is": "other", "if 'Other' Please explain it": "සබදතා නොතිබීම ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/D.S.SENANAYAKA K.V ", "School Census No": "22263", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Coverage problems ", "Connection Type": "Other", "Date of Internet Connection Provided": "2026-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "No", "If not received, the reason is": "other", "if 'Other' Please explain it": "No internet connection ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/BUDURUWAGALA M.V", "School Census No": "22156", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber, ADSL", "Date of Internet Connection Provided": "2022-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "6000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "60000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Amount recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / KURUGAMA K.V.", "School Census No": "22155", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Yes", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-08-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "42000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/RANDENIWELA K V", "School Census No": "22167", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-02-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "800", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "9600", "If not received, the reason is": "other", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/ GONAGANARA JUNIOR SCHOOL", "School Census No": "22168", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "can't connect to any wifi network", "Connection Type": "4G", "Date of Internet Connection Provided": "2025-05-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "18000", "If not received, the reason is": "other", "if 'Other' Please explain it": "Recieved", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/OKKAMPITIYA JANAPADA VIDYALAYA", "School Census No": "22153", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-10-26", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "7500/-", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800/-", "If not received, the reason is": "other", "if 'Other' Please explain it": "NOT RELEVANT", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/WAGURUVELA MAHA VIDUHALA ", "School Census No": "22160", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-03-22", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.05", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / PIYANANDA K.V.", "School Census No": "22158", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2025-10-07", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.01", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "Not provided by the Zonal Office (කලාප කාර්යාලය මගින් ලබා දී නොතිබුණි)", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "13238.74"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/JM KUMARADASA MV", "School Census No": "22161", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-01-01", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4400", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "52000", "If not received, the reason is": "other", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KITHULKOTE M.V.", "School Census No": "22208", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2025-07-17", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5133.84", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/SIDDHARTHA M.V.", "School Census No": "22150", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "අන්තර්ජාල පහසුකම් ඇත", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-11-23", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "7989.4", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "එක් සබඳතාවයක අන්තර්ජාල ගාස්තුව පියවීම සඳහා මුදල් ලැබී ඇත", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "12287.72"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/PELWATTE NAVODYA M.V", "School Census No": "22157", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": " ", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2022-12-30", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5747.53", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": " Received ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": " WELLAWAYA ", "Name of the School": "MO/ ANAPALLAMA K.V.", "School Census No": "22228", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2020-12-31", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4734.35 RS.", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "54000.00 RS.", "If not received, the reason is": "other", "if 'Other' Please explain it": "_", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "_"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/JANASANKHA MODEL SCHOOL", "School Census No": "22169", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Other", "Date of Internet Connection Provided": "2025-10-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1700", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "No", "If not received, the reason is": "other", "if 'Other' Please explain it": "We ourselves got internet connection in our own way ,because We need to use it for the affairs of school.", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/JANASANKHA MODEL SCHOOL", "School Census No": "22169", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "Other", "Date of Internet Connection Provided": "2025-10-27", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1700", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "other", "if 'Other' Please explain it": "We ourselves got internet connection in our own way, because we need to use it for the affairs of school", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/GAMPANGUWA K.V.", "School Census No": "22172", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NOT INTERNET CONNECTION ", "Connection Type": "Other", "Date of Internet Connection Provided": "1900-01-02", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "NO", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "PRIVATE ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/ MALWATTAWELA CENTRAL COLLEGE ", "School Census No": "22146", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Not relevant", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-03-07", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "Rs.5186/=", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "Rs 65000/=", "If not received, the reason is": "other", "if 'Other' Please explain it": "Not relevant ", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "Not relevanl"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/WAGURUVELA MAHA VIDUHALA", "School Census No": "22160", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-03-22", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.05", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/VIJAYABAHU M.V.", "School Census No": "22148", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2026-01-01", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "3272.47", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61078.9", "If not received, the reason is": "other", "if 'Other' Please explain it": "මුදල් ලැබී ඇත", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "15449"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/HELAGAMA K.V ", "School Census No": "22166", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "_", "Connection Type": "4G", "Date of Internet Connection Provided": "2025-03-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "2500", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "_", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "_", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAVAYE ", "Name of the School": "MO/YUDAGANAWA K.V", "School Census No": "22159", "Availability of Internet Facility": "No", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "Line disconnected ", "Connection Type": "Other", "Date of Internet Connection Provided": "2023-01-13", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "0", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Disconnected", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "0", "If not received, the reason is": "Not provided by the Zonal Office (කලාප කාර්යාලය මගින් ලබා දී නොතිබුණි)", "if 'Other' Please explain it": "No", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/VIHARAMAHADEVI K. V", "School Census No": "22181", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "No", "Connection Type": "4G", "Date of Internet Connection Provided": "2023-07-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "535", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "7200", "If not received, the reason is": "other", "if 'Other' Please explain it": "Received", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO / KURUGAMA K.V.", "School Census No": "22155", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2024-08-20", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "4000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "42000", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "0"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/ETHILIWEWA M.V", "School Census No": "22152", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "YES", "Connection Type": "Fiber", "Date of Internet Connection Provided": "2023-03-10", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5130.01", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "61800", "If not received, the reason is": "other", "if 'Other' Please explain it": "Y", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/WEHERAYAYA M.V.", "School Census No": "22147", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2020-03-03", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "Rs. 2223.00", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "Yes", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "Rs. 30000/=", "If not received, the reason is": "other", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "-"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/GA/SRI SUMANAJOTHI K.V", "School Census No": "22230", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2026-02-15", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1593.98", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "other", "if 'Other' Please explain it": "At that time no internet connection", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA ", "Name of the School": "MO/SIYAMBALAGUNAYA K.V ", "School Census No": "22163", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "-", "Connection Type": "4G", "Date of Internet Connection Provided": "2021-12-23", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "-", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "-", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "-", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "No"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KUDAOYA M.V.", "School Census No": "22190", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "NaT", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "1852.34", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}, {"Province": "Uva", "Education Zone (Fill in the Block Letters)": "WELLAWAYA", "Name of the School": "MO/KUDAOYA M.V", "School Census No": "22190", "Availability of Internet Facility": "Yes", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.": "NO", "Connection Type": "4G", "Date of Internet Connection Provided": "NaT", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)": "5000", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)": "Active", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)": "No", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල": "NO", "If not received, the reason is": "Not being aware of it (ඒ පිළිබඳ දැනුවත් වී නොතිබීම)", "if 'Other' Please explain it": "NO", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)": "NO"}];
+    var columns = ["Province", "Education Zone (Fill in the Block Letters)", "Name of the School", "School Census No", "Availability of Internet Facility", "If 'No' mentioned the Reason If your answer is 'no', fill in the other questions as no Internet connection.", "Connection Type", "Date of Internet Connection Provided", "Monthly Internet bill amount with all taxes  (මාසික අන්තර් ජාල බිල්පත් ගාස්තු බදු සහිතව)", "Internet facility is currently active of not active (මේ වන විට අන්තර්ජාල සබඳතාව ක්‍රියාත්මකව පවතීද නැද්ද යන්න)", "Has the money provided by the Ministry of Education to pay internet bills been received in 2025? (2025 වසරේදී අධ්‍යාපන අමාත්‍යාංශය මගින් අන්තර් ජාල බිල්පත් පියවීමට ලබා දුන් මුදල් ලැබී ඇත්ද)", "If received, the amount received  ලැබුණේ නම් එසේ ලැබුණු මුදල", "If not received, the reason is", "if 'Other' Please explain it", "If there are outstanding bills in 2025, that amount  (2025 හිඟ බිල්පත් පවතී නම් එම මුදල)"];
+    var currentIndex = -1;
+    
+    // ඔබගේ Google Web App URL එක
+    var scriptURL = "https://script.google.com/macros/s/AKfycbwbIlvGNt4LqoAdTpzG-wPWZJV1RfbcZOz32QxjW0O6y0bHM7fPmwduXQnWlSdio-k2/exec";
 
-        // Populate datalist for easy searching
-        window.onload = function() {
-            var datalist = document.getElementById('schoolsList');
-            rawData.forEach(function(row) {
-                var option = document.createElement('option');
-                option.value = String(row['School Census No']).replace('.0', '').trim();
-                option.text = row['Name of the School'];
-                datalist.appendChild(option);
-            });
+    window.onload = function() {
+        var datalist = document.getElementById('schoolsList');
+        rawData.forEach(function(row) {
+            var option = document.createElement('option');
+            option.value = String(row['School Census No']).replace('.0', '').trim();
+            option.text = row['Name of the School'];
+            datalist.appendChild(option);
+        });
+    };
+
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    function searchSchool() {
+        var censusInput = document.getElementById('censusNo').value.trim();
+        var found = false;
+        
+        if (!censusInput) return;
+
+        for (var i = 0; i < rawData.length; i++) {
+            var currentCensus = String(rawData[i]['School Census No']).replace('.0', '').trim();
+            if (currentCensus === censusInput) {
+                currentIndex = i;
+                populateForm(rawData[i]);
+                found = true;
+                break;
+            }
+        }
+        
+        document.getElementById('errorMsg').style.display = found ? 'none' : 'block';
+        document.getElementById('formSection').style.display = found ? 'block' : 'none';
+    }
+
+    function populateForm(record) {
+        var form = document.getElementById('dataForm');
+        form.innerHTML = '';
+        
+        document.getElementById('schoolNameDisplay').innerText = record['Name of the School'] || "පාසලේ නම නොමැත";
+
+        for (var i = 0; i < columns.length; i++) {
+            var col = columns[i];
+            var div = document.createElement('div');
+            div.className = 'form-group';
+            
+            var label = document.createElement('label');
+            label.innerText = col;
+            
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'field_' + i;
+            input.value = record[col];
+            
+            if (col === 'School Census No' || col === 'Name of the School' || col === 'Province' || col.indexOf('Education Zone') !== -1) {
+                input.readOnly = true;
+                input.className = 'readonly-field';
+            }
+
+            div.appendChild(label);
+            div.appendChild(input);
+            form.appendChild(div);
+        }
+    }
+
+    // 1. තනි පාසලක දත්ත Update කිරීම
+    async function updateData() {
+        if (currentIndex === -1) return;
+        var rowValues = [];
+        
+        for (var i = 0; i < columns.length; i++) {
+            var val = document.getElementById('field_' + i).value;
+            rawData[currentIndex][columns[i]] = val;
+            rowValues.push(val);
+        }
+        
+        var payload = {
+            action: "update",
+            data: rowValues
         };
-
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
-        }
-
-        function searchSchool() {
-            var censusInput = document.getElementById('censusNo').value.trim();
-            var found = false;
-            
-            if (!censusInput) return;
-
-            for (var i = 0; i < rawData.length; i++) {
-                var currentCensus = String(rawData[i]['School Census No']).replace('.0', '').trim();
-                if (currentCensus === censusInput) {
-                    currentIndex = i;
-                    populateForm(rawData[i]);
-                    found = true;
-                    break;
-                }
-            }
-            
-            document.getElementById('errorMsg').style.display = found ? 'none' : 'block';
-            document.getElementById('formSection').style.display = found ? 'block' : 'none';
-        }
-
-        function populateForm(record) {
-            var form = document.getElementById('dataForm');
-            form.innerHTML = '';
-            
-            document.getElementById('schoolNameDisplay').innerText = record['Name of the School'] || "පාසලේ නම නොමැත";
-
-            for (var i = 0; i < columns.length; i++) {
-                var col = columns[i];
-                var div = document.createElement('div');
-                div.className = 'form-group';
-                
-                var label = document.createElement('label');
-                label.innerText = col;
-                
-                var input = document.createElement('input');
-                input.type = 'text';
-                input.id = 'field_' + i;
-                input.value = record[col];
-                
-                if (col === 'School Census No' || col === 'Name of the School' || col === 'Province' || col.indexOf('Education Zone') !== -1) {
-                    input.readOnly = true;
-                    input.className = 'readonly-field';
-                }
-
-                div.appendChild(label);
-                div.appendChild(input);
-                form.appendChild(div);
-            }
-        }
-
-        function submitData() {
-            if (currentIndex === -1) return;
-            
-            for (var i = 0; i < columns.length; i++) {
-                rawData[currentIndex][columns[i]] = document.getElementById('field_' + i).value;
-            }
-            
-            alert("දත්ත සාර්ථකව පද්ධතියට Submit කරන ලදී! \n(සටහන: මෙය Live Data Base එකක් හා සම්බන්ධ කිරීමට අදාළ API/Firebase සබැඳුම අවශ්‍ය වේ.)");
-            
+        
+        var updateBtn = document.getElementById('updateBtn');
+        updateBtn.innerText = "දත්ත යාවත්කාලීන වෙමින් පවතී...";
+        updateBtn.disabled = true;
+        updateBtn.style.backgroundColor = "#94a3b8";
+        
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            alert("දත්ත සාර්ථකව Google Sheet එකට Update කරන ලදී!");
             document.getElementById('censusNo').value = '';
             document.getElementById('formSection').style.display = 'none';
             currentIndex = -1;
+        } catch (error) {
+            console.error(error);
+            alert("අන්තර්ජාල සබඳතාවයේ දෝෂයක් මතු විය.");
+        } finally {
+            updateBtn.innerText = "තොරතුරු යාවත්කාලීන (Update) කරන්න";
+            updateBtn.disabled = false;
+            updateBtn.style.backgroundColor = "#059669";
         }
+    }
 
-        function loginZone() {
-            var pw = document.getElementById('zonePassword').value;
-            if (pw === "zone123") {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('dashboardSection').style.display = 'block';
-                document.getElementById('totalSchoolsDisplay').innerText = rawData.length;
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
-        }
+    // 2. පද්ධතියේ ඇති සියලුම දත්ත එකවර Backup කිරීම
+    async function backupAllData() {
+        var btn = document.getElementById('backupBtn');
+        btn.innerText = "Backup වෙමින් පවතී... කරුණාකර රැඳී සිටින්න";
+        btn.disabled = true;
+        btn.style.backgroundColor = "#94a3b8";
 
-        function downloadMasterExcel() {
-            try {
-                var ws = XLSX.utils.json_to_sheet(rawData);
-                var wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "Master Data 2026");
-                XLSX.writeFile(wb, "Wellawaya_Internet_Bills_Master.xlsx");
-            } catch (error) {
-                alert("Error generating Excel: " + error.message);
-            }
+        // Array of arrays සකස් කිරීම
+        var rowsToBackup = rawData.map(record => columns.map(col => record[col]));
+        
+        var payload = {
+            action: "backup",
+            data: rowsToBackup
+        };
+
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            alert("සියලුම පාසල්වල දත්ත සාර්ථකව Google Sheet එකට Backup කරන ලදී!");
+        } catch (error) {
+            console.error(error);
+            alert("අන්තර්ජාල සබඳතාවයේ දෝෂයක් මතු විය.");
+        } finally {
+            btn.innerText = "දැනට ඇති සියලුම දත්ත Google Sheet එකට Backup කරන්න";
+            btn.disabled = false;
+            btn.style.backgroundColor = "#0284c7";
         }
-    </script>
-    </body>
-    </html>
-    
+    }
+
+    function loginZone() {
+        var pw = document.getElementById('zonePassword').value;
+        if (pw === "zone123") {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.getElementById('totalSchoolsDisplay').innerText = rawData.length;
+        } else {
+            document.getElementById('loginError').style.display = 'block';
+        }
+    }
+
+    function downloadMasterExcel() {
+        try {
+            var ws = XLSX.utils.json_to_sheet(rawData);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Master Data 2026");
+            XLSX.writeFile(wb, "Wellawaya_Internet_Bills_Master.xlsx");
+        } catch (error) {
+            alert("Error generating Excel: " + error.message);
+        }
+    }
+</script>
+</body>
+</html>
