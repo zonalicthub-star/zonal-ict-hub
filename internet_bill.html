@@ -324,9 +324,9 @@
     var currentIndex = -1;
     
     // ඔබගේ Google Web App URL එක
-    var scriptURL = "https://script.google.com/macros/s/AKfycbwbIlvGNt4LqoAdTpzG-wPWZJV1RfbcZOz32QxjW0O6y0bHM7fPmwduXQnWlSdio-k2/exec";
+    var scriptURL = "https://script.google.com/macros/s/AKfycbxFVFb9hPE1Rx2oGsLXpC54JOXvijSyMDKa1aFRDUh4FSmGUEdHjte4jzaXugnrXlib/exec" ;
 
-    window.onload = function() {
+    window.onload = function() { 
         populateDatalist();
     };
 
@@ -339,9 +339,9 @@
             option.text = row['Name of the School'];
             datalist.appendChild(option);
         });
+        document.getElementById('totalSchoolsDisplay').innerText = rawData.length;
     }
 
-    // Popup Functions
     function showPopup(title, msg, isSuccess) {
         document.getElementById('popupTitle').innerText = title;
         document.getElementById('popupMessage').innerText = msg;
@@ -388,14 +388,12 @@
             document.getElementById('updateBtn').innerText = "තොරතුරු යාවත්කාලීන (Update) කරන්න";
             populateForm(foundRecord, false);
         } else {
-            // නව පාසලක් නම්
             document.getElementById('newSchoolMsg').style.display = 'block';
             document.getElementById('updateBtn').innerText = "නව පාසල පද්ධතියට එක් කරන්න (Save New)";
             
             var emptyRecord = {};
             columns.forEach(col => emptyRecord[col] = "");
-            emptyRecord['School Census No'] = censusInput; // Pre-fill
-            
+            emptyRecord['School Census No'] = censusInput;
             populateForm(emptyRecord, true);
         }
         document.getElementById('formSection').style.display = 'block';
@@ -404,7 +402,6 @@
     function populateForm(record, isNew) {
         var form = document.getElementById('dataForm');
         form.innerHTML = '';
-        
         document.getElementById('schoolNameDisplay').innerText = isNew ? "නව පාසලක් එක් කිරීම" : (record['Name of the School'] || "පාසලේ නම නොමැත");
 
         for (var i = 0; i < columns.length; i++) {
@@ -420,7 +417,6 @@
             input.id = 'field_' + i;
             input.value = record[col];
             
-            // Census No වෙනස් කිරීම තහනම්, අනිත්වා අලුත් පාසලකට නම් Type කළ හැක
             if (col === 'School Census No') {
                 input.readOnly = true;
                 input.className = 'readonly-field';
@@ -457,22 +453,22 @@
         updateBtn.style.backgroundColor = "#94a3b8";
         
         try {
+            // CORS ගැටලුව මඟහැරීමට text/plain ලෙස යැවීම
             await fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             });
             
-            // Front-End එකේ Array එකද අලුත් කරමු (අලුත් පාසලක් නම් Array එකට Add වේ)
+            // HTML පිටුවේ දත්ත යාවත්කාලීන කිරීම (ලැයිස්තුව සඳහා)
             if (currentIndex === -1) {
                 rawData.push(newRecordObj);
-                populateDatalist(); // Dropdown එක Update කිරීම
             } else {
                 rawData[currentIndex] = newRecordObj;
             }
+            populateDatalist();
 
-            showPopup("සාර්ථකයි!", "දත්ත සාර්ථකව පද්ධතියට Submit කරන ලදී! \n(සටහන: Live Database එක යාවත්කාලීන විය)", true);
+            showPopup("සාර්ථකයි!", "දත්ත සාර්ථකව Google Sheet වෙත Submit කරන ලදී!", true);
             
             document.getElementById('censusNo').value = '';
             document.getElementById('formSection').style.display = 'none';
@@ -480,7 +476,7 @@
             currentIndex = -1;
         } catch (error) {
             console.error(error);
-            showPopup("දෝෂයක්!", "අන්තර්ජාල සබඳතාවයේ දෝෂයක් මතු විය. කරුණාකර නැවත උත්සාහ කරන්න.", false);
+            showPopup("දෝෂයක්!", "අන්තර්ජාල සබඳතාවයේ හෝ Google Sheet සම්බන්ධයේ දෝෂයක් මතු විය.", false);
         } finally {
             updateBtn.innerText = oldBtnText;
             updateBtn.disabled = false;
@@ -502,16 +498,16 @@
         };
 
         try {
+            // CORS ගැටලුව මඟහැරීමට text/plain ලෙස යැවීම
             await fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             });
-            showPopup("Backup සාර්ථකයි!", "සියලුම පාසල්වල දත්ත සාර්ථකව Google Sheet එකට Backup කරන ලදී!", true);
+            showPopup("Backup සාර්ථකයි!", "සියලුම පාසල්වල දත්ත සාර්ථකව Google Sheet වෙත Backup කරන ලදී!", true);
         } catch (error) {
             console.error(error);
-            showPopup("දෝෂයක්!", "අන්තර්ජාල සබඳතාවයේ දෝෂයක් මතු විය.", false);
+            showPopup("දෝෂයක්!", "අන්තර්ජාල සබඳතාවයේ හෝ Google Sheet සම්බන්ධයේ දෝෂයක් මතු විය.", false);
         } finally {
             btn.innerText = "දැනට ඇති සියලුම දත්ත Google Sheet එකට Backup කරන්න";
             btn.disabled = false;
